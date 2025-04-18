@@ -48,6 +48,8 @@ INSTALLED_APPS = [
     'biblecheck',
     'common.apps.CommonConfig',
     'ntkintro',
+    'linkn',
+
 ]
 
 MIDDLEWARE = [
