@@ -50,4 +50,5 @@ class ToolForm(forms.ModelForm):
             'allowed_level': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': '숫자 입력'}),
             'allowed_users': forms.SelectMultiple(attrs={'class': 'form-select', 'size': 4}),
             'thumbnail': forms.ClearableFileInput(attrs={'class': 'form-control'}),
+            'link': forms.URLInput(attrs={'placeholder': '예: http://www.ntk.ai.kr/yourtool'}),
         }

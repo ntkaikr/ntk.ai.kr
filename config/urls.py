@@ -23,6 +23,7 @@ from django.conf.urls.static import static
 from accounts.forms import BootstrapAuthenticationForm
 from django.contrib.auth.views import LoginView
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('tools/', include('toolhub.urls')),
@@ -40,6 +41,7 @@ urlpatterns = [
     path('biblecheck/', include('biblecheck.urls')),
 
     path('common/', include('common.urls')),
+
 
 ]
 
