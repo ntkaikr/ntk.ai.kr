@@ -27,9 +27,7 @@ from linkn.views import redirect_short_link
 
 urlpatterns = [
 
-    # 🔥 루트 슬러그 리다이렉트 지원
-    path('<slug:slug>/', redirect_short_link),
-    
+
     path('admin/', admin.site.urls),
     path('tools/', include('toolhub.urls')),
 
@@ -50,6 +48,8 @@ urlpatterns = [
     path('ntkintro/', include('ntkintro.urls')),
     path('linkn/', include('linkn.urls')),
 
+    # 🔥 루트 슬러그 리다이렉트 지원
+    path('<slug:slug>/', redirect_short_link),
 ]
 
 
