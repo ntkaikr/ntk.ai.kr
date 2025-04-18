@@ -41,7 +41,7 @@ class ReplyForm(forms.ModelForm):
 class ToolForm(forms.ModelForm):
     class Meta:
         model = Tool
-        fields = ['name', 'description', 'visibility', 'access_level', 'allowed_level', 'allowed_users', 'thumbnail']
+        fields = ['name', 'description', 'visibility', 'access_level', 'allowed_level', 'allowed_users', 'link', 'thumbnail']
         widgets = {
             'description': forms.Textarea(attrs={'class': 'form-control'}),
             'name': forms.TextInput(attrs={'class': 'form-control'}),
