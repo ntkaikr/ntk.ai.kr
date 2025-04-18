@@ -6,4 +6,5 @@ app_name = 'linkn'
 urlpatterns = [
     path('', views.link_create, name='link_create'),
     path('<slug:slug>/', views.redirect_short_link, name='redirect'),
+    path('create/', views.link_create, name='link_create'),
 ]

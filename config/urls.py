@@ -43,6 +43,7 @@ urlpatterns = [
     path('common/', include('common.urls')),
 
     path('ntkintro/', include('ntkintro.urls')),
+    path('linkn/', include('linkn.urls')),
 
 ]
 
