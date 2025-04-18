@@ -9,7 +9,7 @@
     </p>
     <p><strong>단축 링크:</strong>
       <a href="{{ request.scheme }}://{{ request.get_host }}/linkn/{{ short_link.slug }}" target="_blank">
-        {{ request.scheme }}://{{ request.get_host }}/linkn/{{ short_link.slug }}
+        {{ request.scheme }}://{{ request.get_host }}/{{ short_link.slug }}
       </a>
     </p>
     <a href="{% url 'linkn:link_create' %}" class="btn btn-outline-primary mt-3">새 링크 만들기</a>

@@ -54,6 +54,3 @@ urlpatterns = [
 handler404 = 'common.views.page_not_found'
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
-
-urlpatterns.append(path('<slug:slug>/', redirect_short_link))
