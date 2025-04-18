@@ -13,7 +13,9 @@ def link_create(request):
     return render(request, 'linkn/link_create.html', {'form': form})
 
 def redirect_short_link(request, slug):
+    #print("🔍 요청 slug:", slug)
     link = get_object_or_404(ShortLink, slug=slug)
+    #print("✅ 찾은 링크:", link.original_url)
     link.click_count += 1
     link.save()
     return redirect(link.original_url)
