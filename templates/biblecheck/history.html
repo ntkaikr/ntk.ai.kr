@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<ul class="nav nav-tabs mb-4">
+  <li class="nav-item">
+    <a class="nav-link" href="{% url 'biblecheck:check' %}">✅ 체크</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link active" href="{% url 'biblecheck:history' %}">📜 기록</a>
+  </li>
+</ul>
+
+<h2>📜 {{ request.user.username }} 님의 성경 읽기 기록</h2>
+
+{% if records %}
+  <ul class="list-group">
+    {% for r in records %}
+
+    <ul class="list-group">
+      {% for r in records %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          <span>{{ r.book }} {{ r.chapter }}장</span>
+          <small class="text-muted">
+            {{ r.date|date:"Y.m.d" }} ({{ r.date|date:"l"|slice:":1" }}) {{ r.date|date:"H:i" }}
+          </small>
+        </li>
+      {% endfor %}
+    </ul>
+
+    {% endfor %}
+  </ul>
+{% else %}
+  <p class="text-muted">아직 기록이 없습니다.</p>
+{% endif %}
+{% endblock %}

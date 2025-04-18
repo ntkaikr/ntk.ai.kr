@@ -1,0 +1,135 @@
+{% extends 'base.html' %}
+{% load bible_extras %}
+
+{% block content %}
+
+<ul class="nav nav-tabs mb-4">
+  <li class="nav-item">
+    <a class="nav-link {% if request.resolver_match.url_name == 'check' %}active{% endif %}"
+       href="{% url 'biblecheck:check' %}">✅ 체크</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link {% if request.resolver_match.url_name == 'history' %}active{% endif %}"
+       href="{% url 'biblecheck:history' %}">📜 기록</a>
+  </li>
+</ul>
+
+<h2 class="mb-4">📖 바이블 체크</h2>
+
+<form method="post" id="bible-form">
+  {% csrf_token %}
+
+  <!-- 1️⃣ 구약/신약 선택 카드 -->
+  <div class="card mb-4">
+    <div class="card-header fw-bold">1️⃣ 구약 / 신약</div>
+    <div class="card-body">
+      {% for testament in structure %}
+      <button type="button"
+              onclick="submitWith('testament', '{{ testament }}')"
+              class="btn {% if selected.testament == testament %}btn-primary{% else %}btn-outline-primary{% endif %} me-2">
+        {{ testament }}
+      </button>
+      {% endfor %}
+    </div>
+  </div>
+
+  {% if selected.testament %}
+    <input type="hidden" name="testament" value="{{ selected.testament }}">
+
+    <!-- 2️⃣ 분류 선택 카드 -->
+    <div class="card mb-4">
+      <div class="card-header fw-bold">2️⃣ 분류 선택</div>
+      <div class="card-body">
+        {% for section in sections %}
+          <button type="button"
+                  onclick="submitWith('section', '{{ section }}')"
+                  class="btn {% if selected.section == section %}btn-success{% else %}btn-outline-success{% endif %} me-2 mb-2">
+            {{ section }}
+          </button>
+        {% endfor %}
+      </div>
+    </div>
+  {% endif %}
+
+  {% if selected.testament and selected.section %}
+    <input type="hidden" name="section" value="{{ selected.section }}">
+
+    <!-- 3️⃣ 성경 선택 카드 -->
+    <div class="card mb-4">
+      <div class="card-header fw-bold">3️⃣ 성경 선택</div>
+      <div class="card-body">
+        {% for book, max_chapter in available_books.items %}
+          <button type="button"
+                  onclick="submitWith('book', '{{ book }}')"
+                  class="btn {% if selected.book == book %}btn-warning{% else %}btn-outline-warning{% endif %} me-2 mb-2">
+            {{ book }}
+          </button>
+        {% endfor %}
+      </div>
+    </div>
+  {% endif %}
+
+  {% if selected.book and max_chapter %}
+    <input type="hidden" name="book" value="{{ selected.book }}">
+
+    <!-- 4️⃣ 장 선택 카드 -->
+    <div class="card mb-4">
+      <div class="card-header fw-bold">4️⃣ 장 선택</div>
+      <div class="card-body">
+        {% for i in max_chapter|get_range %}
+          <input type="checkbox" name="chapters" value="{{ i }}" id="ch{{ i }}"
+                 class="btn-check"
+                 {% if i|stringformat:"s" in selected_chapters or i|stringformat:"s" in already_checked %}checked{% endif %}>
+
+          <label class="btn {% if i|stringformat:"s" in already_checked %}btn-success{% else %}btn-outline-secondary{% endif %}"
+                 for="ch{{ i }}">
+            {{ i }}
+          </label>
+
+        {% endfor %}
+        <div class="mt-3">
+          <button type="submit" class="btn btn-success">✅ 체크하기</button>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+</form>
+
+<hr>
+
+<!-- 📅 오늘의 체크 기록 -->
+<h5 class="mt-5">📅 오늘의 체크 기록</h5>
+<ul class="list-group">
+  {% for r in today_records %}
+    <li class="list-group-item">{{ r.book }} {{ r.chapter }}장</li>
+  {% empty %}
+    <li class="list-group-item text-muted">아직 체크된 장이 없습니다.</li>
+  {% endfor %}
+</ul>
+
+<script>
+function submitWith(name, value) {
+  const form = document.getElementById('bible-form');
+
+  form.querySelectorAll(`input[name="${name}"]`).forEach(el => el.remove());
+
+  const resetMap = {
+    'testament': ['section', 'book', 'chapters'],
+    'section': ['book', 'chapters'],
+    'book': ['chapters']
+  };
+  (resetMap[name] || []).forEach(reset => {
+    form.querySelectorAll(`input[name="${reset}"]`).forEach(el => el.remove());
+  });
+
+  const input = document.createElement('input');
+  input.type = 'hidden';
+  input.name = name;
+  input.value = value;
+  form.appendChild(input);
+
+  form.submit();
+}
+</script>
+
+{% endblock %}

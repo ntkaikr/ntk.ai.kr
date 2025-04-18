@@ -1,0 +1,147 @@
+<!-- templates/toolhub/tool_detail.html -->
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+
+  <div class="card shadow-sm">
+    {% if tool.thumbnail %}
+      <img src="{{ tool.thumbnail.url }}" class="card-img-top" style="height: 300px; object-fit: cover;">
+    {% endif %}
+
+    <div class="card-body">
+      <div class="d-flex justify-content-between align-items-center">
+        <h2 class="card-title m-0">{{ tool.name }}</h2>
+
+        {% if user.is_authenticated %}
+          <form method="post" action="{% url 'toolhub:toggle_tool_like' tool.id %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-outline-danger btn-sm">
+              ❤️ {{ tool.total_likes }}
+            </button>
+          </form>
+        {% else %}
+          <span class="text-muted">❤️ {{ tool.total_likes }}</span>
+        {% endif %}
+      </div>
+
+      <!-- 툴 설명은 좋아요 버튼 아래로 내려오게 -->
+      <p class="card-text mt-3">{{ tool.description }}</p>
+
+      {% if tool.link %}
+        <a href="{% url 'toolhub:run_tool' tool.id %}" class="btn btn-primary mt-3" target="_blank">
+          🚀 툴 실행하기
+        </a>
+      {% endif %}
+
+    </div>
+
+
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">📅 등록일: {{ tool.created_at|date:"Y-m-d" }}</li>
+      <li class="list-group-item">👁️ 공개 여부: {{ tool.get_visibility_display }}</li>
+      <li class="list-group-item">🔐 접근 권한: {{ tool.get_access_level_display }}</li>
+      <li class="list-group-item">
+        👤 앱 관리자:
+        {% if tool.managers.exists %}
+          {% for manager in tool.managers.all %}
+            <span class="badge bg-secondary" title="{{ manager.email }}">{{ manager.username }}</span>{% if not forloop.last %}, {% endif %}
+          {% endfor %}
+        {% else %}
+          <span class="badge bg-secondary" title="{{ admin_user.email }}">{{ admin_user.username }}</span>
+        {% endif %}
+      </li>
+
+    </ul>
+  </div>
+  <hr class="my-4">
+
+  <div>
+<!-- 사용자 리뷰 -->
+<h5 class="mt-4">
+  ⭐ 사용자 리뷰
+  {% if tool.comments.exists %}
+    <span class="text-warning">
+      (평균:
+      {% for i in "12345" %}
+        {% if forloop.counter <= average_rating_rounded %}
+          ⭐
+        {% else %}
+          ☆
+        {% endif %}
+      {% endfor %}
+      / {{ average_rating|floatformat:1 }}점)
+    </span>
+  {% endif %}
+</h5>
+{% for comment in tool.comments.all %}
+<div class="border rounded p-3 mb-3">
+<div class="d-flex justify-content-between align-items-center">
+  <div>
+    <strong>{{ comment.author }}</strong>
+    {% for _ in "⭐"|ljust:comment.stars %}
+      <span class="text-warning">⭐</span>
+    {% endfor %}
+  </div>
+
+  <div class="text-end">
+    <small class="text-muted">{{ comment.created_at|date:"Y.m.d H:i" }}</small>
+
+    {% if user.is_authenticated %}
+      <form method="post" action="{% url 'toolhub:toggle_comment_like' comment.id %}" class="d-inline">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-sm btn-outline-primary">
+          👍 {{ comment.like_count }}
+        </button>
+      </form>
+    {% else %}
+      <span class="text-muted">👍 {{ comment.like_count }}</span>
+    {% endif %}
+  </div>
+</div>
+  <p class="mt-2 mb-1">{{ comment.content }}</p>
+
+    <!-- 대댓글 -->
+    {% for reply in comment.replies.all %}
+      <div class="ms-4 mt-2 ps-3 border-start border-2 border-secondary-subtle">
+        <div class="d-flex justify-content-between">
+          <div><strong>↳ {{ reply.author }}</strong></div>
+          <small class="text-muted">{{ reply.created_at|date:"Y.m.d H:i" }}</small>
+
+
+        </div>
+        <p class="mb-1">{{ reply.content }}</p>
+      </div>
+    {% endfor %}
+
+    <!-- 대댓글 입력 -->
+    {% if user.is_authenticated %}
+      <form method="post" class="mt-2 ms-4">
+        {% csrf_token %}
+        {{ reply_form.content }}
+        <input type="hidden" name="parent_id" value="{{ comment.id }}">
+        <button name="reply_submit" class="btn btn-sm btn-outline-secondary mt-1">답글</button>
+      </form>
+    {% endif %}
+  </div>
+{% empty %}
+  <div class="text-muted">아직 댓글이 없습니다.</div>
+{% endfor %}
+
+
+<!-- 댓글 작성 -->
+{% if user.is_authenticated %}
+  <h5 class="mt-4">✏️ 댓글 작성</h5>
+<!-- 댓글 작성 폼 -->
+<form method="post">
+  {% csrf_token %}
+  {{ comment_form.as_p }}
+  <button name="comment_submit" class="btn btn-primary">댓글 등록</button>
+</form>
+{% else %}
+  <p class="text-muted">댓글을 작성하려면 <a href="{% url 'login' %}">로그인</a>이 필요합니다.</p>
+{% endif %}
+
+  </div>
+
+</div>
+{% endblock %}

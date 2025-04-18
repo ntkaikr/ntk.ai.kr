@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<ul class="nav nav-tabs mb-4">
+  <li class="nav-item">
+    <a class="nav-link {% if request.resolver_match.url_name == 'check' %}active{% endif %}" href="{% url 'biblecheck:check' %}">✅ 체크</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link {% if request.resolver_match.url_name == 'history' %}active{% endif %}" href="{% url 'biblecheck:history' %}">📜 기록</a>
+  </li>
+</ul>
+
+
+<h2>📖 바이블 체크</h2>
+<p>성경 읽기 체크를 위한 간단한 앱입니다.</p>
+{% endblock %}

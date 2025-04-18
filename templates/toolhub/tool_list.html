@@ -1,0 +1,44 @@
+<!-- templates/toolhub/tool_list.html -->
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+  <h2 class="mb-3"><i class="bi bi-wrench-adjustable"></i> 등록된 도구들</h2>
+
+  <form method="get" class="mb-4">
+    <div class="input-group">
+      <input type="text" name="q" class="form-control" placeholder="도구 검색..." value="{{ request.GET.q }}">
+      <button class="btn btn-primary">검색</button>
+    </div>
+  </form>
+
+  {% if tools %}
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+      {% for tool in tools %}
+      <div class="col">
+        <div class="card h-100 shadow-sm">
+          {% if tool.thumbnail %}
+            <img src="{{ tool.thumbnail.url }}" class="card-img-top" style="height: 200px; object-fit: cover;">
+          {% else %}
+            <div class="card-img-top bg-light text-center d-flex align-items-center justify-content-center" style="height: 200px;">
+              <span class="text-muted">썸네일 없음</span>
+            </div>
+          {% endif %}
+
+          <div class="card-body">
+            <h5 class="card-title">{{ tool.name }}</h5>
+            <p class="card-text">{{ tool.description|truncatewords:20 }}</p>
+          </div>
+
+          <div class="card-footer text-muted d-flex justify-content-between">
+            <small>⭐ {{ tool.average_rating }} / ❤️ {{ tool.total_likes }}</small>
+            <a href="{% url 'toolhub:tool_detail' tool.id %}" class="btn btn-sm btn-outline-primary">자세히</a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="alert alert-warning">등록된 도구가 없습니다.</div>
+  {% endif %}
+</div>
+{% endblock %}
