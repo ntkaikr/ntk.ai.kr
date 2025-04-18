@@ -13,8 +13,21 @@
       <p class="card-text">{{ intro.description|linebreaks }}</p>
 
       <p class="text-muted small">
-        버전: {{ intro.version }} | 등록일: {{ intro.created_at|date:"Y.m.d H:i" }}
+         버전: {{ intro.current_version }} | 등록일: {{ intro.created_at|date:"Y.m.d H:i" }}
       </p>
+
+      {% if intro.version_history.all %}
+        <h5 class="mt-4">📌 버전 히스토리</h5>
+        <ul class="list-group">
+          {% for v in intro.version_history.all %}
+            <li class="list-group-item">
+              <strong>{{ v.version }}</strong> - {{ v.updated_at|date:"Y.m.d H:i" }}<br>
+              <small class="text-muted">{{ v.changes|linebreaks }}</small>
+            </li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+
     </div>
   </div>
 </div>
