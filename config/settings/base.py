@@ -31,9 +31,11 @@ ALLOWED_HOSTS = ['43.203.89.143']
 
 # Application definition
 
+"""
 STATICFILES_DIRS = [
      BASE_DIR / 'static',
 ]
+"""
 
 INSTALLED_APPS = [
     'django.contrib.admin',
