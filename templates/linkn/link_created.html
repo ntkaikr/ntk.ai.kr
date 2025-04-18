@@ -7,7 +7,7 @@
     <p><strong>원본 링크:</strong> <a href="{{ shortlink.original_url }}" target="_blank">{{ shortlink.original_url }}</a></p>
     <p><strong>단축 링크:</strong>
       <a href="{{ request.scheme }}://{{ request.get_host }}/r/{{ shortlink.short_code }}" target="_blank">
-        {{ request.scheme }}://{{ request.get_host }}/r/{{ shortlink.short_code }}
+        {{ request.scheme }}://{{ request.get_host }}/r/{{ shortlink.slug }}
       </a>
     </p>
     <a href="{% url 'linkn:link_create' %}" class="btn btn-outline-primary mt-3">새 링크 만들기</a>
