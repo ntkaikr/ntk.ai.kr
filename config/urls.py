@@ -22,7 +22,8 @@ from django.conf import settings
 from django.conf.urls.static import static
 from accounts.forms import BootstrapAuthenticationForm
 from django.contrib.auth.views import LoginView
-
+# ShortLink 리다이렉션 (링큰 앱 슬러그 기반)
+from linkn.views import redirect_short_link
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -45,9 +46,14 @@ urlpatterns = [
     path('ntkintro/', include('ntkintro.urls')),
     path('linkn/', include('linkn.urls')),
 
+    # 🔥 루트 슬러그 리다이렉트 지원
+    path('<slug:slug>/', redirect_short_link),
 ]
 
 
 handler404 = 'common.views.page_not_found'
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+
+urlpatterns.append(path('<slug:slug>/', redirect_short_link))
