@@ -38,7 +38,12 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(next_page='/'), name='logout'),  # ← GET 허용
 
     path('biblecheck/', include('biblecheck.urls')),
+
+    path('common/', include('common.urls')),
+
 ]
 
+
+handler404 = 'common.views.page_not_found'
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

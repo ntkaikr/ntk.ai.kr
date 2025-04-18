@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'toolhub',
     'accounts',
     'biblecheck',
+    'common.apps.CommonConfig',
 ]
 
 MIDDLEWARE = [
