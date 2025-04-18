@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container mt-4">
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <h2 class="card-title">{{ intro.title }}</h2>
+
+      {% if intro.logo %}
+        <img src="{{ intro.logo.url }}" class="img-fluid my-3" alt="NTK 로고">
+      {% endif %}
+
+      <p class="card-text">{{ intro.description|linebreaks }}</p>
+
+      <p class="text-muted small">
+        버전: {{ intro.version }} | 등록일: {{ intro.created_at|date:"Y.m.d H:i" }}
+      </p>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'accounts',
     'biblecheck',
     'common.apps.CommonConfig',
+    'ntkintro',
 ]
 
 MIDDLEWARE = [
