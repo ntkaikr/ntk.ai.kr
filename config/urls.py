@@ -15,7 +15,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
 from django.shortcuts import redirect
 from django.contrib.auth import views as auth_views
 from django.conf import settings
@@ -50,6 +50,9 @@ urlpatterns = [
 
     # 🔥 루트 슬러그 리다이렉트 지원
     path('<slug:slug>/', redirect_short_link),
+
+    re_path(r'^(?P<slug>[a-zA-Z0-9]+)$', redirect_short_link),  # 슬래시 없는 것도 지원
+
 ]
 
 
