@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}BibleCheck Youth{% endblock %}
+
+{% block content %}
+
+<div class="text-end mb-2">
+  <a href="{% url 'biblecheck_youth:today_checked' %}" class="btn btn-outline-success btn-sm">📆 오늘 체크</a>
+  <a href="{% url 'biblecheck_youth:history_checked' %}" class="btn btn-outline-secondary btn-sm">📚 히스토리</a>
+</div>
+
+
+
+  <div class="text-center mb-4">
+    <h2>📖 BibleCheck Youth</h2>
+    <p class="text-muted">구약/신약을 선택해 책을 확인하세요.</p>
+
+    <div class="btn-group mb-4" role="group">
+      <a href="?testament=OT" class="btn {% if selected_testament == 'OT' %}btn-primary{% else %}btn-outline-primary{% endif %}">구약</a>
+      <a href="?testament=NT" class="btn {% if selected_testament == 'NT' %}btn-primary{% else %}btn-outline-primary{% endif %}">신약</a>
+    </div>
+  </div>
+
+  {% if selected_testament == 'OT' %}
+    <h4 class="text-primary">📜 구약</h4>
+    <div class="list-group mb-4">
+      {% for book in ot_books %}
+        <a href="{% url 'biblecheck_youth:chapter_list' book.id %}" class="list-group-item list-group-item-action">
+          {{ book.name }} ({{ book.total_chapters }}장)
+        </a>
+      {% endfor %}
+    </div>
+  {% elif selected_testament == 'NT' %}
+    <h4 class="text-success">📘 신약</h4>
+    <div class="list-group mb-4">
+      {% for book in nt_books %}
+        <a href="{% url 'biblecheck_youth:chapter_list' book.id %}" class="list-group-item list-group-item-action">
+          {{ book.name }} ({{ book.total_chapters }}장)
+        </a>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="alert alert-info text-center">상단에서 구약 또는 신약을 선택하세요.</div>
+  {% endif %}
+{% endblock %}

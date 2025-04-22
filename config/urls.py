@@ -46,12 +46,17 @@ urlpatterns = [
     path('common/', include('common.urls')),
 
     path('ntkintro/', include('ntkintro.urls')),
+
+    path('youth/', include('biblecheck_youth.urls')),
+
+
     path('linkn/', include('linkn.urls')),
 
     # 🔥 루트 슬러그 리다이렉트 지원
     path('<slug:slug>/', redirect_short_link),
 
     re_path(r'^(?P<slug>[a-zA-Z0-9]+)$', redirect_short_link),  # 슬래시 없는 것도 지원
+
 
 ]
 

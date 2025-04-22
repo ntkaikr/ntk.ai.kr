@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}체크 히스토리{% endblock %}
+
+{% block content %}
+<div class="text-center mb-4">
+  <h2>📚 체크 히스토리</h2>
+</div>
+
+{% if records %}
+  <ul class="list-group">
+    {% regroup records by date_checked as date_list %}
+
+    {% for day in date_list %}
+      <li class="list-group-item active">
+        {{ day.grouper|date:"Y년 m월 d일" }}
+      </li>
+      {% for record in day.list %}
+        <li class="list-group-item">
+          {{ record.book.name }} {{ record.chapter }}장
+        </li>
+      {% endfor %}
+    {% endfor %}
+  </ul>
+{% else %}
+  <div class="alert alert-info text-center">아직 체크한 장이 없습니다.</div>
+{% endif %}
+{% endblock %}

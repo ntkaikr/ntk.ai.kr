@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% block title %}{{ book.name }}{% endblock %}
+
+{% block content %}
+<div class="text-center mb-4">
+  <h2>{{ book.name }}</h2>
+  <p class="text-muted">읽은 장을 선택하고 체크하세요.</p>
+</div>
+
+<form method="post" action="{% url 'biblecheck_youth:check_chapter' book.id %}" id="chapter-form">
+  {% csrf_token %}
+  <input type="hidden" name="selected_chapters" id="selected-chapters">
+
+  <div class="d-flex flex-wrap justify-content-center gap-2">
+    {% for chapter in chapters %}
+      {% if chapter in checked_chapters %}
+        <!-- 이미 체크된 장: 초록색 + 비활성화 -->
+        <button type="button" class="btn btn-success" disabled>{{ chapter }}</button>
+      {% else %}
+        <!-- 선택 가능한 장 -->
+        <button type="button"
+                class="btn btn-outline-secondary selectable-chapter"
+                data-chapter="{{ chapter }}">
+          {{ chapter }}
+        </button>
+      {% endif %}
+    {% endfor %}
+  </div>
+
+  <div class="text-center mt-4">
+    <button type="submit" class="btn btn-primary">✅ 체크하기</button>
+  </div>
+</form>
+{% endblock %}
+
+{% block script %}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const buttons = document.querySelectorAll('.selectable-chapter');
+  const selectedInput = document.getElementById('selected-chapters');
+  const selected = new Set();
+
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const chapter = btn.dataset.chapter;
+
+      if (selected.has(chapter)) {
+        selected.delete(chapter);
+        btn.className = 'btn btn-outline-secondary selectable-chapter';  // ✅ 전체 클래스 리셋
+      } else {
+        selected.add(chapter);
+        btn.className = 'btn btn-primary selectable-chapter';  // ✅ 전체 클래스 리셋
+      }
+
+      selectedInput.value = Array.from(selected).join(',');
+    });
+  });
+});
+
+
+</script>
+{% endblock %}
+
