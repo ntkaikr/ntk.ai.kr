@@ -111,4 +111,9 @@ def tool_list(request):
     tools = Tool.objects.all()
     if q:
         tools = tools.filter(name__icontains=q)
+
+
+    # 🔥 여기서 최신 등록 순 정렬
+    tools = tools.order_by('-created_at')  # 또는 '-id' (등록 순서대로)
+    
     return render(request, 'toolhub/tool_list.html', {'tools': tools})
