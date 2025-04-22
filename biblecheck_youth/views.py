@@ -41,7 +41,9 @@ def check_chapter(request, book_id):
         for chapter in chapter_list:
             ChapterCheck.objects.get_or_create(user=request.user, book=book, chapter=chapter)
 
-    return redirect('biblecheck_youth:chapter_list', book_id=book_id)
+    #return redirect('biblecheck_youth:chapter_list', book_id=book_id)
+    # ✅ 변경된 리다이렉트: 오늘의 체크 화면으로
+    return redirect('biblecheck_youth:today_checked')
 
 
 def chapter_list(request, book_id):
