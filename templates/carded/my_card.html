@@ -21,6 +21,13 @@
 
 <form method="post">
   {% csrf_token %}
+
+  {% if form.non_field_errors %}
+    <div class="alert alert-danger">
+      {{ form.non_field_errors }}
+    </div>
+  {% endif %}
+
   {{ form.as_p }}
   <button type="submit" class="btn btn-success">추가</button>
 </form>
