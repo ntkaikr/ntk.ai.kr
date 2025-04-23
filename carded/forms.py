@@ -6,6 +6,12 @@ class SocialLinkForm(forms.ModelForm):
         model = SocialLink
         fields = ['label', 'url']
         widgets = {
-            'label': forms.TextInput(attrs={'placeholder': '예: GitHub'}),
-            'url': forms.URLInput(attrs={'placeholder': 'https://github.com/username'}),
+            'label': forms.TextInput(attrs={
+                'placeholder': '예: GitHub',
+                'class': 'form-control',
+            }),
+            'url': forms.URLInput(attrs={
+                'placeholder': 'https://github.com/username',
+                'class': 'form-control',
+            }),
         }
