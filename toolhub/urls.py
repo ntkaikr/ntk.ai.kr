@@ -11,5 +11,6 @@ urlpatterns = [
     path('comments/<int:comment_id>/like/', views.toggle_comment_like, name='toggle_comment_like'),
     path('<int:pk>/like/', views.toggle_tool_like, name='toggle_tool_like'),
     path('<int:pk>/run/', views.run_tool, name='run_tool'),
+    path('tool/<int:tool_id>/pin/', views.pin_tool_to_profile, name='pin_tool_to_profile'),
 
 ]

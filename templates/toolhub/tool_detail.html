@@ -19,6 +19,13 @@
               ❤️ {{ tool.total_likes }}
             </button>
           </form>
+
+          <!-- 🔥 핀 버튼 -->
+          <form method="post" action="{% url 'toolhub:pin_tool_to_profile' tool.id %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-outline-success btn-sm">📌 핀</button>
+          </form>
+        
         {% else %}
           <span class="text-muted">❤️ {{ tool.total_likes }}</span>
         {% endif %}

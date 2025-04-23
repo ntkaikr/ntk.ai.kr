@@ -1,13 +1,10 @@
-from .models import Todo
-from django.views.decorators.http import require_POST
-from django.utils import timezone
-from django.shortcuts import render
-from django.shortcuts import redirect
-from toolhub.models import Tool
-from .models import Profile
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import redirect
 from django.shortcuts import render
+from django.utils import timezone
+from django.views.decorators.http import require_POST
+
 from toolhub.models import Tool
 from .models import Todo, Profile
 
