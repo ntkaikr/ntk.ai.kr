@@ -4,7 +4,7 @@ from .models import Tool, Comment, Reply, ToolLike, ToolTag, ToolRunLog
 @admin.register(Tool)
 class ToolAdmin(admin.ModelAdmin):
     list_display = ('name', 'created_at', 'access_level', 'visibility')
-    filter_horizontal = ('creators', 'managers', 'tags', 'allowed_users')  # 🔥 매니저 편집용
+    filter_horizontal = ('creators', 'managers', 'allowed_users')  # 🔥 매니저 편집용
 
 admin.site.register(ToolRunLog)
 admin.site.register(Comment)
