@@ -3,6 +3,17 @@
 {% block content %}
 <div class="container mt-4">
 
+    <!-- ✅ 메시지 출력 영역 -->
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    {% endfor %}
+  {% endif %}
+
+
   <div class="card shadow-sm">
     {% if tool.thumbnail %}
       <img src="{{ tool.thumbnail.url }}" class="card-img-top" style="height: 300px; object-fit: cover;">
@@ -23,7 +34,7 @@
           <!-- 🔥 핀 버튼 -->
           <form method="post" action="{% url 'toolhub:pin_tool_to_profile' tool.id %}">
             {% csrf_token %}
-            <button type="submit" class="btn btn-outline-success btn-sm">📌 핀</button>
+            <button type="submit" class="btn btn-outline-success btn-sm">📌즐겨찾기</button>
           </form>
 
         {% else %}

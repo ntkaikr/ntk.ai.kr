@@ -45,6 +45,10 @@
           {% for tool in frequent_tools %}
             <li class="list-group-item">
               <a href="{% url 'toolhub:tool_detail' tool.id %}">{{ tool.name }}</a>
+              <form method="post" action="{% url 'myprofile:remove_frequent_tool' tool.id %}" class="d-inline">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('정말 삭제하시겠습니까?')">×</button>
+              </form>
             </li>
           {% empty %}
             <li class="list-group-item text-muted">등록된 도구가 없습니다.</li>

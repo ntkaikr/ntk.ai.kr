@@ -8,6 +8,19 @@ from django.views.decorators.http import require_POST
 from toolhub.models import Tool
 from .models import Todo, Profile
 
+@login_required
+@require_POST
+def remove_frequent_tool(request, tool_id):
+    profile, _ = Profile.objects.get_or_create(user=request.user)
+    tool = Tool.objects.filter(id=tool_id).first()
+
+    if tool in profile.frequent_tools.all():
+        profile.frequent_tools.remove(tool)
+        messages.success(request, f"{tool.name} 도구가 자주 사용하는 도구에서 삭제되었습니다.")
+    else:
+        messages.warning(request, "해당 도구는 등록되어 있지 않습니다.")
+
+    return redirect('myprofile:view')
 
 @login_required
 def profile_view(request):
@@ -49,10 +62,14 @@ def add_frequent_tool(request):
         elif profile.frequent_tools.count() >= max_allowed:
             messages.error(request, f"요금제({profile.plan})에서는 최대 {max_allowed}개까지만 등록할 수 있습니다.")
         else:
-            profile.frequent_tools.add(tool)
-            messages.success(request, f"{tool.name} 도구가 자주 사용하는 도구에 추가되었습니다.")
+            try:
+                profile.frequent_tools.add(tool)
+                messages.success(request, f"{tool.name} 도구가 자주 사용하는 도구에 추가되었습니다.")
+            except Exception as e:
+                messages.error(request, f"도구를 추가하는 중 오류가 발생했습니다: {str(e)}")
 
     return redirect('myprofile:view')
+
 
 
 
