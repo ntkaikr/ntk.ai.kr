@@ -9,4 +9,6 @@ urlpatterns = [
     path('todo/add/', views.add_todo, name='add_todo'),
     path('todo/toggle/<int:todo_id>/', views.toggle_todo, name='toggle_todo'),
     path('todo/delete/<int:todo_id>/', views.delete_todo, name='delete_todo'),
+    path('add-frequent-tool/', views.add_frequent_tool, name='add_frequent_tool'),
+
 ]

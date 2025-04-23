@@ -1,5 +1,22 @@
 from django.db import models
 from django.contrib.auth.models import User
+from toolhub.models import Tool  # 툴 모델 import
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    frequent_tools = models.ManyToManyField(Tool, blank=True, related_name='frequent_by')
+
+    def tool_limit(self):
+        # 요금제에 따라 최대 등록 수를 제한 (추후 확장 가능)
+        plan = getattr(self, 'plan', 'free')  # plan 필드는 선택적으로 도입
+        return {
+            'free': 3,
+            'basic': 10,
+            'premium': 30
+        }.get(plan, 3)
+
+    def __str__(self):
+        return f"{self.user.username}의 프로필"
 
 class Todo(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)

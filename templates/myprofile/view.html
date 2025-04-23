@@ -26,6 +26,21 @@
         <div class="card-header bg-success text-white">
           <h5 class="mb-0">🛠 자주 사용하는 도구</h5>
         </div>
+
+        <!-- 도구 추가 폼 -->
+        <form method="post" action="{% url 'myprofile:add_frequent_tool' %}" class="d-flex mt-3 gap-2">
+          {% csrf_token %}
+          <select name="tool_id" class="form-select" required>
+            <option value="" disabled selected>도구 선택</option>
+            {% for t in all_tools %}
+              {% if t not in frequent_tools %}
+                <option value="{{ t.id }}">{{ t.name }}</option>
+              {% endif %}
+            {% endfor %}
+          </select>
+          <button type="submit" class="btn btn-outline-success">+ 추가</button>
+        </form>
+
         <ul class="list-group list-group-flush">
           {% for tool in frequent_tools %}
             <li class="list-group-item">
