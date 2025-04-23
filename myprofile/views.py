@@ -44,6 +44,7 @@ def add_todo(request):
 def toggle_todo(request, todo_id):
     todo = Todo.objects.get(id=todo_id, user=request.user)
     todo.is_done = not todo.is_done
+    todo.done_at = timezone.now() if todo.is_done else None  # ✅ 체크 시 시간 기록
     todo.save()
     return redirect('myprofile:view')
 
