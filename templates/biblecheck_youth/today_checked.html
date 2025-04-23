@@ -6,6 +6,11 @@
   <a href="{% url 'biblecheck_youth:book_list' %}" class="btn btn-outline-secondary btn-sm">← 홈으로</a>
 </div>
 
+<div class="mb-3 d-flex justify-content-between">
+  <a href="{% url 'biblecheck_youth:book_list' %}" class="btn btn-outline-secondary btn-sm">← 홈으로</a>
+  <a href="{% url 'biblecheck_youth:history_checked' %}" class="btn btn-outline-primary btn-sm">📚 히스토리</a>
+</div>
+
 <div class="text-center mb-4">
   <h2>📆 오늘 체크한 장</h2>
   <p class="text-muted">{{ today|date:"Y년 m월 d일" }} 기준</p>
