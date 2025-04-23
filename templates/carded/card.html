@@ -42,32 +42,32 @@
   </div>
 </div>
 
-<!-- 🔹 클립보드 복사 스크립트 -->
+<!-- 🔹 클립보드 복사 + 스낵바 알림 스크립트 -->
 <script>
 function copyLink() {
-  const dummy = document.createElement('input');
-  dummy.value = window.location.href;
-  document.body.appendChild(dummy);
-  dummy.select();
-  document.execCommand('copy');
-  document.body.removeChild(dummy);
-  alert('📋 카드 링크가 복사되었습니다!');
-}
+  // 🔗 항상 username 기반 고정 공유 링크 생성
+  const username = "{{ card.user.username }}";
+  const link = `${window.location.origin}/carded/${username}/`;
 
-function copyLink() {
+  // 📋 클립보드 복사
   const dummy = document.createElement('input');
-  dummy.value = window.location.href;
+  dummy.value = link;
   document.body.appendChild(dummy);
   dummy.select();
   document.execCommand('copy');
   document.body.removeChild(dummy);
 
-  // 스낵바 알림 표시
+  // ✅ Bootstrap 스낵바 스타일 알림 표시
   const alertBox = document.getElementById('copy-alert');
-  alertBox.classList.remove('d-none');
-  setTimeout(() => alertBox.classList.add('d-none'), 2000);
+  if (alertBox) {
+    alertBox.classList.remove('d-none');
+    setTimeout(() => alertBox.classList.add('d-none'), 2000);
+  } else {
+    alert('📋 카드 링크가 복사되었습니다!');
+  }
 }
 </script>
+
 
 
 {% endblock %}
