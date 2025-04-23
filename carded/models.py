@@ -2,13 +2,6 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
-class CardImage(models.Model):
-    card = models.ForeignKey(Card, on_delete=models.CASCADE, related_name='images')
-    image = models.ImageField(upload_to='carded/gallery/')
-    uploaded_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f"{self.card.user.username}의 이미지"
 
 
 class Card(models.Model):
@@ -41,6 +34,14 @@ class Card(models.Model):
 
     def __str__(self):
         return f"{self.user.username}님의 명함 (카디드)"
+
+class CardImage(models.Model):
+    card = models.ForeignKey('Card', on_delete=models.CASCADE, related_name='images')
+    image = models.ImageField(upload_to='carded/gallery/')
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.card.user.username}의 이미지"
 
 
 class SocialLink(models.Model):
