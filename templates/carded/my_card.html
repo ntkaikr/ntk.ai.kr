@@ -5,6 +5,30 @@
 <h2 class="mb-3">📇 내 명함 관리(Carded)</h2>
 <p><strong>계정:</strong> {{ card.user.username }} / <strong>요금제:</strong> {{ card.plan }}</p>
 
+
+<!-- 🔹 이미지 업로드 -->
+<div class="card mt-4 shadow-sm border-0">
+  <div class="card-header bg-info text-white">
+    <h5 class="mb-0">📷 프로필 사진</h5>
+  </div>
+  <div class="card-body">
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ image_form.image.label_tag }} {{ image_form.image }}
+      <button type="submit" name="upload_image" class="btn btn-primary">업로드</button>
+
+    </form>
+
+    <div class="mt-3 d-flex flex-wrap gap-2">
+      {% for img in card.images.all %}
+        <img src="{{ img.image.url }}" class="img-thumbnail" style="height: 100px;">
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+
+
 <h5>🔗 등록된 SNS</h5>
 
 <ul class="list-group mb-3">
@@ -47,7 +71,8 @@
 
   <div class="col-md-3">
     <label class="d-none d-md-block">&nbsp;</label>
-    <button type="submit" class="btn btn-success w-100">추가</button>
+    <button type="submit" name="add_link" class="btn btn-success">추가</button>
+
   </div>
 </form>
 

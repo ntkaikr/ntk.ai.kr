@@ -2,6 +2,15 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
+class CardImage(models.Model):
+    card = models.ForeignKey(Card, on_delete=models.CASCADE, related_name='images')
+    image = models.ImageField(upload_to='carded/gallery/')
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.card.user.username}의 이미지"
+
+
 class Card(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     tagline = models.CharField(max_length=100, blank=True)
@@ -22,6 +31,13 @@ class Card(models.Model):
             'basic': 10,
             'premium': 20,
         }.get(self.plan, 3)
+
+    def image_limit(self):
+        return {
+            'free': 1,
+            'basic': 3,
+            'premium': 10,
+        }.get(self.plan, 1)
 
     def __str__(self):
         return f"{self.user.username}님의 명함 (카디드)"
