@@ -32,10 +32,13 @@
           </form>
 
           <!-- 🔥 핀 버튼 -->
-          <form method="post" action="{% url 'toolhub:pin_tool_to_profile' tool.id %}">
+          <form method="post" action="{% url 'myprofile:add_frequent_tool' %}">
             {% csrf_token %}
-            <button type="submit" class="btn btn-outline-success btn-sm">📌즐겨찾기</button>
+            <input type="hidden" name="tool_id" value="{{ tool.id }}">
+            <input type="hidden" name="next" value="{{ request.get_full_path }}">
+            <button type="submit" class="btn btn-sm btn-outline-success">📌 즐겨찾기</button>
           </form>
+
 
         {% else %}
           <span class="text-muted">❤️ {{ tool.total_likes }}</span>

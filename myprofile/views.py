@@ -44,31 +44,24 @@ def profile_view(request):
 def add_frequent_tool(request):
     if request.method == 'POST':
         tool_id = request.POST.get('tool_id')
-        if not tool_id:
-            messages.error(request, "도구 ID가 유효하지 않습니다.")
-            return redirect('myprofile:view')
+        next_url = request.POST.get('next') or 'myprofile:view'  # 기본값
 
         try:
             tool = Tool.objects.get(id=tool_id)
-        except Tool.DoesNotExist:
-            messages.error(request, "도구가 존재하지 않습니다.")
-            return redirect('myprofile:view')
+            profile, _ = Profile.objects.get_or_create(user=request.user)
 
-        profile, _ = Profile.objects.get_or_create(user=request.user)
-        max_allowed = profile.tool_limit()
-
-        if tool in profile.frequent_tools.all():
-            messages.warning(request, "이미 등록된 도구입니다.")
-        elif profile.frequent_tools.count() >= max_allowed:
-            messages.error(request, f"요금제({profile.plan})에서는 최대 {max_allowed}개까지만 등록할 수 있습니다.")
-        else:
-            try:
+            if tool in profile.frequent_tools.all():
+                messages.warning(request, "이미 등록된 도구입니다.")
+            elif profile.frequent_tools.count() >= profile.tool_limit():
+                messages.error(request, f"요금제({profile.plan})에서는 최대 {profile.tool_limit()}개까지만 등록할 수 있습니다.")
+            else:
                 profile.frequent_tools.add(tool)
-                messages.success(request, f"{tool.name} 도구가 자주 사용하는 도구에 추가되었습니다.")
-            except Exception as e:
-                messages.error(request, f"도구를 추가하는 중 오류가 발생했습니다: {str(e)}")
+                messages.success(request, f"{tool.name} 도구가 자주 사용하는 도구로 추가되었습니다.")
+        except Exception as e:
+            messages.error(request, f"추가 중 오류: {str(e)}")
 
-    return redirect('myprofile:view')
+        return redirect(next_url)
+
 
 
 
