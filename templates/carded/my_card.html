@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %}내 명함 - Carded{% endblock %}
+{% block content %}
+
+<h2 class="mb-3">📇 내 명함 (Carded)</h2>
+<p><strong>계정:</strong> {{ card.user.username }} / <strong>요금제:</strong> {{ card.plan }}</p>
+
+<h5>🔗 등록된 SNS</h5>
+<ul class="list-group mb-3">
+  {% for link in social_links %}
+    <li class="list-group-item d-flex align-items-center">
+      {% if link.favicon_url %}
+        <img src="{{ link.favicon_url }}" width="16" height="16" class="me-2">
+      {% endif %}
+      <a href="{{ link.url }}" target="_blank">{{ link.label }}</a>
+    </li>
+  {% empty %}
+    <li class="list-group-item text-muted">등록된 SNS가 없습니다.</li>
+  {% endfor %}
+</ul>
+
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit" class="btn btn-success">추가</button>
+</form>
+
+{% endblock %}

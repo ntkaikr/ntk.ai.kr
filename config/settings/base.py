@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'linkn',
     'biblecheck_youth',
     'myprofile',
+    'carded',
 
 ]
 
