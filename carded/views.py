@@ -15,12 +15,15 @@ def my_card_view(request):
             link = form.save(commit=False)
             link.card = card
             link.favicon_url = extract_favicon_url(link.url)
+
             try:
-                link.clean()  # ✅ 유효성 검사 수동 호출
+                # clean()으로 먼저 유효성 검사
+                link.clean()
+                # save() 시에도 예외 발생 가능성 있음
                 link.save()
                 return redirect('carded:my_card')
             except ValidationError as e:
-                form.add_error(None, e)  # 🔥 폼에 에러로 전달 (템플릿에서 {{ form.non_field_errors }} 사용 가능)
+                form.add_error(None, e.message)  # 에러를 폼에 표시
 
     else:
         form = SocialLinkForm()
