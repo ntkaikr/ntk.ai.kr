@@ -4,6 +4,14 @@ from django.contrib.auth.decorators import login_required
 from .forms import SocialLinkForm
 from .utils import extract_favicon_url
 from django.core.exceptions import ValidationError
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404
+
+@login_required
+def delete_social_link(request, link_id):
+    link = get_object_or_404(SocialLink, id=link_id, card__user=request.user)
+    link.delete()
+    return redirect('carded:my_card')
 
 @login_required
 def my_card_view(request):

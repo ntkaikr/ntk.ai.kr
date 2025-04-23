@@ -6,13 +6,20 @@
 <p><strong>계정:</strong> {{ card.user.username }} / <strong>요금제:</strong> {{ card.plan }}</p>
 
 <h5>🔗 등록된 SNS</h5>
+
 <ul class="list-group mb-3">
   {% for link in social_links %}
-    <li class="list-group-item d-flex align-items-center">
-      {% if link.favicon_url %}
-        <img src="{{ link.favicon_url }}" width="16" height="16" class="me-2">
-      {% endif %}
-      <a href="{{ link.url }}" target="_blank">{{ link.label }}</a>
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+      <div>
+        {% if link.favicon_url %}
+          <img src="{{ link.favicon_url }}" width="16" height="16" class="me-2">
+        {% endif %}
+        <a href="{{ link.url }}" target="_blank">{{ link.label }}</a>
+      </div>
+      <!-- ❌ 삭제 버튼 -->
+      <a href="{% url 'carded:delete_link' link.id %}" class="btn btn-sm btn-outline-danger">
+        &times;
+      </a>
     </li>
   {% empty %}
     <li class="list-group-item text-muted">등록된 SNS가 없습니다.</li>
