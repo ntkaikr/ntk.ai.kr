@@ -3,15 +3,16 @@
 {% block content %}
 <div class="container mt-4">
 
-    <!-- ✅ 메시지 출력 영역 -->
-  {% if messages %}
-    {% for message in messages %}
-      <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-        {{ message }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
-    {% endfor %}
-  {% endif %}
+<!-- ✅ 메시지 출력 영역 -->
+{% if messages %}
+  {% for message in messages %}
+    <div class="alert alert-{{ message.tags|default:'info' }} alert-dismissible fade show mt-2" role="alert">
+      {{ message }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  {% endfor %}
+{% endif %}
+
 
 
   <div class="card shadow-sm">
