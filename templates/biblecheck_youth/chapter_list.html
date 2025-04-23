@@ -3,8 +3,13 @@
 
 {% block content %}
 
-<div class="mb-3 text-start">
+<div class="mb-3 d-flex justify-content-between">
   <a href="{% url 'biblecheck_youth:book_list' %}" class="btn btn-outline-secondary btn-sm">← 신구약 선택으로</a>
+
+  <div>
+    <a href="{% url 'biblecheck_youth:today_checked' %}" class="btn btn-outline-success btn-sm me-2">📆 오늘 체크</a>
+    <a href="{% url 'biblecheck_youth:history_checked' %}" class="btn btn-outline-primary btn-sm">📚 히스토리</a>
+  </div>
 </div>
 
 <div class="text-center mb-4">
