@@ -9,6 +9,15 @@ from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404
 from .models import Card
+from django.contrib.auth.models import User
+
+def public_card_by_username(request, username):
+    user = get_object_or_404(User, username=username)
+    card = get_object_or_404(Card, user=user)
+    return render(request, 'carded/card.html', {
+        'card': card,
+        'social_links': card.social_links.all()
+    })
 
 def card_view(request):
     card = get_object_or_404(Card, user=request.user)

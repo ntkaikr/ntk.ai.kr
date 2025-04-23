@@ -4,12 +4,13 @@
 
 <!-- 🔹 상단 버튼바 -->
 <div class="d-flex justify-content-between mb-3">
-  <a href="{% url 'carded:my_card' %}" class="btn btn-outline-primary">
-    🛠 카드 관리
-  </a>
-  <button class="btn btn-outline-secondary" onclick="copyLink()">
-    🔗 카드 공유 링크 복사
-  </button>
+  <a href="{% url 'carded:my_card' %}" class="btn btn-outline-primary">🛠 카드 관리</a>
+  <button class="btn btn-outline-secondary" onclick="copyLink()">🔗 카드 공유 링크 복사</button>
+</div>
+
+<!-- ✅ Bootstrap alert 알림 -->
+<div id="copy-alert" class="alert alert-success text-center d-none" role="alert" style="position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 9999;">
+  📋 링크가 복사되었습니다!
 </div>
 
 <!-- 🔹 명함 카드 -->
@@ -52,6 +53,21 @@ function copyLink() {
   document.body.removeChild(dummy);
   alert('📋 카드 링크가 복사되었습니다!');
 }
+
+function copyLink() {
+  const dummy = document.createElement('input');
+  dummy.value = window.location.href;
+  document.body.appendChild(dummy);
+  dummy.select();
+  document.execCommand('copy');
+  document.body.removeChild(dummy);
+
+  // 스낵바 알림 표시
+  const alertBox = document.getElementById('copy-alert');
+  alertBox.classList.remove('d-none');
+  setTimeout(() => alertBox.classList.add('d-none'), 2000);
+}
 </script>
+
 
 {% endblock %}
