@@ -40,5 +40,43 @@
   </div>
 
   <!-- 🔜 아래에 추후 투두리스트, 통계 등 카드 추가 예정 -->
+
+  <!-- 🔻 기존 카드 밑에 이어서 -->
+<div class="card mt-4 shadow-sm border-0">
+  <div class="card-header bg-info text-white">
+    <h5 class="mb-0">📝 투두리스트</h5>
+  </div>
+  <div class="card-body">
+    <!-- 투두 작성 폼 -->
+    <form method="post" action="{% url 'myprofile:add_todo' %}" class="d-flex flex-wrap gap-2 mb-3">
+      {% csrf_token %}
+      <input type="text" name="content" class="form-control" placeholder="할 일 입력" required>
+      <input type="date" name="due_date" class="form-control" style="max-width: 200px;">
+      <button type="submit" class="btn btn-success">추가</button>
+    </form>
+
+    <!-- 투두 목록 -->
+    <ul class="list-group">
+      {% for todo in todos %}
+        <li class="list-group-item d-flex justify-content-between align-items-center {% if todo.is_done %}text-muted text-decoration-line-through{% endif %}">
+          <div>
+            <a href="{% url 'myprofile:toggle_todo' todo.id %}" class="me-2">
+              {% if todo.is_done %}✅{% else %}⬜{% endif %}
+            </a>
+            {{ todo.content }}
+            {% if todo.due_date %}
+              <small class="ms-2 text-muted">({{ todo.due_date }})</small>
+            {% endif %}
+          </div>
+          <a href="{% url 'myprofile:delete_todo' todo.id %}" class="btn btn-sm btn-outline-danger">삭제</a>
+        </li>
+      {% empty %}
+        <li class="list-group-item text-muted">할 일이 없습니다.</li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+
+  
 </div>
 {% endblock %}
