@@ -25,10 +25,17 @@ def profile_view(request):
 @login_required
 def add_todo(request):
     content = request.POST.get('content')
-    due_date = request.POST.get('due_date') or None
+    due_date = request.POST.get('due_date')
+    due_time = request.POST.get('due_time')
+
+    due_datetime = None
+    if due_date:
+        from datetime import datetime
+        due_time = due_time or "00:00"
+        due_datetime = datetime.strptime(f"{due_date} {due_time}", "%Y-%m-%d %H:%M")
 
     if content:
-        Todo.objects.create(user=request.user, content=content, due_date=due_date)
+        Todo.objects.create(user=request.user, content=content, due_datetime=due_datetime)
 
     return redirect('myprofile:view')
 

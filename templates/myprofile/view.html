@@ -48,12 +48,14 @@
   </div>
   <div class="card-body">
     <!-- 투두 작성 폼 -->
-    <form method="post" action="{% url 'myprofile:add_todo' %}" class="d-flex flex-wrap gap-2 mb-3">
-      {% csrf_token %}
-      <input type="text" name="content" class="form-control" placeholder="할 일 입력" required>
-      <input type="date" name="due_date" class="form-control" style="max-width: 200px;">
-      <button type="submit" class="btn btn-success">추가</button>
-    </form>
+  <form method="post" action="{% url 'myprofile:add_todo' %}" class="d-flex flex-wrap gap-2 mb-3">
+    {% csrf_token %}
+    <input type="text" name="content" class="form-control" placeholder="할 일 입력" required>
+    <input type="date" name="due_date" class="form-control" style="max-width: 180px;">
+    <input type="time" name="due_time" class="form-control" style="max-width: 140px;">
+    <button type="submit" class="btn btn-success">추가</button>
+  </form>
+
 
     <!-- 투두 목록 -->
     <ul class="list-group">
@@ -64,9 +66,10 @@
               {% if todo.is_done %}✅{% else %}⬜{% endif %}
             </a>
             {{ todo.content }}
-            {% if todo.due_date %}
-              <small class="ms-2 text-muted">({{ todo.due_date }})</small>
-            {% endif %}
+          {% if todo.due_datetime %}
+            <small class="ms-2 text-muted">({{ todo.due_datetime|date:"Y-m-d H:i" }})</small>
+          {% endif %}
+
           </div>
           <a href="{% url 'myprofile:delete_todo' todo.id %}" class="btn btn-sm btn-outline-danger">삭제</a>
         </li>
@@ -77,6 +80,6 @@
   </div>
 </div>
 
-  
+
 </div>
 {% endblock %}

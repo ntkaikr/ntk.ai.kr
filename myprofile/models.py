@@ -6,7 +6,7 @@ class Todo(models.Model):
     content = models.CharField(max_length=255)
     is_done = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
-    due_date = models.DateField(null=True, blank=True)
+    due_datetime = models.DateTimeField(null=True, blank=True)  # ← 수정된 필드
 
     def __str__(self):
         return f"[{'✅' if self.is_done else '❌'}] {self.content}"

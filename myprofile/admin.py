@@ -4,6 +4,6 @@ from .models import Todo
 
 @admin.register(Todo)
 class TodoAdmin(admin.ModelAdmin):
-    list_display = ('user', 'content', 'is_done', 'due_date', 'created_at')
-    list_filter = ('is_done', 'due_date')
+    list_display = ('user', 'content', 'is_done', 'due_datetime', 'created_at')  # ✅
+    list_filter = ('is_done', 'due_datetime')  # ✅
     search_fields = ('content',)
