@@ -2,6 +2,11 @@
 {% block title %}{{ book.name }}{% endblock %}
 
 {% block content %}
+
+<div class="mb-3 text-start">
+  <a href="{% url 'biblecheck_youth:book_list' %}" class="btn btn-outline-secondary btn-sm">← 신구약 선택으로</a>
+</div>
+
 <div class="text-center mb-4">
   <h2>{{ book.name }}</h2>
   <p class="text-muted">읽은 장을 선택하고 체크하세요.</p>
