@@ -20,19 +20,23 @@ User = get_user_model()
 
 @login_required
 def pin_tool_to_profile(request, tool_id):
-    tool = get_object_or_404(Tool, id=tool_id)
     profile, _ = Profile.objects.get_or_create(user=request.user)
+
+    try:
+        tool = Tool.objects.get(id=tool_id)
+    except Tool.DoesNotExist:
+        messages.error(request, "해당 도구를 찾을 수 없습니다.")
+        return redirect('toolhub:tool_list')  # fallback
 
     if profile.frequent_tools.filter(id=tool_id).exists():
         messages.warning(request, "이미 등록된 도구입니다.")
     elif profile.frequent_tools.count() >= profile.tool_limit():
-        messages.error(request, f"요금제({profile.plan})에서는 최대 {profile.tool_limit()}개까지 등록할 수 있습니다.")
+        messages.error(request, f"요금제({profile.plan})에서는 최대 {profile.tool_limit()}개까지만 등록할 수 있습니다.")
     else:
         profile.frequent_tools.add(tool)
         messages.success(request, f"{tool.name} 도구가 자주 사용하는 도구에 추가되었습니다.")
 
     return redirect('toolhub:tool_detail', tool_id=tool_id)
-
 @login_required
 def run_tool(request, pk):
     tool = get_object_or_404(Tool, pk=pk)

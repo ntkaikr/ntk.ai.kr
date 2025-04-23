@@ -25,7 +25,7 @@
             {% csrf_token %}
             <button type="submit" class="btn btn-outline-success btn-sm">📌 핀</button>
           </form>
-        
+
         {% else %}
           <span class="text-muted">❤️ {{ tool.total_likes }}</span>
         {% endif %}
