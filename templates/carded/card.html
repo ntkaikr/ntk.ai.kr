@@ -2,6 +2,17 @@
 {% block title %}{{ card.user.username }}님의 명함 - Carded{% endblock %}
 {% block content %}
 
+<!-- 🔹 상단 버튼바 -->
+<div class="d-flex justify-content-between mb-3">
+  <a href="{% url 'carded:my_card' %}" class="btn btn-outline-primary">
+    🛠 카드 관리
+  </a>
+  <button class="btn btn-outline-secondary" onclick="copyLink()">
+    🔗 카드 공유 링크 복사
+  </button>
+</div>
+
+<!-- 🔹 명함 카드 -->
 <div class="card mx-auto shadow-lg" style="max-width: 500px;">
   {% if card.profile_image %}
     <img src="{{ card.profile_image.url }}" class="card-img-top" alt="프로필 이미지">
@@ -29,5 +40,18 @@
     </ul>
   </div>
 </div>
+
+<!-- 🔹 클립보드 복사 스크립트 -->
+<script>
+function copyLink() {
+  const dummy = document.createElement('input');
+  dummy.value = window.location.href;
+  document.body.appendChild(dummy);
+  dummy.select();
+  document.execCommand('copy');
+  document.body.removeChild(dummy);
+  alert('📋 카드 링크가 복사되었습니다!');
+}
+</script>
 
 {% endblock %}
