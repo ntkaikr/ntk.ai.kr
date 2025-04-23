@@ -44,12 +44,21 @@
         👤 앱 관리자:
         {% if tool.managers.exists %}
           {% for manager in tool.managers.all %}
-            <span class="badge bg-secondary" title="{{ manager.email }}">{{ manager.username }}</span>{% if not forloop.last %}, {% endif %}
+            <a href="{% url 'carded:public_card_by_username' manager.username %}"
+               class="badge bg-secondary text-decoration-none"
+               title="{{ manager.email }}">
+              {{ manager.username }}
+            </a>{% if not forloop.last %}, {% endif %}
           {% endfor %}
         {% else %}
-          <span class="badge bg-secondary" title="{{ admin_user.email }}">{{ admin_user.username }}</span>
+          <a href="{% url 'carded:public_card_by_username' admin_user.username %}"
+             class="badge bg-secondary text-decoration-none"
+             title="{{ admin_user.email }}">
+            {{ admin_user.username }}
+          </a>
         {% endif %}
       </li>
+
 
     </ul>
   </div>
