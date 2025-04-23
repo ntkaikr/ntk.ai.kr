@@ -2,24 +2,25 @@
 {% block title %}내 명함 - Carded{% endblock %}
 {% block content %}
 
-<h2 class="mb-3">📇 내 명함 관리(Carded)</h2>
+<h2 class="mb-4">📇 내 명함 관리(Carded)</h2>
 <p><strong>계정:</strong> {{ card.user.username }} / <strong>요금제:</strong> {{ card.plan }}</p>
 
-
-<!-- 🔹 이미지 업로드 -->
-<div class="card mt-4 shadow-sm border-0">
+<!-- 🔹 프로필 사진 카드 -->
+<div class="card shadow-sm border-0 mb-4">
   <div class="card-header bg-info text-white">
     <h5 class="mb-0">📷 프로필 사진</h5>
   </div>
   <div class="card-body">
-    <form method="post" enctype="multipart/form-data">
+    <form method="post" enctype="multipart/form-data" class="mb-3">
       {% csrf_token %}
-      {{ image_form.image.label_tag }} {{ image_form.image }}
-      <button type="submit" name="upload_image" class="btn btn-primary">업로드</button>
-
+      <div class="d-flex align-items-center gap-2">
+        {{ image_form.image.label_tag }}
+        {{ image_form.image }}
+        <button type="submit" name="upload_image" class="btn btn-primary">업로드</button>
+      </div>
     </form>
 
-    <div class="mt-3 d-flex flex-wrap gap-2">
+    <div class="d-flex flex-wrap gap-2">
       {% for img in card.images.all %}
         <img src="{{ img.image.url }}" class="img-thumbnail" style="height: 100px;">
       {% endfor %}
@@ -27,53 +28,50 @@
   </div>
 </div>
 
+<!-- 🔹 SNS 등록 카드 -->
+<div class="card shadow-sm border-0 mb-4">
+  <div class="card-header bg-secondary text-white">
+    <h5 class="mb-0">🔗 등록된 SNS</h5>
+  </div>
+  <div class="card-body">
+    <ul class="list-group mb-3">
+      {% for link in social_links %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          <div>
+            {% if link.favicon_url %}
+              <img src="{{ link.favicon_url }}" width="16" height="16" class="me-2">
+            {% endif %}
+            <a href="{{ link.url }}" target="_blank">{{ link.label }}</a>
+          </div>
+          <a href="{% url 'carded:delete_link' link.id %}" class="btn btn-sm btn-outline-danger">&times;</a>
+        </li>
+      {% empty %}
+        <li class="list-group-item text-muted">등록된 SNS가 없습니다.</li>
+      {% endfor %}
+    </ul>
 
+    <!-- SNS 추가 폼 -->
+    <form method="post" class="row g-2 align-items-center">
+      {% csrf_token %}
 
-<h5>🔗 등록된 SNS</h5>
+      {% if form.non_field_errors %}
+        <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+      {% endif %}
 
-<ul class="list-group mb-3">
-  {% for link in social_links %}
-    <li class="list-group-item d-flex justify-content-between align-items-center">
-      <div>
-        {% if link.favicon_url %}
-          <img src="{{ link.favicon_url }}" width="16" height="16" class="me-2">
-        {% endif %}
-        <a href="{{ link.url }}" target="_blank">{{ link.label }}</a>
+      <div class="col-md-3">
+        {{ form.label.label_tag }}
+        {{ form.label }}
       </div>
-      <!-- ❌ 삭제 버튼 -->
-      <a href="{% url 'carded:delete_link' link.id %}" class="btn btn-sm btn-outline-danger">
-        &times;
-      </a>
-    </li>
-  {% empty %}
-    <li class="list-group-item text-muted">등록된 SNS가 없습니다.</li>
-  {% endfor %}
-</ul>
-
-<form method="post" class="row g-2 align-items-center mb-3">
-  {% csrf_token %}
-
-  {% if form.non_field_errors %}
-    <div class="alert alert-danger">
-      {{ form.non_field_errors }}
-    </div>
-  {% endif %}
-
-  <div class="col-md-3">
-    {{ form.label.label_tag }}
-    {{ form.label }}
+      <div class="col-md-6">
+        {{ form.url.label_tag }}
+        {{ form.url }}
+      </div>
+      <div class="col-md-3">
+        <label class="d-none d-md-block">&nbsp;</label>
+        <button type="submit" name="add_link" class="btn btn-success w-100">추가</button>
+      </div>
+    </form>
   </div>
-
-  <div class="col-md-6">
-    {{ form.url.label_tag }}
-    {{ form.url }}
-  </div>
-
-  <div class="col-md-3">
-    <label class="d-none d-md-block">&nbsp;</label>
-    <button type="submit" name="add_link" class="btn btn-success">추가</button>
-
-  </div>
-</form>
+</div>
 
 {% endblock %}
