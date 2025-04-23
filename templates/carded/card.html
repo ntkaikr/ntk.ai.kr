@@ -4,7 +4,11 @@
 
 <!-- 🔹 상단 버튼바 -->
 <div class="d-flex justify-content-between mb-3">
-  <a href="{% url 'carded:my_card' %}" class="btn btn-outline-primary">🛠 카드 관리</a>
+  {% if user.is_authenticated and user.username == card.user.username %}
+    <a href="{% url 'carded:my_card' %}" class="btn btn-outline-primary">🛠 카드 관리</a>
+  {% else %}
+    <span></span>  <!-- 좌측 공간 유지 (원하면 삭제 가능) -->
+  {% endif %}
   <button class="btn btn-outline-secondary" onclick="copyLink()">🔗 카드 공유 링크 복사</button>
 </div>
 
