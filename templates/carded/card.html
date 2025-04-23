@@ -19,9 +19,11 @@
 
 <!-- 🔹 명함 카드 -->
 <div class="card mx-auto shadow-lg" style="max-width: 500px;">
-  {% if card.profile_image %}
-    <img src="{{ card.profile_image.url }}" class="card-img-top" alt="프로필 이미지">
+
+  {% if card.images.all %}
+    <img src="{{ card.images.first.image.url }}" class="card-img-top" alt="프로필 이미지">
   {% endif %}
+
   <div class="card-body text-center">
     <h4 class="card-title">{{ card.user.username }}</h4>
     {% if card.tagline %}
