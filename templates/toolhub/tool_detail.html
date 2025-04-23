@@ -58,6 +58,20 @@
           </a>
         {% endif %}
       </li>
+      <li class="list-group-item">
+        🛠 앱 제작자:
+        {% if tool.creators.exists %}
+          {% for creator in tool.creators.all %}
+            <a href="{% url 'carded:public_card_by_username' creator.username %}"
+               class="badge bg-info text-decoration-none"
+               title="{{ creator.email }}">
+              {{ creator.username }}
+            </a>{% if not forloop.last %}, {% endif %}
+          {% endfor %}
+        {% else %}
+          <span class="text-muted">정보 없음</span>
+        {% endif %}
+      </li>
 
 
     </ul>

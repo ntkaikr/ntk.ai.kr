@@ -32,6 +32,7 @@ class Tool(models.Model):
     link = models.URLField(blank=True, null=True, help_text="툴 실행용 링크 주소")
 
     managers = models.ManyToManyField(User, blank=True, related_name='managed_tools', help_text="이 툴의 관리자")
+    creators = models.ManyToManyField(User, blank=True, related_name='created_tools', help_text="이 툴을 만든 사람들")
 
     def average_rating(self):
         comments = self.comments.all()
