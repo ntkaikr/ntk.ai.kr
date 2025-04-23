@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block title %}프로필 앱 소개{% endblock %}
+{% block content %}
+<div class="text-center mt-5">
+  <h2>🧑‍💼 내 프로필 관리 앱</h2>
+  <p class="text-muted">자주 사용하는 도구, 활동 통계를 확인하세요.</p>
+  <a href="{% url 'myprofile:view' %}" class="btn btn-primary mt-3">프로필 앱 실행</a>
+</div>
+{% endblock %}

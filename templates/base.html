@@ -38,7 +38,11 @@
           {% if user.is_authenticated %}
             <li class="nav-item me-2 d-flex align-items-center text-white">
               <small>
-                <strong>{{ user.username }}</strong> 님
+<span class="ms-2">
+  <a href="{% url 'myprofile:view' %}" class="badge bg-light text-dark text-decoration-none">
+    [{{ user.username }} 프로필 앱 실행]
+  </a>
+</span>
                 {% if user.is_superuser %}
                   <a href="/admin/" class="badge bg-warning text-dark text-decoration-none ms-1">운영자</a>
                 {% elif user.is_staff %}

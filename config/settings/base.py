@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'ntkintro',
     'linkn',
     'biblecheck_youth',
+    'myprofile',
 
 ]
 

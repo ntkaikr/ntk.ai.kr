@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block title %}{{ user.username }}님의 프로필{% endblock %}
+{% block content %}
+<div class="text-center mb-4">
+  <h2>👤 {{ user.username }} 님의 프로필</h2>
+  <p class="text-muted">{{ user.email }}</p>
+</div>
+
+<div class="row mb-4">
+  <div class="col-md-6">
+    <h5>기본 정보</h5>
+    <ul class="list-group">
+      <li class="list-group-item">아이디: {{ user.username }}</li>
+      <li class="list-group-item">이메일: {{ user.email }}</li>
+      <li class="list-group-item">가입일: {{ user.date_joined|date:"Y-m-d H:i" }}</li>
+    </ul>
+  </div>
+
+  <div class="col-md-6">
+    <h5>자주 사용하는 도구</h5>
+    <ul class="list-group">
+      {% for tool in frequent_tools %}
+        <li class="list-group-item">
+          <a href="{% url 'toolhub:tool_detail' tool.id %}">{{ tool.name }}</a>
+        </li>
+      {% empty %}
+        <li class="list-group-item text-muted">아직 도구 없음</li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+{% endblock %}
