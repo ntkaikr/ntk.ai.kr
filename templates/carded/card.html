@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title %}{{ card.user.username }}님의 명함 - Carded{% endblock %}
+{% block content %}
+
+<div class="card mx-auto shadow-lg" style="max-width: 500px;">
+  {% if card.profile_image %}
+    <img src="{{ card.profile_image.url }}" class="card-img-top" alt="프로필 이미지">
+  {% endif %}
+  <div class="card-body text-center">
+    <h4 class="card-title">{{ card.user.username }}</h4>
+    {% if card.tagline %}
+      <p class="text-muted">{{ card.tagline }}</p>
+    {% endif %}
+    {% if card.bio %}
+      <p class="card-text">{{ card.bio }}</p>
+    {% endif %}
+
+    <hr>
+    <h6 class="text-muted">📎 SNS / 링크</h6>
+    <ul class="list-unstyled">
+      {% for link in social_links %}
+        <li class="mb-2">
+          {% if link.favicon_url %}
+            <img src="{{ link.favicon_url }}" width="16" height="16" class="me-1">
+          {% endif %}
+          <a href="{{ link.url }}" target="_blank">{{ link.label }}</a>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+
+{% endblock %}

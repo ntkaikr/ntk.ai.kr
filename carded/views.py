@@ -6,6 +6,16 @@ from .utils import extract_favicon_url
 from django.core.exceptions import ValidationError
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, get_object_or_404
+from .models import Card
+
+def card_view(request):
+    card = get_object_or_404(Card, user=request.user)
+    return render(request, 'carded/card.html', {
+        'card': card,
+        'social_links': card.social_links.all()
+    })
 
 @login_required
 def delete_social_link(request, link_id):
