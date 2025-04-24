@@ -87,10 +87,28 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
+                # (디버그 시에 유용합니다)
+                'django.template.context_processors.debug',
+
+                # allauth와 provider_login_url, static 등에서 꼭 필요
+                'django.template.context_processors.request',
+                'django.template.context_processors.static',
+
+                # 기본 제공 컨텍스트 프로세서
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+
+                # allauth 전용
+                'allauth.account.context_processors.account',
+                'allauth.socialaccount.context_processors.socialaccount',
+            ],
+            """
+            'context_processors': [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
+            """
         },
     },
 ]
