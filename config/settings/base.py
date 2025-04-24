@@ -169,7 +169,7 @@ AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
-#LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/'
 ACCOUNT_LOGOUT_REDIRECT_URL = '/'
 
 # 이메일을 유저네임처럼 사용하게 설정 (선택사항)
@@ -181,7 +181,7 @@ ACCOUNT_EMAIL_VERIFICATION = 'none'  # 이메일 인증 생략 (선택 가능)
 # settings.py
 
 # 로그인 페이지 URL 이름 (혹은 절대 경로)
-LOGIN_URL = '/login/'
+#LOGIN_URL = '/login/'
 
 # 로그인 성공 후 이동할 기본 페이지
-LOGIN_REDIRECT_URL = '/tools/'
+#LOGIN_REDIRECT_URL = '/tools/'
