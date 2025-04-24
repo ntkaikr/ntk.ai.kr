@@ -17,6 +17,24 @@
   📋 링크가 복사되었습니다!
 </div>
 
+
+{% if created %}
+  <div class="alert alert-info">
+    아직 명함이 완성되지 않았어요! 아래 내용을 참고해 꾸며보세요.
+  </div>
+  <div class="text-center mb-4">
+    <img src="{% static 'default-avatar.png' %}" width="100" class="rounded-circle mb-2" alt="기본 이미지">
+    <p class="text-muted mb-0">예시 링크:</p>
+    <ul class="list-unstyled small">
+      <li>🔗 GitHub: https://github.com/yourname</li>
+      <li>🔗 LinkedIn: https://linkedin.com/in/yourname</li>
+      <li>🔗 Naver Blog: https://blog.naver.com/yourname</li>
+    </ul>
+  </div>
+{% endif %}
+
+
+
 <!-- 🔹 명함 카드 -->
 <div class="card mx-auto shadow-lg" style="max-width: 500px;">
 

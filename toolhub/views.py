@@ -37,6 +37,7 @@ def pin_tool_to_profile(request, tool_id):
         messages.success(request, f"{tool.name} 도구가 자주 사용하는 도구에 추가되었습니다.")
 
     return redirect('toolhub:tool_detail', tool_id=tool_id)
+
 @login_required
 def run_tool(request, pk):
     tool = get_object_or_404(Tool, pk=pk)
@@ -54,11 +55,19 @@ def run_tool(request, pk):
     elif tool.access_level == 'user' and request.user not in tool.allowed_users.all():
         return HttpResponseForbidden("지정된 사용자만 접근 가능합니다.")
 
-    # 로그 기록
+    # 🔹 툴 실행 로그
     ToolRunLog.objects.create(tool=tool, user=request.user)
 
-    # 리디렉션
-    return redirect(tool.link)
+    # 🔸 특수 처리: 이름이 '카디드'인 경우 명함으로 이동
+    if tool.name.lower() in ['카디드', 'carded']:
+        return redirect('carded:public_card_by_username', username=request.user.username)
+
+    # 🔹 일반적인 링크 실행
+    if tool.link:
+        return redirect(tool.link)
+
+    # 🔸 링크 없음 → 툴 상세로 fallback
+    return redirect('toolhub:tool_detail', pk=tool.pk)
 
 @login_required
 def toggle_tool_like(request, pk):

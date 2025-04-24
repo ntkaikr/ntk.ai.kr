@@ -54,10 +54,13 @@ def my_card_view(request):
 # 🔹 2. 공개용 명함 (고정 링크)
 def public_card_by_username(request, username):
     user = get_object_or_404(User, username=username)
-    card = get_object_or_404(Card, user=user)
+    #card = get_object_or_404(Card, user=user)
+    card, created = Card.objects.get_or_create(user=user)
+
     return render(request, 'carded/card.html', {
         'card': card,
-        'social_links': card.social_links.all()
+        'social_links': card.social_links.all(),
+        'created': created,  # 새로 만든 경우 표시용
     })
 
 
