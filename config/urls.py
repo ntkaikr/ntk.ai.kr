@@ -27,7 +27,7 @@ from linkn.views import redirect_short_link
 
 urlpatterns = [
 
-    path('accounts/', include('allauth.urls')),  # ✅ 이거 추가
+    #path('accounts/', include('allauth.urls')),  # ✅ 이거 추가
 
     path('admin/', admin.site.urls),
     path('tools/', include('toolhub.urls')),
