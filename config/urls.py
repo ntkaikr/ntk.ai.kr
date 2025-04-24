@@ -35,7 +35,7 @@ urlpatterns = [
     # 루트 경로에서 /tools/로 리디렉트
     path('', lambda request: redirect('toolhub:tool_list')),
 
-    path('accounts/', include('accounts.urls')),
+    #path('accounts/', include('accounts.urls')),
     path('login/', LoginView.as_view(
         template_name='registration/login.html',
         authentication_form=BootstrapAuthenticationForm
