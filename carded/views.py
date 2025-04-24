@@ -54,7 +54,7 @@ def my_card_view(request):
 # 🔹 2. 공개용 명함 (고정 링크)
 def public_card_by_username(request, username):
     user = get_object_or_404(User, username=username)
-    """
+
     #card = get_object_or_404(Card, user=user)
     card, created = Card.objects.get_or_create(user=user)
 
@@ -75,7 +75,7 @@ def public_card_by_username(request, username):
     except Exception as e:
         from django.http import HttpResponse
         return HttpResponse(f"오류 발생: {str(e)}")
-
+    """
 
 # 🔹 3. 툴 실행 시 자기 명함 리다이렉트 (옵션)
 @login_required
