@@ -27,7 +27,7 @@ from linkn.views import redirect_short_link
 
 urlpatterns = [
 
-    path('accounts/', include('allauth.urls')),  # ✅ 이거 추가
+    #path('accounts/', include('allauth.urls')),  # ✅ 이거 추가
 
     path('admin/', admin.site.urls),
     path('tools/', include('toolhub.urls')),
@@ -35,7 +35,7 @@ urlpatterns = [
     # 루트 경로에서 /tools/로 리디렉트
     path('', lambda request: redirect('toolhub:tool_list')),
 
-    #path('accounts/', include('accounts.urls')),
+    path('accounts/', include('accounts.urls')),
     path('login/', LoginView.as_view(
         template_name='registration/login.html',
         authentication_form=BootstrapAuthenticationForm
