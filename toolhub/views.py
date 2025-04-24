@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import user_passes_test
 from django.shortcuts import redirect
-from .models import Tool
+from django.db.models import Prefetch
 from .forms import ToolForm
 from django.db.models import Avg
 from .forms import CommentForm, ReplyForm
@@ -137,14 +137,17 @@ def tool_create(request):
         form = ToolForm()
     return render(request, 'toolhub/tool_form.html', {'form': form})
 
+@login_required
 def tool_list(request):
-    q = request.GET.get('q', '')
-    tools = Tool.objects.all()
-    if q:
-        tools = tools.filter(name__icontains=q)
+    user = request.user
+    profile, _ = Profile.objects.get_or_create(user=user)
 
+    # 즐겨찾기 도구를 먼저 가져오고, 나머지 도구는 생성일 기준 정렬
+    favorite_tools = profile.frequent_tools.all()
+    other_tools = Tool.objects.exclude(id__in=favorite_tools.values_list('id', flat=True)).order_by('-created_at')
 
-    # 🔥 여기서 최신 등록 순 정렬
-    tools = tools.order_by('-created_at')  # 또는 '-id' (등록 순서대로)
+    tools = list(favorite_tools) + list(other_tools)
 
-    return render(request, 'toolhub/tool_list.html', {'tools': tools})
+    return render(request, 'toolhub/tool_list.html', {
+        'tools': tools
+    })
