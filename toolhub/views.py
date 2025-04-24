@@ -149,5 +149,6 @@ def tool_list(request):
     tools = list(favorite_tools) + list(other_tools)
 
     return render(request, 'toolhub/tool_list.html', {
-        'tools': tools
+        'tools': tools,
+        'frequent_tools': favorite_tools,
     })
