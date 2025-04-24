@@ -31,7 +31,7 @@
 
 <div class="card-footer text-muted d-flex justify-content-between align-items-center">
   <div>
-    ⭐ {{ tool.average_rating }} / ❤️ {{ tool.total_likes }}
+    ⭐ {{ tool.average_rating }} / ❤️ {{ tool.total_likes }} /
     {% if user.is_authenticated %}
       {% if tool in frequent_tools %}
         <i class="bi bi-pin-angle-fill text-success ms-1" title="즐겨찾기됨"></i>
