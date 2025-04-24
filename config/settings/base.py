@@ -87,12 +87,9 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
-                    'django.template.context_processors.request',  # 필수
-                    'django.contrib.auth.context_processors.auth',
-                    'django.template.context_processors.static',
-                    'django.contrib.messages.context_processors.messages',
-                    'allauth.account.context_processors.account',
-                    'allauth.socialaccount.context_processors.socialaccount',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
             ],
         },
     },
