@@ -87,9 +87,12 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
+                    'django.template.context_processors.request',  # 필수
+                    'django.contrib.auth.context_processors.auth',
+                    'django.template.context_processors.static',
+                    'django.contrib.messages.context_processors.messages',
+                    'allauth.account.context_processors.account',
+                    'allauth.socialaccount.context_processors.socialaccount',
             ],
         },
     },
@@ -190,3 +193,19 @@ LOGIN_URL = '/login/'
 # 로그인 성공 후 이동할 기본 페이지
 LOGIN_REDIRECT_URL = '/tools/'
 
+
+
+# allauth: 소셜로그인 프로바이더 옵션
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        },
+        # 로그인 시 이메일을 반드시 가져오도록 강제하려면:
+        # 'EMAIL_VERIFICATION': 'mandatory',
+    }
+}
