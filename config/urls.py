@@ -25,7 +25,7 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(next_page='/'), name='logout'),
 
     # 4) 자체 회원가입 뷰
-    path('accounts/', include('accounts.urls')),
+    #path('accounts/', include('accounts.urls')),
 
     # 5) 내부 도구 모음 (로그인 필요)
     path('tools/', include('toolhub.urls')),
