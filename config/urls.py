@@ -12,7 +12,7 @@ from linkn.views import redirect_short_link
 
 urlpatterns = [
     # 1) allauth: 소셜/계정 관리
-    path('accounts/', include('allauth.urls')),
+    #path('accounts/', include('allauth.urls')),
 
     # 2) 관리자
     path('admin/', admin.site.urls),
@@ -25,7 +25,7 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(next_page='/'), name='logout'),
 
     # 4) 자체 회원가입 뷰
-    #path('accounts/', include('accounts.urls')),
+    path('accounts/', include('accounts.urls')),
 
     # 5) 내부 도구 모음 (로그인 필요)
     path('tools/', include('toolhub.urls')),
