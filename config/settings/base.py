@@ -192,6 +192,16 @@ LOGIN_REDIRECT_URL = '/tools/'
 
 # settings.py
 
-# Allow the session cookie to be sent to both ntk.ai.kr and www.ntk.ai.kr
+# 두 도메인(서브도메인)에서 동일한 세션 쿠키를 쓰도록
 SESSION_COOKIE_DOMAIN = ".ntk.ai.kr"
 CSRF_COOKIE_DOMAIN    = ".ntk.ai.kr"
+
+# HTTPS일 때만 Secure 쿠키가 발급되지 않도록 (개발용으로만)
+SESSION_COOKIE_SECURE = False
+CSRF_COOKIE_SECURE    = False
+
+# allauth나 POST 요청에서 CSRF 예외가 나지 않도록
+CSRF_TRUSTED_ORIGINS = [
+    "https://ntk.ai.kr",
+    "https://www.ntk.ai.kr",
+]
