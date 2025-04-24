@@ -1,7 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import user_passes_test
 from django.shortcuts import redirect
-from django.db.models import Prefetch
 from .forms import ToolForm
 from django.db.models import Avg
 from .forms import CommentForm, ReplyForm
@@ -15,6 +14,7 @@ from .models import Tool, ToolRunLog
 from django.contrib.auth import get_user_model
 from myprofile.models import Profile
 from django.contrib import messages
+
 
 User = get_user_model()
 
@@ -137,17 +137,24 @@ def tool_create(request):
         form = ToolForm()
     return render(request, 'toolhub/tool_form.html', {'form': form})
 
-#@login_required
 def tool_list(request):
-    user = request.user
-    profile, _ = Profile.objects.get_or_create(user=user)
+    """
+    익명/인증 사용자 모두에게 도구 목록을 보여줍니다.
+    인증 사용자는 즐겨찾기를, 익명 사용자는 전체 목록만 보입니다.
+    """
+    # 인증된 사용자면 Profile에서 즐겨찾기 불러오기
+    if request.user.is_authenticated:
+        profile, _ = Profile.objects.get_or_create(user=request.user)
+        favorite_tools = profile.frequent_tools.all()
+    else:
+        favorite_tools = Tool.objects.none()
 
-    # 즐겨찾기 도구를 먼저 가져오고, 나머지 도구는 생성일 기준 정렬
-    favorite_tools = profile.frequent_tools.all()
-    other_tools = Tool.objects.exclude(id__in=favorite_tools.values_list('id', flat=True)).order_by('-created_at')
+    # 즐겨찾지 않은 도구들
+    other_tools = Tool.objects.exclude(
+        id__in=favorite_tools.values_list('id', flat=True)
+    ).order_by('-created_at')
 
     tools = list(favorite_tools) + list(other_tools)
-
     return render(request, 'toolhub/tool_list.html', {
         'tools': tools,
         'frequent_tools': favorite_tools,
