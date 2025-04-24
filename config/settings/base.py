@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-67!qeycq0x@bq0_&d!uh1a$*-d8en29_pu7z=(gqya+bq&!-qt
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['43.203.89.143']
+ALLOWED_HOSTS = ['43.203.89.143','ntk.ai.kr','www.ntk.ai.kr']
 
 
 # Application definition
