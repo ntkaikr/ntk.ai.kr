@@ -13,7 +13,7 @@ class CardImageForm(forms.ModelForm):
 class SocialLinkForm(forms.ModelForm):
     class Meta:
         model = SocialLink
-        fields = ['label', 'url']
+        fields = ['label', 'url', 'description']
         widgets = {
             'label': forms.TextInput(attrs={
                 'placeholder': '예: GitHub',
@@ -21,6 +21,10 @@ class SocialLinkForm(forms.ModelForm):
             }),
             'url': forms.URLInput(attrs={
                 'placeholder': 'https://github.com/username',
+                'class': 'form-control',
+            }),
+            'description': forms.TextInput(attrs={
+                'placeholder': '설명ex : 나의 코드 포트폴리오',
                 'class': 'form-control',
             }),
         }

@@ -49,6 +49,7 @@ class SocialLink(models.Model):
     label = models.CharField(max_length=50)
     url = models.URLField()
     favicon_url = models.URLField(blank=True)
+    description = models.CharField(max_length=100, blank=True)
 
     def clean(self):
         # ✅ 카드가 지정되어 있을 때만 제한 검사
