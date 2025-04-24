@@ -27,28 +27,30 @@
 
     <div class="card-body">
       <div class="d-flex justify-content-between align-items-center">
-        <h2 class="card-title m-0">{{ tool.name }}</h2>
+
+        <h2 class="card-title">{{ tool.name }}</h2>
 
         {% if user.is_authenticated %}
-          <form method="post" action="{% url 'toolhub:toggle_tool_like' tool.id %}">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-outline-danger btn-sm">
-              ❤️ {{ tool.total_likes }}
-            </button>
-          </form>
+          <div class="d-flex gap-2 mb-2">
+            <form method="post" action="{% url 'toolhub:toggle_tool_like' tool.id %}">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-outline-danger btn-sm">
+                ❤️ {{ tool.total_likes }}
+              </button>
+            </form>
 
-          <!-- 🔥 핀 버튼 -->
-          <form method="post" action="{% url 'myprofile:add_frequent_tool' %}">
-            {% csrf_token %}
-            <input type="hidden" name="tool_id" value="{{ tool.id }}">
-            <input type="hidden" name="next" value="{{ request.get_full_path }}">
-            <button type="submit" class="btn btn-sm btn-outline-success">📌 즐겨찾기</button>
-          </form>
-
-
+            <form method="post" action="{% url 'myprofile:add_frequent_tool' %}">
+              {% csrf_token %}
+              <input type="hidden" name="tool_id" value="{{ tool.id }}">
+              <input type="hidden" name="next" value="{{ request.get_full_path }}">
+              <button type="submit" class="btn btn-sm btn-outline-success">📌 즐겨찾기</button>
+            </form>
+          </div>
         {% else %}
-          <span class="text-muted">❤️ {{ tool.total_likes }}</span>
+          <div class="text-muted mb-2">❤️ {{ tool.total_likes }}</div>
         {% endif %}
+
+
       </div>
 
       <!-- 툴 설명은 좋아요 버튼 아래로 내려오게 -->
