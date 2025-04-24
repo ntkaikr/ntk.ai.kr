@@ -26,7 +26,11 @@ SECRET_KEY = 'django-insecure-67!qeycq0x@bq0_&d!uh1a$*-d8en29_pu7z=(gqya+bq&!-qt
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['43.203.89.143','ntk.ai.kr','www.ntk.ai.kr']
+ALLOWED_HOSTS = [
+    '43.203.89.143',
+    'ntk.ai.kr',
+    'www.ntk.ai.kr',
+]
 
 
 # Application definition
@@ -185,3 +189,9 @@ LOGIN_URL = '/login/'
 
 # 로그인 성공 후 이동할 기본 페이지
 LOGIN_REDIRECT_URL = '/tools/'
+
+# settings.py
+
+# Allow the session cookie to be sent to both ntk.ai.kr and www.ntk.ai.kr
+SESSION_COOKIE_DOMAIN = ".ntk.ai.kr"
+CSRF_COOKIE_DOMAIN    = ".ntk.ai.kr"
