@@ -137,7 +137,7 @@ def tool_create(request):
         form = ToolForm()
     return render(request, 'toolhub/tool_form.html', {'form': form})
 
-@login_required
+#@login_required
 def tool_list(request):
     user = request.user
     profile, _ = Profile.objects.get_or_create(user=user)
