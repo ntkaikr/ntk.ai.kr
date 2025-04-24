@@ -28,8 +28,10 @@
     <div class="card-body">
       <div class="d-flex justify-content-between align-items-center">
 
+        <!-- 🔹툴 이름 -->
         <h2 class="card-title">{{ tool.name }}</h2>
-
+        
+        <!-- 🔹좋아요 + 즐겨찾기 버튼 영역 (다음 줄로!) -->
         {% if user.is_authenticated %}
           <div class="d-flex gap-2 mb-2">
             <form method="post" action="{% url 'toolhub:toggle_tool_like' tool.id %}">
@@ -49,6 +51,8 @@
         {% else %}
           <div class="text-muted mb-2">❤️ {{ tool.total_likes }}</div>
         {% endif %}
+
+
 
 
       </div>
