@@ -1,7 +1,5 @@
 <!-- templates/registration/login.html -->
 {% extends "base.html" %}
-{% load socialaccount %}
-{% load static %}
 {% block content %}
 <div class="container mt-5" style="max-width: 400px;">
   <h2 class="mb-4">🔐 로그인</h2>
@@ -19,15 +17,7 @@
     <button type="submit" class="btn btn-primary w-100">로그인</button>
   </form>
 
-  <hr class="my-4">
-<div class="text-center">
-  <p>또는 소셜 계정으로 로그인</p>
-  <a href="{% provider_login_url 'google' %}" class="btn btn-outline-secondary d-flex align-items-center justify-content-center mx-auto" style="max-width:240px;">
-    <img src="{% static 'icons/google-signin.png' %}" alt="Google 로그인" style="width:20px; margin-right:8px;">
-    Google로 로그인
-  </a>
-</div>
-
+  
   <div class="mt-3 text-center">
     <small>계정이 없으신가요? <a href="{% url 'signup' %}">회원가입</a></small>
   </div>
