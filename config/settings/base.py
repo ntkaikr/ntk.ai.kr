@@ -91,10 +91,6 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
 
-                # ↓ 여기부터 추가
-                'django.template.context_processors.static',              # {% static %} 태그용
-                'allauth.account.context_processors.account',            # allauth 필수
-                'allauth.socialaccount.context_processors.socialaccount',# allauth 필수
 
             ],
         },
