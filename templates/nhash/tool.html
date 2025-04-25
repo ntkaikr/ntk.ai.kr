@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}해시 생성기 | Nhash{% endblock %}
+{% block content %}
+<div class="container">
+  <h2 class="mt-4">🔒 해시 생성기</h2>
+  <form method="post" class="mb-3">{% csrf_token %}
+    <div class="mb-3">{{ form.text.label_tag }}{{ form.text }}</div>
+    <div class="mb-3">{{ form.algorithm.label_tag }}{{ form.algorithm }}</div>
+    <button class="btn btn-primary">생성</button>
+  </form>
+  {% if result %}
+    <div class="card"><div class="card-body"><code>{{ result }}</code></div></div>
+  {% endif %}
+</div>
+{% endblock %}

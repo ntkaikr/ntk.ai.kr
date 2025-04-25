@@ -68,7 +68,7 @@ INSTALLED_APPS = [
     'passgen',
     'ndate', 'nip', 'nlorem', 'nword',
     'nsys',
-    'nbase64', 'nunit',
+    'nbase64', 'nunit','nhash',
 
 ]
 
