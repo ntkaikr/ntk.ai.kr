@@ -10,7 +10,7 @@ from django.urls import reverse
 from .models import Comment
 from .models import ToolLike
 from django.http import HttpResponseForbidden
-from .models import Tool, ToolRunLog
+from .models import Tool, ToolRunLog, Category
 from django.contrib.auth import get_user_model
 from myprofile.models import Profile
 from django.contrib import messages
@@ -145,6 +145,10 @@ def tool_list(request):
     """
 
     q = request.GET.get('q', '').strip()
+    cat_slug = request.GET.get('category', '').strip()
+
+    # 카테고리 전체 가져오기 (사이드바나 탭에 뿌릴 용도)
+    categories = Category.objects.all()
 
     # 인증된 사용자면 Profile에서 즐겨찾기 불러오기
     if request.user.is_authenticated:
@@ -157,11 +161,11 @@ def tool_list(request):
     base_qs = Tool.objects.all()
 
     # 검색어가 있으면 name 또는 description 에서 부분 일치 필터링
+
     if q:
-        base_qs = base_qs.filter(
-            Q(name__icontains=q) |
-            Q(description__icontains=q)
-        )
+        base_qs = base_qs.filter(Q(name__icontains=q) | Q(description__icontains=q))
+    if cat_slug:
+        base_qs = base_qs.filter(category__slug=cat_slug)
 
     # 검색된 결과에서 즐겨찾기와 나머지를 분리
     favorite_qs = base_qs.filter(id__in=fav_ids)
@@ -173,4 +177,7 @@ def tool_list(request):
     return render(request, 'toolhub/tool_list.html', {
         'tools': tools,
         'frequent_tools': favorite_qs,
+        'categories': categories,
+        'current_category': cat_slug,
+        'search_query': q,
     })

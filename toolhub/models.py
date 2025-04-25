@@ -1,8 +1,24 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.utils import timezone  # 꼭 추가
+from django.utils.text import slugify
 
 User = get_user_model()
+
+class Category(models.Model):
+    name = models.CharField(max_length=50, unique=True)
+    slug = models.SlugField(max_length=50, unique=True, blank=True)
+
+    class Meta:
+        verbose_name_plural = "카테고리"
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.name
 
 class Tool(models.Model):
     VISIBILITY_CHOICES = [
@@ -33,6 +49,14 @@ class Tool(models.Model):
 
     managers = models.ManyToManyField(User, blank=True, related_name='managed_tools', help_text="이 툴의 관리자")
     creators = models.ManyToManyField(User, blank=True, related_name='created_tools', help_text="이 툴을 만든 사람들")
+
+    category = models.ForeignKey(
+        Category,
+        on_delete=models.SET_NULL,
+        null=True, blank=True,
+        related_name='tools',
+        help_text="이 도구가 속한 카테고리"
+    )
 
     def average_rating(self):
         comments = self.comments.all()

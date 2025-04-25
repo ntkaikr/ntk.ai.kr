@@ -1,56 +1,75 @@
-<!-- templates/toolhub/tool_list.html -->
 {% extends 'base.html' %}
 {% block content %}
 <div class="mt-4">
   <h2 class="mb-3"><i class="bi bi-wrench-adjustable"></i> 등록된 도구들</h2>
 
+  <!-- 1) 카테고리 탭 -->
+  <ul class="nav nav-pills mb-3">
+    <li class="nav-item">
+      <a class="nav-link {% if not current_category %}active{% endif %}"
+         href="{% url 'toolhub:tool_list' %}?q={{ search_query }}">
+        전체
+      </a>
+    </li>
+    {% for cat in categories %}
+    <li class="nav-item">
+      <a class="nav-link {% if cat.slug == current_category %}active{% endif %}"
+         href="{% url 'toolhub:tool_list' %}?category={{ cat.slug }}&q={{ search_query }}">
+        {{ cat.name }}
+      </a>
+    </li>
+    {% endfor %}
+  </ul>
+
+  <!-- 2) 검색 폼 -->
   <form method="get" class="mb-4">
     <div class="input-group">
-      <input type="text" name="q" class="form-control" placeholder="도구 검색..." value="{{ request.GET.q }}">
+      <input type="hidden" name="category" value="{{ current_category }}">
+      <input type="text" name="q" class="form-control"
+             placeholder="도구 검색..." value="{{ search_query }}">
       <button class="btn btn-primary">검색</button>
     </div>
   </form>
 
+  <!-- 3) 툴 카드 -->
   {% if tools %}
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
       {% for tool in tools %}
       <div class="col">
         <div class="card h-100 shadow-sm">
           {% if tool.thumbnail %}
-            <img src="{{ tool.thumbnail.url }}" class="card-img-top" style="height: 200px; object-fit: cover;">
+            <img src="{{ tool.thumbnail.url }}" class="card-img-top" style="height:200px;object-fit:cover;">
           {% else %}
-            <div class="card-img-top bg-light text-center d-flex align-items-center justify-content-center" style="height: 200px;">
+            <div class="card-img-top bg-light text-center d-flex align-items-center justify-content-center" style="height:200px;">
               <span class="text-muted">썸네일 없음</span>
             </div>
           {% endif %}
-
           <div class="card-body">
             <h5 class="card-title">{{ tool.name }}</h5>
+            {% if tool.category %}
+              <span class="badge bg-secondary mb-2">{{ tool.category.name }}</span>
+            {% endif %}
             <p class="card-text">{{ tool.description|truncatewords:20 }}</p>
           </div>
-
-<div class="card-footer text-muted d-flex justify-content-between align-items-center">
-  <div>
-    ⭐ {{ tool.average_rating }} / ❤️ {{ tool.total_likes }}
-    {% if user.is_authenticated %}
-      {% if tool in frequent_tools %}
-         / <i class="bi bi-pin-angle-fill text-success ms-1" title="즐겨찾기됨"></i>
-      {% else %}
-         / <i class="bi bi-pin-angle ms-1" title="즐겨찾기 안됨"></i>
-      {% endif %}
-    {% endif %}
-  </div>
-  <a href="{% url 'toolhub:tool_detail' tool.id %}" class="btn btn-sm btn-outline-primary">자세히</a>
-</div>
-
-
-
+          <div class="card-footer text-muted d-flex justify-content-between align-items-center">
+            <div>
+              ⭐ {{ tool.average_rating }} / ❤️ {{ tool.total_likes }}
+              {% if user.is_authenticated %}
+                {% if tool in frequent_tools %}
+                  / <i class="bi bi-pin-angle-fill text-success" title="즐겨찾기됨"></i>
+                {% else %}
+                  / <i class="bi bi-pin-angle" title="즐겨찾기 안됨"></i>
+                {% endif %}
+              {% endif %}
+            </div>
+            <a href="{% url 'toolhub:tool_detail' tool.id %}" class="btn btn-sm btn-outline-primary">자세히</a>
+          </div>
         </div>
       </div>
       {% endfor %}
     </div>
   {% else %}
-    <div class="alert alert-warning">등록된 도구가 없습니다.</div>
+    <div class="alert alert-warning">해당 카테고리에 등록된 도구가 없습니다.</div>
   {% endif %}
 </div>
 {% endblock %}
