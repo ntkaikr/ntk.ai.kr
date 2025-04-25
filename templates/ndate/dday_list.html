@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-{% block title %}D-Day 관리 | Ndate{% endblock %}
 {% block content %}
 <div class="container">
   <h2 class="mt-4">📅 D-Day 관리</h2>
@@ -7,9 +6,16 @@
     <div class="card-body">
       <form method="post">
         {% csrf_token %}
-        <div class="input-group">
-          {{ form.target_date }}
-          <button class="btn btn-primary">추가</button>
+        <div class="row g-2">
+          <div class="col-5">
+            {{ form.target_date }}
+          </div>
+          <div class="col-5">
+            {{ form.title }}
+          </div>
+          <div class="col-2 d-grid">
+            <button class="btn btn-primary">추가</button>
+          </div>
         </div>
       </form>
     </div>
@@ -20,7 +26,8 @@
     {% for item in items %}
     <li class="list-group-item d-flex justify-content-between align-items-center">
       <div>
-        {{ item.target_date }} → <strong>{{ item.status_label }}</strong>
+        <strong>{{ item.title }}</strong><br>
+        {{ item.target_date }} → <span class="fw-bold">{{ item.status_label }}</span>
       </div>
       <form method="post" action="{% url 'ndate:dday_delete' item.pk %}">
         {% csrf_token %}
