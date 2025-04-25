@@ -63,6 +63,8 @@ INSTALLED_APPS = [
     'biblecheck_youth',
     'myprofile',
     'carded',
+    'randomgen',
+    'averager',
 
 ]
 

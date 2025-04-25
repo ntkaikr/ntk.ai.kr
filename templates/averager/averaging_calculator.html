@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}평단가 계산기 | Averager{% endblock %}
+{% block content %}
+<div class="container">
+  <h2 class="mb-4">📈 물타기 계산기 (Averager) 📈</h2>
+  <p class="lead">투자의 감각을 한 단계 업그레이드! 기존 보유와 추가 매수 정보를 입력하면, 자동으로 새로운 평단가와 총 수량을 알려드립니다.</p>
+  <form method="post" class="row g-3">
+    {% csrf_token %}
+    <div class="col-md-6">{{ form.old_qty.label_tag }}{{ form.old_qty }}</div>
+    <div class="col-md-6">{{ form.old_price.label_tag }}{{ form.old_price }}</div>
+    <div class="col-md-6">{{ form.new_qty.label_tag }}{{ form.new_qty }}</div>
+    <div class="col-md-6">{{ form.new_price.label_tag }}{{ form.new_price }}</div>
+    <div class="col-12"><button class="btn btn-primary">평단가 계산하기</button></div>
+  </form>
+  {% if avg_price is not None %}
+    <hr>
+    <p><strong>총 수량:</strong> {{ total_qty }}</p>
+    <p><strong>새로운 평단가:</strong> {{ avg_price|floatformat:2 }}</p>
+  {% endif %}
+</div>
+{% endblock %}

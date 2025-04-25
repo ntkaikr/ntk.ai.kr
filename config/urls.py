@@ -56,6 +56,8 @@ urlpatterns = [
     path('myprofile/', include('myprofile.urls')),
 
     path('carded/', include('carded.urls')),
+    path('random/', include('randomgen.urls')),
+    path('averager/', include('averager.urls')),
 
 
     # 🔥 루트 슬러그 리다이렉트 지원
