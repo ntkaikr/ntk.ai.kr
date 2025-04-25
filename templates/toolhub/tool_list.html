@@ -34,6 +34,13 @@
     {% endfor %}
   </ul>
 
+    <!-- 1.1) 선택된 카테고리 설명 -->
+  {% if current_category_obj %}
+    <p class="text-muted small mb-3">
+      {{ current_category_obj.description }}
+    </p>
+  {% endif %}
+  
   <!-- 2) 검색 폼 (카테고리 파라미터 유지) -->
   <form method="get" class="mb-4">
     <div class="input-group">

@@ -154,6 +154,14 @@ def tool_list(request):
     else:
         fav_ids = []
 
+    # 2.1) 현재 카테고리 객체 (설명 표시용)
+    current_category_obj = None
+    if cat_slug and cat_slug != 'favorites':
+        try:
+            current_category_obj = Category.objects.get(slug=cat_slug)
+        except Category.DoesNotExist:
+            current_category_obj = None
+
     # 1) 기본 쿼리셋
     base_qs = Tool.objects.all()
 
@@ -184,4 +192,5 @@ def tool_list(request):
         'categories': categories,
         'current_category': cat_slug,
         'search_query': q,
+        'current_category_obj': current_category_obj,
     })
