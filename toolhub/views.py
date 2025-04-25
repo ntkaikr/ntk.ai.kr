@@ -88,87 +88,37 @@ def toggle_comment_like(request, comment_id):
         comment.likes.add(request.user)
     return HttpResponseRedirect(reverse('toolhub:tool_detail', args=[comment.tool.id]))
 
-def tool_detail(request, pk):
-    tool = get_object_or_404(Tool, pk=pk)
-    comment_form = CommentForm()
-    reply_form = ReplyForm()
-    admin_user = User.objects.get(username='admin')
-
-    # 평균 별점 계산
-    average_rating = tool.comments.aggregate(avg=Avg('stars'))['avg'] or 0
-    rounded = round(average_rating)
-
-    if request.method == 'POST':
-        if 'comment_submit' in request.POST:
-            comment_form = CommentForm(request.POST)
-            if comment_form.is_valid():
-                comment = comment_form.save(commit=False)
-                comment.tool = tool
-                comment.author = request.user
-                comment.save()
-                return redirect('toolhub:tool_detail', pk=pk)
-
-        elif 'reply_submit' in request.POST:
-            reply_form = ReplyForm(request.POST)
-            if reply_form.is_valid():
-                reply = reply_form.save(commit=False)
-                reply.author = request.user
-                reply.parent_comment_id = request.POST.get('parent_id')
-                reply.save()
-                return redirect('toolhub:tool_detail', pk=pk)
-
-    return render(request, 'toolhub/tool_detail.html', {
-        'tool': tool,
-        'comment_form': comment_form,
-        'reply_form': reply_form,
-        'average_rating': average_rating,
-        'average_rating_rounded': rounded,
-        'admin_user': admin_user,
-    })
-
-
-@user_passes_test(lambda u: u.is_superuser)
-def tool_create(request):
-    if request.method == 'POST':
-        form = ToolForm(request.POST, request.FILES)
-        if form.is_valid():
-            tool = form.save()
-            return redirect('toolhub:tool_detail', pk=tool.pk)
-    else:
-        form = ToolForm()
-    return render(request, 'toolhub/tool_form.html', {'form': form})
-
 def tool_list(request):
-    """
-    익명/인증 사용자 모두에게 도구 목록을 보여줍니다.
-    인증 사용자는 즐겨찾기를, 익명 사용자는 전체 목록만 보입니다.
-    """
     q = request.GET.get('q', '').strip()
     cat_slug = request.GET.get('category', '').strip()
 
-    # 1) 모든 카테고리(탭) 가져오기
+    # 모든 카테고리(탭) 가져오기
     categories = Category.objects.all()
 
-    # 2) 내 즐겨찾기 ID 리스트
+    # 내 즐겨찾기 ID 목록
     if request.user.is_authenticated:
         profile, _ = Profile.objects.get_or_create(user=request.user)
         fav_ids = list(profile.frequent_tools.values_list('id', flat=True))
     else:
         fav_ids = []
 
-    # 3) 카테고리·검색에 따라 기본 쿼리셋 분기
+    # 1) 기본 쿼리셋
+    base_qs = Tool.objects.all()
+
+    # 2) 카테고리 필터
     if cat_slug == 'favorites':
-        # 즐겨찾기 탭 클릭 시
-        base_qs = Tool.objects.filter(id__in=fav_ids)
-    else:
-        base_qs = Tool.objects.all()
-        if q:
-            base_qs = base_qs.filter(
-                Q(name__icontains=q) |
-                Q(description__icontains=q)
-            )
-        if cat_slug:
-            base_qs = base_qs.filter(category__slug=cat_slug)
+        # 즐겨찾기 탭
+        base_qs = base_qs.filter(id__in=fav_ids)
+    elif cat_slug:
+        # 일반 카테고리 탭
+        base_qs = base_qs.filter(category__slug=cat_slug)
+
+    # 3) 검색 필터 (항상 적용)
+    if q:
+        base_qs = base_qs.filter(
+            Q(name__icontains=q) |
+            Q(description__icontains=q)
+        )
 
     # 4) 즐겨찾기한 도구와 나머지 분리
     favorite_qs = base_qs.filter(id__in=fav_ids)
