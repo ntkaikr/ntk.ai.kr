@@ -14,12 +14,13 @@
           <button class="btn btn-info btn-lg">생성</button>
         </div>
       </form>
+
       {% if paras %}
-        <div class="border p-3 bg-light">
-          {% for para in paras %}
-            <p>{{ para }}</p>
-          {% endfor %}
-        </div>
+      <div class="border p-3 bg-light" style="line-height:1.6;">
+        {% for para in paras %}
+          <p class="mb-4">{{ para }}</p>
+        {% endfor %}
+      </div>
       {% endif %}
     </div>
   </div>
