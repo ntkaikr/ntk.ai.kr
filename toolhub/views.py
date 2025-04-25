@@ -88,6 +88,58 @@ def toggle_comment_like(request, comment_id):
         comment.likes.add(request.user)
     return HttpResponseRedirect(reverse('toolhub:tool_detail', args=[comment.tool.id]))
 
+def tool_detail(request, pk):
+    tool = get_object_or_404(Tool, pk=pk)
+    comment_form = CommentForm()
+    reply_form = ReplyForm()
+    admin_user = User.objects.get(username='admin')
+
+    # 평균 별점 계산
+    average_rating = tool.comments.aggregate(avg=Avg('stars'))['avg'] or 0
+    rounded = round(average_rating)
+
+    if request.method == 'POST':
+        if 'comment_submit' in request.POST:
+            comment_form = CommentForm(request.POST)
+            if comment_form.is_valid():
+                comment = comment_form.save(commit=False)
+                comment.tool = tool
+                comment.author = request.user
+                comment.save()
+                return redirect('toolhub:tool_detail', pk=pk)
+
+        elif 'reply_submit' in request.POST:
+            reply_form = ReplyForm(request.POST)
+            if reply_form.is_valid():
+                reply = reply_form.save(commit=False)
+                reply.author = request.user
+                reply.parent_comment_id = request.POST.get('parent_id')
+                reply.save()
+                return redirect('toolhub:tool_detail', pk=pk)
+
+    return render(request, 'toolhub/tool_detail.html', {
+        'tool': tool,
+        'comment_form': comment_form,
+        'reply_form': reply_form,
+        'average_rating': average_rating,
+        'average_rating_rounded': rounded,
+        'admin_user': admin_user,
+    })
+
+
+@user_passes_test(lambda u: u.is_superuser)
+def tool_create(request):
+    if request.method == 'POST':
+        form = ToolForm(request.POST, request.FILES)
+        if form.is_valid():
+            tool = form.save()
+            return redirect('toolhub:tool_detail', pk=tool.pk)
+    else:
+        form = ToolForm()
+    return render(request, 'toolhub/tool_form.html', {'form': form})
+
+from django.db.models import Q
+
 def tool_list(request):
     q = request.GET.get('q', '').strip()
     cat_slug = request.GET.get('category', '').strip()
