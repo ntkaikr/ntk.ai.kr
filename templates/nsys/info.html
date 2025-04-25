@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load dict_extras %}  {# 최상단에 필터 로드 추가 #}
 {% block title %}서버 모니터링 | Nsys{% endblock %}
 {% block content %}
 <div class="container">
@@ -46,34 +47,36 @@
   <div class="card mb-4 shadow">
     <div class="card-header">네트워크 인터페이스 &amp; 트래픽</div>
     <div class="card-body">
-      {% for iface, addrs in net_addrs.items %}
-        <h5 class="mt-3">{{ iface }}</h5>
-        <ul class="list-group mb-2">
-          {% for addr in addrs %}
-            <li class="list-group-item">
-              {% if addr.family == addr.family.AF_INET %}
-                <strong>IPv4 주소:</strong> {{ addr.address }}
-              {% elif addr.family == addr.family.AF_INET6 %}
-                <strong>IPv6 주소:</strong> {{ addr.address }}
-              {% elif addr.family == addr.family.AF_LINK %}
-                <strong>MAC 주소:</strong> {{ addr.address }}
-              {% else %}
-                <strong>{{ addr.family }}:</strong> {{ addr.address }}
-              {% endif %}
-            </li>
-          {% endfor %}
-        </ul>
-        {% with stats=net_io|get_item:iface %}
-          {% if stats %}
-            <ul class="list-group mb-3">
-              <li class="list-group-item"><strong>송신 바이트:</strong> {{ stats.bytes_sent|filesizeformat }}</li>
-              <li class="list-group-item"><strong>수신 바이트:</strong> {{ stats.bytes_recv|filesizeformat }}</li>
-              <li class="list-group-item"><strong>송신 패킷:</strong> {{ stats.packets_sent }}</li>
-              <li class="list-group-item"><strong>수신 패킷:</strong> {{ stats.packets_recv }}</li>
-            </ul>
-          {% endif %}
-        {% endwith %}
-      {% endfor %}
+
+{% for iface, addrs in net_addrs.items %}
+  <h5 class="mt-3">{{ iface }}</h5>
+  <ul class="list-group mb-2">
+    {% for addr in addrs %}
+      <li class="list-group-item">
+        {% if addr.family == 2 %} {# AF_INET 값이 보통 2 #}
+          <strong>IPv4 주소:</strong> {{ addr.address }}
+        {% elif addr.family == 10 %} {# AF_INET6 값이 보통 10 #}
+          <strong>IPv6 주소:</strong> {{ addr.address }}
+        {% elif addr.family == 17 %} {# AF_PACKET/AF_LINK 값이 보통 17 #}
+          <strong>MAC 주소:</strong> {{ addr.address }}
+        {% else %}
+          <strong>{{ addr.family }}:</strong> {{ addr.address }}
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+  {% with stats=net_io|get_item:iface %}
+    {% if stats %}
+      <ul class="list-group mb-3">
+        <li class="list-group-item"><strong>송신 바이트:</strong> {{ stats.bytes_sent|filesizeformat }}</li>
+        <li class="list-group-item"><strong>수신 바이트:</strong> {{ stats.bytes_recv|filesizeformat }}</li>
+        <li class="list-group-item"><strong>송신 패킷:</strong> {{ stats.packets_sent }}</li>
+        <li class="list-group-item"><strong>수신 패킷:</strong> {{ stats.packets_recv }}</li>
+      </ul>
+    {% endif %}
+  {% endwith %}
+{% endfor %}
+
     </div>
   </div>
 
