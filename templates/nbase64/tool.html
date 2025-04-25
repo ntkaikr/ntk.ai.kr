@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %}Base64 인코더·디코더 | Nbase64{% endblock %}
+{% block content %}
+<div class="container">
+  <h2 class="mt-4">🔐 Base64 인코더·디코더</h2>
+  <form method="post" class="mb-3">{% csrf_token %}
+    <div class="mb-3">{{ form.text.label_tag }}{{ form.text }}</div>
+    <div class="mb-3">{{ form.action.label_tag }}{{ form.action }}</div>
+    <button class="btn btn-primary">실행</button>
+  </form>
+  {% if error %}
+    <div class="alert alert-danger">{{ error }}</div>
+  {% elif result %}
+    <div class="card"><div class="card-body"><pre>{{ result }}</pre></div></div>
+  {% endif %}
+</div>
+{% endblock %}
