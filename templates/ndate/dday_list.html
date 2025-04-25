@@ -23,6 +23,7 @@
     <li class="list-group-item d-flex justify-content-between align-items-center">
       <div>
         <strong>{{ item.title }}</strong><br>
+        
         {{ item.target_date }} →
         {% with diff=item.days_diff %}
           {% if diff > 0 %}
