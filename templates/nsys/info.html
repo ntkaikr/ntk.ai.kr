@@ -13,7 +13,9 @@
           <li class="list-group-item"><strong>CPU 전체:</strong> {{ cpu_percent }}%</li>
           <li class="list-group-item">
             <strong>코어별 CPU:</strong>
-            {% for pct in cpu_per_core %}Core{{ forloop.counter }}: {{ pct }}%{% if not forloop.last %}, {% endif %}{% endfor %}
+            {% for pct in cpu_per_core %}
+              Core{{ forloop.counter }}: {{ pct }}%{% if not forloop.last %}, {% endif %}
+            {% endfor %}
           </li>
           <li class="list-group-item">
             <strong>메모리:</strong> {{ used_mem|filesizeformat }} / {{ total_mem|filesizeformat }} ({{ mem_percent }}%)
@@ -40,25 +42,37 @@
     </div>
   </div>
 
-  <!-- 네트워크 -->
+  <!-- 네트워크 인터페이스 & 트래픽 -->
   <div class="card mb-4 shadow">
-    <div class="card-header">네트워크 인터페이스 & 트래픽</div>
+    <div class="card-header">네트워크 인터페이스 &amp; 트래픽</div>
     <div class="card-body">
       {% for iface, addrs in net_addrs.items %}
-        <h6>{{ iface }}</h6>
-        <ul class="mb-2">
+        <h5 class="mt-3">{{ iface }}</h5>
+        <ul class="list-group mb-2">
           {% for addr in addrs %}
-            <li>
-              {{ addr.family }}: {{ addr.address }}
+            <li class="list-group-item">
+              {% if addr.family == addr.family.AF_INET %}
+                <strong>IPv4 주소:</strong> {{ addr.address }}
+              {% elif addr.family == addr.family.AF_INET6 %}
+                <strong>IPv6 주소:</strong> {{ addr.address }}
+              {% elif addr.family == addr.family.AF_LINK %}
+                <strong>MAC 주소:</strong> {{ addr.address }}
+              {% else %}
+                <strong>{{ addr.family }}:</strong> {{ addr.address }}
+              {% endif %}
             </li>
           {% endfor %}
         </ul>
-        {% if net_io.iface %}
-          <p>
-            <strong>송신:</strong> {{ net_io.iface.bytes_sent|filesizeformat }},
-            <strong>수신:</strong> {{ net_io.iface.bytes_recv|filesizeformat }}
-          </p>
-        {% endif %}
+        {% with stats=net_io|get_item:iface %}
+          {% if stats %}
+            <ul class="list-group mb-3">
+              <li class="list-group-item"><strong>송신 바이트:</strong> {{ stats.bytes_sent|filesizeformat }}</li>
+              <li class="list-group-item"><strong>수신 바이트:</strong> {{ stats.bytes_recv|filesizeformat }}</li>
+              <li class="list-group-item"><strong>송신 패킷:</strong> {{ stats.packets_sent }}</li>
+              <li class="list-group-item"><strong>수신 패킷:</strong> {{ stats.packets_recv }}</li>
+            </ul>
+          {% endif %}
+        {% endwith %}
       {% endfor %}
     </div>
   </div>
@@ -78,19 +92,21 @@
     <div class="card-header">파티션별 사용량</div>
     <ul class="list-group list-group-flush">
       {% for p in partitions %}
-      <li class="list-group-item">
-        {{ p.mount }}: {{ p.used|filesizeformat }} / {{ p.total|filesizeformat }} ({{ p.percent }}%)
-      </li>
+        <li class="list-group-item">
+          <strong>마운트 지점:</strong> {{ p.mount }}<br>
+          <strong>사용량:</strong> {{ p.used|filesizeformat }} / {{ p.total|filesizeformat }}<br>
+          <strong>사용률:</strong> {{ p.percent }}%
+        </li>
       {% endfor %}
     </ul>
   </div>
 
-  <!-- 환경 변수 -->
+  <!-- 주요 환경 변수 -->
   <div class="card mb-4 shadow">
     <div class="card-header">주요 환경 변수</div>
     <ul class="list-group list-group-flush">
       {% for key, val in env_vars.items %}
-      <li class="list-group-item"><strong>{{ key }}:</strong> {{ val }}</li>
+        <li class="list-group-item"><strong>{{ key }}:</strong> {{ val }}</li>
       {% endfor %}
     </ul>
   </div>
