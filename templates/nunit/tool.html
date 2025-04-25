@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %}단위 변환기 | Nunit{% endblock %}
+{% block content %}
+<div class="container">
+  <h2 class="mt-4">🔄 단위 변환기</h2>
+  <form method="post" class="mb-3">{% csrf_token %}
+    <div class="row g-2">
+      <div class="col-md-4">{{ form.value.label_tag }}{{ form.value }}</div>
+      <div class="col-md-4">{{ form.conversion.label_tag }}{{ form.conversion }}</div>
+      <div class="col-md-4 d-grid"><button class="btn btn-primary">변환</button></div>
+    </div>
+  </form>
+  {% if result is not None %}
+    <div class="alert alert-success">결과: {{ result }}</div>
+  {% endif %}
+</div>
+{% endblock %}

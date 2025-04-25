@@ -67,7 +67,7 @@ urlpatterns = [
 
     path('nsys/', include('nsys.urls')),
     path('nbase64/', include('nbase64.urls')),
-
+    path('nunit/', include('nunit.urls')),
 
 
     # 🔥 루트 슬러그 리다이렉트 지원
