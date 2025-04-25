@@ -65,6 +65,7 @@ INSTALLED_APPS = [
     'carded',
     'randomgen',
     'averager',
+    'passgen',
 
 ]
 
