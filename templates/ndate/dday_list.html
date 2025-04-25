@@ -7,12 +7,8 @@
       <form method="post">
         {% csrf_token %}
         <div class="row g-2">
-          <div class="col-5">
-            {{ form.target_date }}
-          </div>
-          <div class="col-5">
-            {{ form.title }}
-          </div>
+          <div class="col-5">{{ form.target_date }}</div>
+          <div class="col-5">{{ form.title }}</div>
           <div class="col-2 d-grid">
             <button class="btn btn-primary">추가</button>
           </div>
@@ -27,7 +23,16 @@
     <li class="list-group-item d-flex justify-content-between align-items-center">
       <div>
         <strong>{{ item.title }}</strong><br>
-        {{ item.target_date }} → <span class="fw-bold">{{ item.status_label }}</span>
+        {{ item.target_date }} →
+        {% with diff=item.days_diff %}
+          {% if diff > 0 %}
+            <span class="text-danger">🗓 D-{{ diff }}</span>
+          {% elif diff < 0 %}
+            <span class="text-secondary">⌛ +{{ diff|abs }}</span>
+          {% else %}
+            <span class="text-success">🎉 D-Day!</span>
+          {% endif %}
+        {% endwith %}
       </div>
       <form method="post" action="{% url 'ndate:dday_delete' item.pk %}">
         {% csrf_token %}
