@@ -2,19 +2,54 @@
 {% block title %}난수 발생기 | RandomGen{% endblock %}
 {% block content %}
 <div class="container">
-  <h2 class="mb-4">🌟 난수 발생기 (RandomGen) 🌟</h2>
-  <p class="lead">무한한 가능성을 버튼 한 번으로! 원하는 범위와 개수를 설정만 하면, 예측 불가능한 난수가 즉시 생성됩니다.</p>
-  <form method="post" class="row g-3">
-    {% csrf_token %}
-    <div class="col-md-4">{{ form.min_value.label_tag }}{{ form.min_value }}</div>
-    <div class="col-md-4">{{ form.max_value.label_tag }}{{ form.max_value }}</div>
-    <div class="col-md-4">{{ form.count.label_tag }}{{ form.count }}</div>
-    <div class="col-12"><button class="btn btn-success">난수 생성하기</button></div>
-  </form>
-  {% if result %}
-    <hr>
-    <h5>🎲 생성된 난수:</h5>
-    <p class="fs-5">{{ result|join:", " }}</p>
-  {% endif %}
+  <div class="card shadow-sm mx-auto" style="max-width: 600px;">
+    <div class="card-body">
+      <h2 class="card-title text-center mb-3">🎲 난수 발생기 (RandomGen)</h2>
+      <p class="text-center text-muted mb-4">
+        손쉽게 설정한 범위와 개수만큼<br>
+        예측 불가능한 난수를 즉시 생성하세요!
+      </p>
+
+      <form method="post" class="row g-3">
+        {% csrf_token %}
+
+        <div class="col-md-4">
+          <div class="form-floating">
+            {{ form.min_value }}
+            <label for="{{ form.min_value.id_for_label }}">최소값</label>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="form-floating">
+            {{ form.max_value }}
+            <label for="{{ form.max_value.id_for_label }}">최대값</label>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="form-floating">
+            {{ form.count }}
+            <label for="{{ form.count.id_for_label }}">생성 개수</label>
+          </div>
+        </div>
+
+        <div class="col-12">
+          <div class="d-grid">
+            <button type="submit" class="btn btn-success btn-lg">
+              난수 생성하기
+            </button>
+          </div>
+        </div>
+      </form>
+
+      {% if result %}
+        <div class="alert alert-info mt-4" role="alert">
+          <h5 class="alert-heading">✅ 생성된 난수</h5>
+          <p class="fs-5">{{ result|join:", " }}</p>
+        </div>
+      {% endif %}
+    </div>
+  </div>
 </div>
 {% endblock %}
