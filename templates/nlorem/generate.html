@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-{% block title %}Lorem Ipsum 생성기 | Nlorem{% endblock %}
 {% block content %}
 <div class="container">
   <div class="card mx-auto shadow" style="max-width:600px;">
@@ -16,11 +15,11 @@
       </form>
 
       {% if paras %}
-      <div class="border p-3 bg-light" style="line-height:1.6;">
-        {% for para in paras %}
-          <p class="mb-4">{{ para }}</p>
-        {% endfor %}
-      </div>
+        <div class="border p-3 bg-light" style="line-height:1.6;">
+          {% for para in paras %}
+            <p class="mb-4">{{ para }}</p>
+          {% endfor %}
+        </div>
       {% endif %}
     </div>
   </div>
