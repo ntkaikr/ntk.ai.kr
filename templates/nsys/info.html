@@ -3,45 +3,97 @@
 {% block content %}
 <div class="container">
   <h2 class="mt-4">🖥️ 서버 시스템 모니터링</h2>
+
   <div class="row gx-4">
-    <!-- 시스템 정보 -->
-    <div class="col-md-6">
-      <div class="card mb-4 shadow">
+    <!-- 리소스 사용량 -->
+    <div class="col-lg-6 mb-4">
+      <div class="card shadow">
         <div class="card-header">리소스 사용량</div>
         <ul class="list-group list-group-flush">
+          <li class="list-group-item"><strong>CPU 전체:</strong> {{ cpu_percent }}%</li>
           <li class="list-group-item">
-            <strong>CPU 사용률:</strong> {{ cpu_percent }}%
+            <strong>코어별 CPU:</strong>
+            {% for pct in cpu_per_core %}Core{{ forloop.counter }}: {{ pct }}%{% if not forloop.last %}, {% endif %}{% endfor %}
           </li>
           <li class="list-group-item">
-            <strong>메모리 사용량:</strong>
-            {{ used_mem|filesizeformat }} / {{ total_mem|filesizeformat }}
-            ({{ mem_percent }}%)
+            <strong>메모리:</strong> {{ used_mem|filesizeformat }} / {{ total_mem|filesizeformat }} ({{ mem_percent }}%)
           </li>
           <li class="list-group-item">
-            <strong>디스크 사용량:</strong>
-            {{ used_disk|filesizeformat }} / {{ total_disk|filesizeformat }}
-            ({{ disk_percent }}%)
+            <strong>디스크:</strong> {{ used_disk|filesizeformat }} / {{ total_disk|filesizeformat }} ({{ disk_percent }}%)
           </li>
         </ul>
       </div>
     </div>
+
     <!-- 환경 정보 -->
-    <div class="col-md-6">
-      <div class="card mb-4 shadow">
+    <div class="col-lg-6 mb-4">
+      <div class="card shadow">
         <div class="card-header">환경 정보</div>
         <ul class="list-group list-group-flush">
-          <li class="list-group-item">
-            <strong>OS:</strong> {{ os_name }} {{ os_version }}
-          </li>
-          <li class="list-group-item">
-            <strong>호스트명:</strong> {{ hostname }}
-          </li>
-          <li class="list-group-item">
-            <strong>내부 IP:</strong> {{ internal_ip }}
-          </li>
+          <li class="list-group-item"><strong>OS:</strong> {{ os_name }} {{ os_version }}</li>
+          <li class="list-group-item"><strong>호스트명:</strong> {{ hostname }}</li>
+          <li class="list-group-item"><strong>내부 IP:</strong> {{ internal_ip }}</li>
+          <li class="list-group-item"><strong>가동 시간:</strong> {{ uptime }}</li>
+          <li class="list-group-item"><strong>프로세스 수:</strong> {{ proc_count }}</li>
         </ul>
       </div>
     </div>
   </div>
+
+  <!-- 네트워크 -->
+  <div class="card mb-4 shadow">
+    <div class="card-header">네트워크 인터페이스 & 트래픽</div>
+    <div class="card-body">
+      {% for iface, addrs in net_addrs.items %}
+        <h6>{{ iface }}</h6>
+        <ul class="mb-2">
+          {% for addr in addrs %}
+            <li>
+              {{ addr.family }}: {{ addr.address }}
+            </li>
+          {% endfor %}
+        </ul>
+        {% if net_io.iface %}
+          <p>
+            <strong>송신:</strong> {{ net_io.iface.bytes_sent|filesizeformat }},
+            <strong>수신:</strong> {{ net_io.iface.bytes_recv|filesizeformat }}
+          </p>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- 로드 애버리지 -->
+  {% if load1 %}
+  <div class="card mb-4 shadow">
+    <div class="card-header">로드 평균 (1/5/15분)</div>
+    <div class="card-body">
+      {{ load1 }}, {{ load5 }}, {{ load15 }}
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- 파티션별 사용량 -->
+  <div class="card mb-4 shadow">
+    <div class="card-header">파티션별 사용량</div>
+    <ul class="list-group list-group-flush">
+      {% for p in partitions %}
+      <li class="list-group-item">
+        {{ p.mount }}: {{ p.used|filesizeformat }} / {{ p.total|filesizeformat }} ({{ p.percent }}%)
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <!-- 환경 변수 -->
+  <div class="card mb-4 shadow">
+    <div class="card-header">주요 환경 변수</div>
+    <ul class="list-group list-group-flush">
+      {% for key, val in env_vars.items %}
+      <li class="list-group-item"><strong>{{ key }}:</strong> {{ val }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+
 </div>
 {% endblock %}
