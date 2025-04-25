@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}문자·단어 카운터 | Nword{% endblock %}
+{% block content %}
+<div class="container">
+  <div class="card mx-auto shadow" style="max-width:600px;">
+    <div class="card-body">
+      <h2 class="text-center mb-3">🔢 문자·단어 카운터</h2>
+      <form method="post" class="mb-4">{% csrf_token %}
+        {{ form.content }}
+        <div class="d-grid mt-3">
+          <button class="btn btn-secondary btn-lg">카운트</button>
+        </div>
+      </form>
+      {% if char_count is not None %}
+      <div class="alert alert-success">
+        <p>문자 수: <strong>{{ char_count }}</strong></p>
+        <p>단어 수: <strong>{{ word_count }}</strong></p>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}내 IP 정보 | Nip{% endblock %}
+{% block content %}
+<div class="container">
+  <div class="card mx-auto shadow" style="max-width:480px;">
+    <div class="card-body text-center">
+      <h2 class="mb-3">🌐 내 IP 조회기</h2>
+      <p><strong>공인 IP:</strong> {{ ip }}</p>
+      <hr>
+      <p><strong>User-Agent:</strong><br><small>{{ user_agent }}</small></p>
+    </div>
+  </div>
+</div>
+{% endblock %}

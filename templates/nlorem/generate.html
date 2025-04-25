@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}Lorem Ipsum 생성기 | Nlorem{% endblock %}
+{% block content %}
+<div class="container">
+  <div class="card mx-auto shadow" style="max-width:600px;">
+    <div class="card-body">
+      <h2 class="text-center mb-3">📝 Lorem Ipsum 생성기</h2>
+      <form method="post" class="row g-3 mb-4">{% csrf_token %}
+        <div class="col-md-4 form-floating">
+          {{ form.paragraphs }}
+          <label for="{{ form.paragraphs.id_for_label }}">문단 수</label>
+        </div>
+        <div class="col-md-8 d-grid">
+          <button class="btn btn-info btn-lg">생성</button>
+        </div>
+      </form>
+      {% if text %}
+        <div class="border p-3 bg-light">
+          {% for para in text.split('\n\n') %}
+            <p>{{ para }}</p>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

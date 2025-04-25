@@ -56,9 +56,14 @@ urlpatterns = [
     path('myprofile/', include('myprofile.urls')),
 
     path('carded/', include('carded.urls')),
+
     path('random/', include('randomgen.urls')),
     path('averager/', include('averager.urls')),
     path('passgen/', include('passgen.urls')),
+    path('ndate/', include('ndate.urls')),
+    path('nip/',   include('nip.urls')),
+    path('nlorem/',include('nlorem.urls')),
+    path('nword/', include('nword.urls')),
 
 
     # 🔥 루트 슬러그 리다이렉트 지원

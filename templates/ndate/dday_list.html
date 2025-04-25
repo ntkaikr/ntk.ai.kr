@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title %}D-Day 관리 | Ndate{% endblock %}
+{% block content %}
+<div class="container">
+  <h2 class="mt-4">📅 D-Day 관리</h2>
+  <div class="card mb-4 mx-auto" style="max-width:480px;">
+    <div class="card-body">
+      <form method="post">
+        {% csrf_token %}
+        <div class="input-group">
+          {{ form.target_date }}
+          <button class="btn btn-primary">추가</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  {% if items %}
+  <ul class="list-group mx-auto" style="max-width:480px;">
+    {% for item in items %}
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+      <div>
+        {{ item.target_date }} → <strong>{{ item.status_label }}</strong>
+      </div>
+      <form method="post" action="{% url 'ndate:dday_delete' item.pk %}">
+        {% csrf_token %}
+        <button class="btn btn-sm btn-outline-danger">삭제</button>
+      </form>
+    </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+    <div class="alert alert-warning text-center">등록된 D-Day가 없습니다.</div>
+  {% endif %}
+</div>
+{% endblock %}

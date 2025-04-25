@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %}삭제 확인 | Ndate{% endblock %}
+{% block content %}
+<div class="container text-center">
+  <h3 class="mt-5">정말 이 D-Day를 삭제하시겠습니까?</h3>
+  <p>{{ obj.target_date }} → {{ obj.status_label }}</p>
+  <form method="post" class="d-inline">
+    {% csrf_token %}
+    <button class="btn btn-danger">삭제</button>
+  </form>
+  <a href="{% url 'ndate:dday_list' %}" class="btn btn-secondary">취소</a>
+</div>
+{% endblock %}
