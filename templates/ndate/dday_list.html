@@ -1,26 +1,17 @@
 {% extends 'base.html' %}
-{% block title %}D-Day 관리 | Ndate{% endblock %}
 {% block content %}
 <div class="container">
   <h2 class="mt-4">📅 D-Day 관리</h2>
-
-  <!-- 추가 폼 -->
   <div class="card mb-4 mx-auto" style="max-width:480px;">
     <div class="card-body">
       <form method="post">
         {% csrf_token %}
-        <div class="row g-2 align-items-center">
+        <div class="row g-2">
           <div class="col-5">
-            <div class="form-floating">
-              {{ form.target_date }}
-              <label for="{{ form.target_date.id_for_label }}">날짜</label>
-            </div>
+            {{ form.target_date }}
           </div>
           <div class="col-5">
-            <div class="form-floating">
-              {{ form.title }}
-              <label for="{{ form.title.id_for_label }}">제목/설명</label>
-            </div>
+            {{ form.title }}
           </div>
           <div class="col-2 d-grid">
             <button class="btn btn-primary">추가</button>
@@ -30,35 +21,23 @@
     </div>
   </div>
 
-  <!-- 등록된 D-Day 리스트 -->
   {% if items %}
-    <ul class="list-group mx-auto" style="max-width:480px;">
-      {% for item in items %}
-        {% with diff=item.days_diff %}
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-          <div>
-            <strong>{{ item.title }}</strong><br>
-            {{ item.target_date }} →
-            {% if diff > 0 %}
-              <span class="text-danger">🗓 D-{{ diff }}</span>
-            {% elif diff < 0 %}
-              <span class="text-secondary">⌛ +{{ diff|abs }}</span>
-            {% else %}
-              <span class="text-success">🎉 D-Day!</span>
-            {% endif %}
-          </div>
-          <form method="post" action="{% url 'ndate:dday_delete' item.pk %}">
-            {% csrf_token %}
-            <button class="btn btn-sm btn-outline-danger">삭제</button>
-          </form>
-        </li>
-        {% endwith %}
-      {% endfor %}
-    </ul>
+  <ul class="list-group mx-auto" style="max-width:480px;">
+    {% for item in items %}
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+      <div>
+        <strong>{{ item.title }}</strong><br>
+        {{ item.target_date }} → <span class="fw-bold">{{ item.status_label }}</span>
+      </div>
+      <form method="post" action="{% url 'ndate:dday_delete' item.pk %}">
+        {% csrf_token %}
+        <button class="btn btn-sm btn-outline-danger">삭제</button>
+      </form>
+    </li>
+    {% endfor %}
+  </ul>
   {% else %}
-    <div class="alert alert-warning text-center">
-      등록된 D-Day가 없습니다.
-    </div>
+    <div class="alert alert-warning text-center">등록된 D-Day가 없습니다.</div>
   {% endif %}
 </div>
 {% endblock %}
