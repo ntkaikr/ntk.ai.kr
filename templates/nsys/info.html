@@ -3,23 +3,44 @@
 {% block content %}
 <div class="container">
   <h2 class="mt-4">🖥️ 서버 시스템 모니터링</h2>
-  <div class="card mx-auto shadow" style="max-width:480px;">
-    <div class="card-body">
-      <ul class="list-group list-group-flush">
-        <li class="list-group-item">
-          <strong>CPU 사용률:</strong> {{ cpu_percent }}%
-        </li>
-        <li class="list-group-item">
-          <strong>메모리 사용량:</strong>
-          {{ used_mem|filesizeformat }} / {{ total_mem|filesizeformat }}
-          ({{ mem_percent }}%)
-        </li>
-        <li class="list-group-item">
-          <strong>디스크 사용량:</strong>
-          {{ used_disk|filesizeformat }} / {{ total_disk|filesizeformat }}
-          ({{ disk_percent }}%)
-        </li>
-      </ul>
+  <div class="row gx-4">
+    <!-- 시스템 정보 -->
+    <div class="col-md-6">
+      <div class="card mb-4 shadow">
+        <div class="card-header">리소스 사용량</div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+            <strong>CPU 사용률:</strong> {{ cpu_percent }}%
+          </li>
+          <li class="list-group-item">
+            <strong>메모리 사용량:</strong>
+            {{ used_mem|filesizeformat }} / {{ total_mem|filesizeformat }}
+            ({{ mem_percent }}%)
+          </li>
+          <li class="list-group-item">
+            <strong>디스크 사용량:</strong>
+            {{ used_disk|filesizeformat }} / {{ total_disk|filesizeformat }}
+            ({{ disk_percent }}%)
+          </li>
+        </ul>
+      </div>
+    </div>
+    <!-- 환경 정보 -->
+    <div class="col-md-6">
+      <div class="card mb-4 shadow">
+        <div class="card-header">환경 정보</div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+            <strong>OS:</strong> {{ os_name }} {{ os_version }}
+          </li>
+          <li class="list-group-item">
+            <strong>호스트명:</strong> {{ hostname }}
+          </li>
+          <li class="list-group-item">
+            <strong>내부 IP:</strong> {{ internal_ip }}
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </div>
