@@ -65,6 +65,8 @@ urlpatterns = [
     path('nlorem/',include('nlorem.urls')),
     path('nword/', include('nword.urls')),
 
+    path('nsys/', include('nsys.urls')),
+
 
     # 🔥 루트 슬러그 리다이렉트 지원
     path('<slug:slug>/', redirect_short_link),

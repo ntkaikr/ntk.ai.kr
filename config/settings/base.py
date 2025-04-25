@@ -67,6 +67,7 @@ INSTALLED_APPS = [
     'averager',
     'passgen',
     'ndate', 'nip', 'nlorem', 'nword',
+    'nsys',
 
 ]
 
