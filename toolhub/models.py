@@ -8,6 +8,10 @@ User = get_user_model()
 class Category(models.Model):
     name = models.CharField(max_length=50, unique=True)
     slug = models.SlugField(max_length=50, unique=True, blank=True)
+    description = models.TextField(
+        blank=True,
+        help_text="이 카테고리에 대한 간단한 설명을 입력하세요."
+    )
 
     class Meta:
         verbose_name_plural = "카테고리"

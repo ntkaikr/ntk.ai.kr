@@ -3,8 +3,9 @@ from .models import Category, Tool, Comment, Reply, ToolLike, ToolTag, ToolRunLo
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('name', 'slug')
+    list_display       = ('name', 'slug', 'description')
     prepopulated_fields = {'slug': ('name',)}
+    search_fields      = ('name', 'description')
 
 @admin.register(Tool)
 class ToolAdmin(admin.ModelAdmin):
