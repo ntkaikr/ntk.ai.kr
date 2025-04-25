@@ -14,6 +14,7 @@ from .models import Tool, ToolRunLog
 from django.contrib.auth import get_user_model
 from myprofile.models import Profile
 from django.contrib import messages
+from django.db.models import Q
 
 
 User = get_user_model()
@@ -142,20 +143,34 @@ def tool_list(request):
     익명/인증 사용자 모두에게 도구 목록을 보여줍니다.
     인증 사용자는 즐겨찾기를, 익명 사용자는 전체 목록만 보입니다.
     """
+
+    q = request.GET.get('q', '').strip()
+
     # 인증된 사용자면 Profile에서 즐겨찾기 불러오기
     if request.user.is_authenticated:
         profile, _ = Profile.objects.get_or_create(user=request.user)
-        favorite_tools = profile.frequent_tools.all()
+        fav_ids = profile.frequent_tools.values_list('id', flat=True)
     else:
-        favorite_tools = Tool.objects.none()
+        fav_ids = []
 
-    # 즐겨찾지 않은 도구들
-    other_tools = Tool.objects.exclude(
-        id__in=favorite_tools.values_list('id', flat=True)
-    ).order_by('-created_at')
+    # 기본 툴셋
+    base_qs = Tool.objects.all()
 
-    tools = list(favorite_tools) + list(other_tools)
+    # 검색어가 있으면 name 또는 description 에서 부분 일치 필터링
+    if q:
+        base_qs = base_qs.filter(
+            Q(name__icontains=q) |
+            Q(description__icontains=q)
+        )
+
+    # 검색된 결과에서 즐겨찾기와 나머지를 분리
+    favorite_qs = base_qs.filter(id__in=fav_ids)
+    other_qs    = base_qs.exclude(id__in=fav_ids).order_by('-created_at')
+
+    # 최종 렌더링할 리스트
+    tools = list(favorite_qs) + list(other_qs)
+
     return render(request, 'toolhub/tool_list.html', {
         'tools': tools,
-        'frequent_tools': favorite_tools,
+        'frequent_tools': favorite_qs,
     })
