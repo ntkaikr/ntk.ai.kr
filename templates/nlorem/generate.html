@@ -14,9 +14,9 @@
           <button class="btn btn-info btn-lg">생성</button>
         </div>
       </form>
-      {% if text %}
+      {% if paras %}
         <div class="border p-3 bg-light">
-          {% for para in text.split('\n\n') %}
+          {% for para in paras %}
             <p>{{ para }}</p>
           {% endfor %}
         </div>
