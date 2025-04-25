@@ -143,6 +143,53 @@ def tool_list(request):
     익명/인증 사용자 모두에게 도구 목록을 보여줍니다.
     인증 사용자는 즐겨찾기를, 익명 사용자는 전체 목록만 보입니다.
     """
+    q = request.GET.get('q', '').strip()
+    cat_slug = request.GET.get('category', '').strip()
+
+    # 1) 모든 카테고리(탭) 가져오기
+    categories = Category.objects.all()
+
+    # 2) 내 즐겨찾기 ID 리스트
+    if request.user.is_authenticated:
+        profile, _ = Profile.objects.get_or_create(user=request.user)
+        fav_ids = list(profile.frequent_tools.values_list('id', flat=True))
+    else:
+        fav_ids = []
+
+    # 3) 카테고리·검색에 따라 기본 쿼리셋 분기
+    if cat_slug == 'favorites':
+        # 즐겨찾기 탭 클릭 시
+        base_qs = Tool.objects.filter(id__in=fav_ids)
+    else:
+        base_qs = Tool.objects.all()
+        if q:
+            base_qs = base_qs.filter(
+                Q(name__icontains=q) |
+                Q(description__icontains=q)
+            )
+        if cat_slug:
+            base_qs = base_qs.filter(category__slug=cat_slug)
+
+    # 4) 즐겨찾기한 도구와 나머지 분리
+    favorite_qs = base_qs.filter(id__in=fav_ids)
+    other_qs    = base_qs.exclude(id__in=fav_ids).order_by('-created_at')
+
+    tools = list(favorite_qs) + list(other_qs)
+
+    return render(request, 'toolhub/tool_list.html', {
+        'tools': tools,
+        'frequent_tools': favorite_qs,
+        'categories': categories,
+        'current_category': cat_slug,
+        'search_query': q,
+    })
+
+"""
+def tool_list(request):
+    """
+    익명/인증 사용자 모두에게 도구 목록을 보여줍니다.
+    인증 사용자는 즐겨찾기를, 익명 사용자는 전체 목록만 보입니다.
+    """
 
     q = request.GET.get('q', '').strip()
     cat_slug = request.GET.get('category', '').strip()
@@ -181,3 +228,4 @@ def tool_list(request):
         'current_category': cat_slug,
         'search_query': q,
     })
+"""
