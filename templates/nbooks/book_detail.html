@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>{{ book.title }}</h2>
+    <p>목표 글자 수: {{ book.goal_word_count }}자</p>
+
+    <div class="mb-3">
+        <a href="{% url 'create_chapter' book.id %}" class="btn btn-success">챕터 추가</a>
+    </div>
+
+    {% if chapters %}
+        <ul class="list-group">
+            {% for chapter in chapters %}
+                <li class="list-group-item">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <strong>{{ chapter.title }}</strong>
+                        <a href="{% url 'create_section' chapter.id %}" class="btn btn-secondary btn-sm">섹션 추가</a>
+                    </div>
+                    {% if chapter.sections.all %}
+                        <ul class="mt-2">
+                            {% for section in chapter.sections.all %}
+                                <li class="ms-3">
+                                    <strong>{{ section.title|default:"(제목 없음)" }}</strong><br>
+                                    <small>{{ section.content|truncatewords:20 }}</small> <!-- 내용 일부 미리보기 -->
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p class="ms-3 text-muted">아직 섹션이 없습니다.</p>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>아직 챕터가 없습니다. 챕터를 추가하세요!</p>
+    {% endif %}
+</div>
+{% endblock %}

@@ -69,6 +69,9 @@ urlpatterns = [
     path('nbase64/', include('nbase64.urls')),
     path('nunit/', include('nunit.urls')),
     path('nhash/', include('nhash.urls')),
+    path('nbooks/', include('nbooks.urls')),
+
+
 
     # 🔥 루트 슬러그 리다이렉트 지원
     path('<slug:slug>/', redirect_short_link),

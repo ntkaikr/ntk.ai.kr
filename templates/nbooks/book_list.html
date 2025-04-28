@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>내 책 목록</h2>
+    <div class="mb-3">
+        <a href="{% url 'create_book' %}" class="btn btn-success">새 책 만들기</a>
+    </div>
+
+    {% if books %}
+        <ul class="list-group">
+            {% for book in books %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <div>
+                        <strong>{{ book.title }}</strong><br>
+                        <small>목표 글자 수: {{ book.goal_word_count }}자</small>
+                    </div>
+                   <a href="{% url 'book_detail' book.id %}" class="btn btn-primary btn-sm">작성 시작</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>아직 작성한 책이 없습니다. 새 책을 만들어보세요!</p>
+    {% endif %}
+</div>
+{% endblock %}

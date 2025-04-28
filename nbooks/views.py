@@ -1,3 +1,57 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from .forms import BookForm, ChapterForm, SectionForm
+from .models import Book, Chapter
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404
 
-# Create your views here.
+@login_required
+def create_section(request, chapter_id):
+    chapter = get_object_or_404(Chapter, id=chapter_id, book__owner=request.user)
+    if request.method == 'POST':
+        form = SectionForm(request.POST)
+        if form.is_valid():
+            section = form.save(commit=False)
+            section.chapter = chapter
+            section.save()
+            return redirect('book_detail', book_id=chapter.book.id)
+    else:
+        form = SectionForm()
+    return render(request, 'nbooks/create_section.html', {'form': form, 'chapter': chapter})
+
+
+@login_required
+def create_chapter(request, book_id):
+    book = get_object_or_404(Book, id=book_id, owner=request.user)
+    if request.method == 'POST':
+        form = ChapterForm(request.POST)
+        if form.is_valid():
+            chapter = form.save(commit=False)
+            chapter.book = book
+            chapter.save()
+            return redirect('book_detail', book_id=book.id)
+    else:
+        form = ChapterForm()
+    return render(request, 'nbooks/create_chapter.html', {'form': form, 'book': book})
+
+@login_required
+def book_detail(request, book_id):
+    book = get_object_or_404(Book, id=book_id, owner=request.user)
+    chapters = book.chapters.all().order_by('order')
+    return render(request, 'nbooks/book_detail.html', {'book': book, 'chapters': chapters})
+
+@login_required
+def book_list(request):
+    books = Book.objects.filter(owner=request.user).order_by('-created_at')
+    return render(request, 'nbooks/book_list.html', {'books': books})
+
+def create_book(request):
+    if request.method == 'POST':
+        form = BookForm(request.POST)
+        if form.is_valid():
+            book = form.save(commit=False)
+            book.owner = request.user
+            book.save()
+            return redirect('book_list')  # 책 목록 페이지로 이동 예정
+    else:
+        form = BookForm()
+    return render(request, 'nbooks/create_book.html', {'form': form})

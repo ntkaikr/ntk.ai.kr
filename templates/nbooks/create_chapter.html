@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>"{{ book.title }}"에 새로운 챕터 추가</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">챕터 저장</button>
+    </form>
+</div>
+{% endblock %}
