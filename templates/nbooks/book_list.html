@@ -2,25 +2,35 @@
 
 {% block content %}
 <div class="container mt-5">
-    <h2>내 책 목록</h2>
+    <h2>NBooks - {% if view_mode == 'my' %}내 책 보기{% else %}공개 책 보기{% endif %}</h2>
+
     <div class="mb-3">
-        <a href="{% url 'create_book' %}" class="btn btn-success">새 책 만들기</a>
+        <a href="{% url 'book_list' %}" class="btn btn-outline-primary {% if view_mode == 'my' %}active{% endif %}">내 책</a>
+        <a href="{% url 'public_book_list' %}" class="btn btn-outline-secondary {% if view_mode == 'public' %}active{% endif %}">공개 책</a>
+        {% if view_mode == 'my' %}
+            <a href="{% url 'create_book' %}" class="btn btn-success float-end">새 책 만들기</a>
+        {% endif %}
     </div>
 
     {% if books %}
-        <ul class="list-group">
+        <div class="row row-cols-1 row-cols-md-2 g-4">
             {% for book in books %}
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <div>
-                        <strong>{{ book.title }}</strong><br>
-                        <small>목표 글자 수: {{ book.goal_word_count }}자</small>
+                <div class="col">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ book.title }}</h5>
+                            {% if view_mode == 'public' %}
+                                <p class="card-text">작성자: {{ book.owner.username }}</p>
+                            {% endif %}
+                            <p class="card-text">목표 글자 수: {{ book.goal_word_count }}자</p>
+                            <a href="{% url 'book_detail' book.id %}" class="btn btn-primary">읽기</a>
+                        </div>
                     </div>
-                   <a href="{% url 'book_detail' book.id %}" class="btn btn-primary btn-sm">작성 시작</a>
-                </li>
+                </div>
             {% endfor %}
-        </ul>
+        </div>
     {% else %}
-        <p>아직 작성한 책이 없습니다. 새 책을 만들어보세요!</p>
+        <p>표시할 책이 없습니다.</p>
     {% endif %}
 </div>
 {% endblock %}

@@ -4,6 +4,17 @@ from .models import Book, Chapter
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
 
+
+@login_required
+def book_list(request):
+    books = Book.objects.filter(owner=request.user).order_by('-created_at')
+    return render(request, 'nbooks/book_list.html', {'books': books, 'view_mode': 'my'})
+
+@login_required
+def public_book_list(request):
+    books = Book.objects.filter(is_public=True).order_by('-created_at')
+    return render(request, 'nbooks/book_list.html', {'books': books, 'view_mode': 'public'})
+
 @login_required
 def create_section(request, chapter_id):
     chapter = get_object_or_404(Chapter, id=chapter_id, book__owner=request.user)
