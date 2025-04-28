@@ -2,6 +2,7 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
+    path('', views.book_list, name='book_list'),  # 여기가 기본 루트!
     path('create/', views.create_book, name='create_book'),
     path('list/', views.book_list, name='book_list'),  # 책 목록 페이지
     path('<int:book_id>/', views.book_detail, name='book_detail'),
