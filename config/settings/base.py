@@ -69,6 +69,7 @@ INSTALLED_APPS = [
     'ndate', 'nip', 'nlorem', 'nword',
     'nsys',
     'nbase64', 'nunit','nhash',
+    'nbooks',
 
 ]
 
