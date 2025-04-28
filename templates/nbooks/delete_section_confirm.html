@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>섹션 삭제하기</h2>
+    <p>정말로 섹션 "<strong>{{ section.title }}</strong>"을 삭제하시겠습니까?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">삭제하기</button>
+        <a href="{% url 'book_detail' section.chapter.book.id %}" class="btn btn-secondary">취소</a>
+    </form>
+</div>
+{% endblock %}

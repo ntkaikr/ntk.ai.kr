@@ -33,7 +33,11 @@
                         <ul class="list-group list-group-flush">
                             {% for section in chapter.sections.all %}
                                 <li class="list-group-item">
-                                    <strong>{{ section.title|default:"(제목 없음)" }}</strong><br>
+                                    <strong>{{ section.title|default:"(제목 없음)" }}</strong>
+                                    <a href="{% url 'edit_section' section.id %}" class="btn btn-sm btn-outline-warning ms-2">✏️ 수정</a>
+                                    <a href="{% url 'delete_section' section.id %}" class="btn btn-sm btn-outline-danger ms-2">🗑️ 삭제</a>
+
+                                    <br>
                                     <small>{{ section.content|truncatechars:100 }}</small>
                                 </li>
                             {% endfor %}

@@ -12,5 +12,7 @@ urlpatterns = [
     path('chapter/<int:chapter_id>/section/create/', views.create_section, name='create_section'),  # 섹션 추가
     path('<int:book_id>/edit/', views.edit_book, name='edit_book'),
     path('chapter/<int:chapter_id>/edit/', views.edit_chapter, name='edit_chapter'),
+    path('section/<int:section_id>/edit/', views.edit_section, name='edit_section'),
+    path('section/<int:section_id>/delete/', views.delete_section, name='delete_section'),
 
 ]

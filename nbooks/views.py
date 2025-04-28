@@ -1,8 +1,33 @@
 from django.shortcuts import render, redirect
 from .forms import BookForm, ChapterForm, SectionForm
-from .models import Book, Chapter
+from .models import Book, Chapter, Section
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
+
+@login_required
+def delete_section(request, section_id):
+    section = get_object_or_404(Section, id=section_id, chapter__book__owner=request.user)
+    book_id = section.chapter.book.id
+
+    if request.method == 'POST':
+        section.delete()
+        return redirect('book_detail', book_id=book_id)
+
+    return render(request, 'nbooks/delete_section_confirm.html', {'section': section})
+
+@login_required
+def edit_section(request, section_id):
+    section = get_object_or_404(Section, id=section_id, chapter__book__owner=request.user)
+
+    if request.method == 'POST':
+        form = SectionForm(request.POST, instance=section)
+        if form.is_valid():
+            form.save()
+            return redirect('book_detail', book_id=section.chapter.book.id)
+    else:
+        form = SectionForm(instance=section)
+
+    return render(request, 'nbooks/edit_section.html', {'form': form, 'section': section})
 
 @login_required
 def edit_chapter(request, chapter_id):
