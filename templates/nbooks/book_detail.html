@@ -13,33 +13,38 @@
         </div>
     </div>
 
-    <div class="mb-3">
-        <a href="{% url 'create_chapter' book.id %}" class="btn btn-success">챕터 추가</a>
+    <!-- 챕터 추가 버튼 -->
+    <div class="mb-4">
+        <a href="{% url 'create_chapter' book.id %}" class="btn btn-success">+ 새 챕터 추가</a>
     </div>
 
     {% if chapters %}
-        <ul class="list-group">
-            {% for chapter in chapters %}
-                <li class="list-group-item">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <strong>{{ chapter.title }}</strong>
-                        <a href="{% url 'create_section' chapter.id %}" class="btn btn-secondary btn-sm">섹션 추가</a>
-                    </div>
+        {% for chapter in chapters %}
+            <div class="card mb-3 shadow-sm">
+                <div class="card-body">
+                    <h4>{{ chapter.title }}</h4>
+
+                    <!-- 섹션 리스트 -->
                     {% if chapter.sections.all %}
-                        <ul class="mt-2">
+                        <ul class="list-group list-group-flush">
                             {% for section in chapter.sections.all %}
-                                <li class="ms-3">
+                                <li class="list-group-item">
                                     <strong>{{ section.title|default:"(제목 없음)" }}</strong><br>
-                                    <small>{{ section.content|truncatewords:20 }}</small> <!-- 내용 일부 미리보기 -->
+                                    <small>{{ section.content|truncatechars:100 }}</small>
                                 </li>
                             {% endfor %}
                         </ul>
                     {% else %}
-                        <p class="ms-3 text-muted">아직 섹션이 없습니다.</p>
+                        <p class="text-muted">아직 섹션이 없습니다.</p>
                     {% endif %}
-                </li>
-            {% endfor %}
-        </ul>
+
+                    <!-- 섹션 추가 버튼 -->
+                    <div class="mt-3">
+                        <a href="{% url 'create_section' chapter.id %}" class="btn btn-outline-primary btn-sm">+ 새 섹션 추가</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
     {% else %}
         <p>아직 챕터가 없습니다. 챕터를 추가하세요!</p>
     {% endif %}
