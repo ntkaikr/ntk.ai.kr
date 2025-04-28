@@ -5,6 +5,21 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
 
 @login_required
+def edit_book(request, book_id):
+    book = get_object_or_404(Book, id=book_id, owner=request.user)
+
+    if request.method == 'POST':
+        form = BookForm(request.POST, instance=book)
+        if form.is_valid():
+            form.save()
+            return redirect('book_list')
+    else:
+        form = BookForm(instance=book)
+
+    return render(request, 'nbooks/edit_book.html', {'form': form, 'book': book})
+
+
+@login_required
 def read_book(request, book_id):
     book = get_object_or_404(Book, id=book_id)
 

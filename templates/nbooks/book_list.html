@@ -35,6 +35,8 @@
                             <p class="card-text">목표 글자 수: {{ book.goal_word_count }}자</p>
 
                             <a href="{% url 'read_book' book.id %}" class="btn btn-primary">읽기</a>
+                            <a href="{% url 'edit_book' book.id %}" class="btn btn-warning btn-sm ms-2">수정</a>
+
                         </div>
                     </div>
                 </div>
