@@ -4,6 +4,18 @@ from .models import Book, Chapter
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
 
+@login_required
+def read_book(request, book_id):
+    book = get_object_or_404(Book, id=book_id)
+
+    # 본인 책이 아니고 비공개면 404
+    if not book.is_public and book.owner != request.user:
+        return render(request, '404.html', status=404)
+
+    chapters = book.chapters.all().order_by('order')
+
+    return render(request, 'nbooks/read_book.html', {'book': book, 'chapters': chapters})
+
 
 @login_required
 def book_list(request):
@@ -48,7 +60,27 @@ def create_chapter(request, book_id):
 def book_detail(request, book_id):
     book = get_object_or_404(Book, id=book_id, owner=request.user)
     chapters = book.chapters.all().order_by('order')
-    return render(request, 'nbooks/book_detail.html', {'book': book, 'chapters': chapters})
+
+    total_word_count = 0
+    for chapter in chapters:
+        for section in chapter.sections.all():
+            if section.content:
+                total_word_count += len(section.content)
+
+    if book.goal_word_count > 0:
+        progress = int((total_word_count / book.goal_word_count) * 100)
+        if progress > 100:
+            progress = 100
+    else:
+        progress = 0
+
+    return render(request, 'nbooks/book_detail.html', {
+        'book': book,
+        'chapters': chapters,
+        'total_word_count': total_word_count,
+        'progress': progress,
+    })
+
 
 @login_required
 def book_list(request):

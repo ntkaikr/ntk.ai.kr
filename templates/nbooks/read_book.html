@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5" style="max-width: 800px; font-size: 1.15rem; line-height: 1.8;">
+    <h2 class="mb-4 text-center">{{ book.title }}</h2>
+
+    {% if chapters %}
+        {% for chapter in chapters %}
+            <div class="mb-5">
+                <h4>{{ chapter.title }}</h4>
+
+                {% for section in chapter.sections.all %}
+                    <div class="mt-3">
+                        <h6>{{ section.title|default:"(제목 없음)" }}</h6>
+                        <p>{{ section.content|linebreaks }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>아직 내용이 없습니다.</p>
+    {% endif %}
+</div>
+{% endblock %}

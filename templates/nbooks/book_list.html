@@ -18,7 +18,18 @@
                 <div class="col">
                     <div class="card h-100 shadow-sm">
                         <div class="card-body">
-                            <h5 class="card-title">{{ book.title }}</h5>
+
+                            <h5 class="card-title">
+                                {{ book.title }}
+                                {% if view_mode == 'my' %}
+                                    {% if book.is_public %}
+                                        <span title="공개" class="ms-2">🔓</span>
+                                    {% else %}
+                                        <span title="비공개" class="ms-2">🔒</span>
+                                    {% endif %}
+                                {% endif %}
+                            </h5>
+
                             {% if view_mode == 'public' %}
                                 <p class="card-text">작성자: {{ book.owner.username }}</p>
                             {% endif %}

@@ -25,8 +25,9 @@ class ChapterForm(forms.ModelForm):
 class BookForm(forms.ModelForm):
     class Meta:
         model = Book
-        fields = ['title', 'goal_word_count']
+        fields = ['title', 'goal_word_count', 'is_public']  # is_public 추가
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control', 'placeholder': '책 제목을 입력하세요'}),
             'goal_word_count': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': '목표 글자 수'}),
+            'is_public': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
         }

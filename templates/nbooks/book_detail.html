@@ -4,7 +4,15 @@
 <div class="container mt-5">
     <h2>{{ book.title }}</h2>
     <p>목표 글자 수: {{ book.goal_word_count }}자</p>
+    <p>작성한 글자 수: {{ total_word_count }}자</p>
 
+    <!-- 진행률 Progress Bar -->
+    <div class="progress mb-4" style="height: 25px;">
+        <div class="progress-bar bg-success" role="progressbar" style="width: {{ progress }}%;" aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100">
+            {{ progress }}%
+        </div>
+    </div>
+    
     <div class="mb-3">
         <a href="{% url 'create_chapter' book.id %}" class="btn btn-success">챕터 추가</a>
     </div>
