@@ -22,9 +22,8 @@ from django.conf import settings
 from django.conf.urls.static import static
 from accounts.forms import BootstrapAuthenticationForm
 from django.contrib.auth.views import LoginView
-# ShortLink 리다이렉션 (링큰 앱 슬러그 기반)
 from linkn.views import redirect_short_link
-from nbooks import views
+
 
 
 urlpatterns = [
@@ -71,8 +70,7 @@ urlpatterns = [
     path('nbase64/', include('nbase64.urls')),
     path('nunit/', include('nunit.urls')),
     path('nhash/', include('nhash.urls')),
-    #path('nbooks/', include('nbooks.urls')),
-    path('nbooks/', views.book_list, name='book_list'),  # 기본을 '내 책 목록'으로 연결
+    path('nbooks/', include('nbooks.urls')),
 
 
 
