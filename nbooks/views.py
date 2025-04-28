@@ -16,11 +16,13 @@ def read_book(request, book_id):
 
     return render(request, 'nbooks/read_book.html', {'book': book, 'chapters': chapters})
 
-
 @login_required
 def book_list(request):
     books = Book.objects.filter(owner=request.user).order_by('-created_at')
-    return render(request, 'nbooks/book_list.html', {'books': books, 'view_mode': 'my'})
+    return render(request, 'nbooks/book_list.html', {
+        'books': books,
+        'view_mode': 'my',  # <= view_mode 누락 방지
+    })
 
 @login_required
 def public_book_list(request):
@@ -81,11 +83,6 @@ def book_detail(request, book_id):
         'progress': progress,
     })
 
-
-@login_required
-def book_list(request):
-    books = Book.objects.filter(owner=request.user).order_by('-created_at')
-    return render(request, 'nbooks/book_list.html', {'books': books})
 
 def create_book(request):
     if request.method == 'POST':
