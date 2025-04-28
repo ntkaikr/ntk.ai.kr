@@ -7,7 +7,7 @@
     <div class="mb-3">
         <a href="{% url 'book_list' %}" class="btn btn-outline-primary {% if view_mode == 'my' %}active{% endif %}">내 책</a>
         <a href="{% url 'public_book_list' %}" class="btn btn-outline-secondary {% if view_mode == 'public' %}active{% endif %}">공개 책</a>
-        <a href="{% url 'create_book' %}" class="btn btn-success float-end">새 책 만들기</a> <!-- 항상 표시 -->
+        <a href="{% url 'create_book' %}" class="btn btn-success float-end">새 책 만들기</a>
     </div>
 
     {% if books %}
@@ -29,10 +29,12 @@
                             </h5>
 
                             {% if view_mode == 'public' %}
-                                <p class="card-text">작성자: {{ book.owner.username }}</p>
+                                <p class="card-text"><small class="text-muted">작성자: {{ book.owner.username }}</small></p>
                             {% endif %}
+
                             <p class="card-text">목표 글자 수: {{ book.goal_word_count }}자</p>
-                            <a href="{% url 'book_detail' book.id %}" class="btn btn-primary">읽기</a>
+
+                            <a href="{% url 'read_book' book.id %}" class="btn btn-primary">읽기</a>
                         </div>
                     </div>
                 </div>
