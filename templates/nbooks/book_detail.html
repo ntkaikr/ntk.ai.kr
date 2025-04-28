@@ -22,7 +22,11 @@
         {% for chapter in chapters %}
             <div class="card mb-3 shadow-sm">
                 <div class="card-body">
-                    <h4>{{ chapter.title }}</h4>
+                    <h4>
+                        {{ chapter.title }}
+                        <a href="{% url 'edit_chapter' chapter.id %}" class="btn btn-sm btn-outline-warning ms-2">✏️ 수정</a>
+                    </h4>
+
 
                     <!-- 섹션 리스트 -->
                     {% if chapter.sections.all %}

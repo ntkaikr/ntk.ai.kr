@@ -11,5 +11,6 @@ urlpatterns = [
     path('<int:book_id>/chapter/create/', views.create_chapter, name='create_chapter'),  # 챕터 추가
     path('chapter/<int:chapter_id>/section/create/', views.create_section, name='create_section'),  # 섹션 추가
     path('<int:book_id>/edit/', views.edit_book, name='edit_book'),
+    path('chapter/<int:chapter_id>/edit/', views.edit_chapter, name='edit_chapter'),
 
 ]
