@@ -83,7 +83,7 @@ def book_detail(request, book_id):
         'progress': progress,
     })
 
-
+@login_required
 def create_book(request):
     if request.method == 'POST':
         form = BookForm(request.POST)
