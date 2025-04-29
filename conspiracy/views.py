@@ -15,8 +15,8 @@ def post_list(request):
 
 def post_detail(request, pk):
     post = get_object_or_404(BoardPost, pk=pk)
-    # 최상위 댓글만
-    comments = post.comments.filter(parent__isnull=True)
+    # 최상위 댓글만 가져오기
+    comments = Comment.objects.filter(post=post, parent__isnull=True)
     return render(request, 'conspiracy/detail.html', {
         'post': post,
         'comments': comments
