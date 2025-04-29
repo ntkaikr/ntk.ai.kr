@@ -3,6 +3,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .models import BoardPost
+# conspiracy/views.py
+
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
+from .models import BoardPost, Comment
 
 def post_list(request):
     posts = BoardPost.objects.order_by('-created_at')
@@ -10,7 +15,41 @@ def post_list(request):
 
 def post_detail(request, pk):
     post = get_object_or_404(BoardPost, pk=pk)
-    return render(request, 'conspiracy/detail.html', {'post': post})
+    # 최상위 댓글만
+    comments = post.comments.filter(parent__isnull=True)
+    return render(request, 'conspiracy/detail.html', {
+        'post': post,
+        'comments': comments
+    })
+
+@login_required
+def add_comment(request, pk):
+    post = get_object_or_404(BoardPost, pk=pk)
+    if request.method == 'POST':
+        content = request.POST.get('content','').strip()
+        if content:
+            Comment.objects.create(
+                post=post,
+                parent=None,
+                author=request.user,
+                content=content
+            )
+    return redirect('conspiracy:detail', pk=pk)
+
+@login_required
+def add_reply(request, cid):
+    parent = get_object_or_404(Comment, pk=cid)
+    if request.method == 'POST':
+        content = request.POST.get('content','').strip()
+        if content:
+            Comment.objects.create(
+                post=parent.post,
+                parent=parent,
+                author=request.user,
+                content=content
+            )
+    return redirect('conspiracy:detail', pk=parent.post.pk)
+
 
 @login_required
 def post_create(request):
