@@ -15,8 +15,8 @@ def post_detail(request, pk):
 @login_required
 def post_create(request):
     # 유료 구독자만
-    if not request.user.is_conspirator:
-        return redirect('payment:subscribe')  # 결제 페이지 URL 이름
+    #if not request.user.is_conspirator:
+    #    return redirect('payment:subscribe')  # 결제 페이지 URL 이름
     if request.method == 'POST':
         BoardPost.objects.create(
             author  = request.user,
