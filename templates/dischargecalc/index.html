@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container py-5" style="max-width: 480px;">
+  <h1 class="mb-4 text-center">🪖 전역일 계산기</h1>
+
+  {% if error %}
+    <div class="alert alert-danger">{{ error }}</div>
+  {% endif %}
+
+  <form method="post" action="{% url 'dischargecalc:result' %}" class="p-4 border rounded-3 bg-light shadow-sm">
+    {% csrf_token %}
+    <div class="mb-3">
+      <label for="enlist_date" class="form-label">입대일</label>
+      <input type="date" class="form-control" id="enlist_date" name="enlist_date" value="{{ today }}" required>
+    </div>
+    <div class="mb-3">
+      <label for="military_branch" class="form-label">군별</label>
+      <select class="form-select" id="military_branch" name="military_branch" required>
+        <option value="">선택하세요</option>
+        <option value="육군">육군</option>
+        <option value="해군">해군</option>
+        <option value="공군">공군</option>
+        <option value="해병대">해병대</option>
+        <option value="기타">기타</option>
+      </select>
+    </div>
+    <div class="mb-3">
+      <label for="service_type" class="form-label">복무 형태</label>
+      <select class="form-select" id="service_type" name="service_type" required>
+        <option value="">선택하세요</option>
+        <option value="현역">현역</option>
+        <option value="상근예비역">상근예비역</option>
+        <option value="사회복무요원">사회복무요원</option>
+        <option value="전문연구요원">전문연구요원</option>
+      </select>
+    </div>
+    <div class="mb-3">
+      <label for="rank_type" class="form-label">계급</label>
+      <select class="form-select" id="rank_type" name="rank_type">
+        <option value="병사">병사</option>
+        <option value="부사관">부사관</option>
+        <option value="장교">장교</option>
+      </select>
+    </div>
+    <button type="submit" class="btn btn-primary w-100">계산하기</button>
+  </form>
+</div>
+{% endblock %}

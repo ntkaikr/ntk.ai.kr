@@ -73,6 +73,7 @@ INSTALLED_APPS = [
     'agecalc',
     'centurycalc',
     'conspiracy',
+    'dischargecalc',
 ]
 
 MIDDLEWARE = [

@@ -76,6 +76,7 @@ urlpatterns = [
     path('agecalc/', include('agecalc.urls')),  # AgeCalc
     path('centurycalc/', include('centurycalc.urls')),  # CenturyCalc
     path('conspiracy/', include('conspiracy.urls')),  # ConspiracyBoard
+    path('dischargecalc/', include('dischargecalc.urls')),
 
 
     # 🔥 루트 슬러그 리다이렉트 지원

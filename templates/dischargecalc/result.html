@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container py-5" style="max-width: 480px;">
+  <h1 class="mb-4 text-center">🪖 전역일 계산 결과</h1>
+
+  <ul class="list-group mb-4 shadow-sm">
+    <li class="list-group-item">입대일: <strong>{{ enlist_date }}</strong></li>
+    <li class="list-group-item">전역 예정일: <strong>{{ discharge_date }}</strong></li>
+    <li class="list-group-item">남은 날짜 (D-Day): <strong>{{ d_day }}일</strong></li>
+    <li class="list-group-item">군별: {{ military_branch }}</li>
+    <li class="list-group-item">복무 형태: {{ service_type }}</li>
+    <li class="list-group-item">계급: {{ rank_type }}</li>
+  </ul>
+
+  <div class="alert alert-success shadow-sm">
+    🛡 예비군 예상 기간: <strong>{{ reservist_start_year }}년 ~ {{ reservist_end_year }}년</strong><br>
+    🚨 민방위 시작 예정: <strong>{{ civil_defense_start_year }}년</strong>
+  </div>
+
+  <a href="{% url 'dischargecalc:index' %}" class="btn btn-secondary w-100 mt-4">다시 계산하기</a>
+</div>
+{% endblock %}
