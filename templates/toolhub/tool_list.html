@@ -3,38 +3,46 @@
 <div class="mt-4">
   <h2 class="mb-3"><i class="bi bi-wrench-adjustable"></i> 등록된 도구들</h2>
 
-  <!-- 1) 카테고리 + 즐겨찾기 탭 -->
-  <ul class="nav nav-pills mb-3">
-    <!-- 전체 -->
-    <li class="nav-item">
-      <a class="nav-link {% if not current_category %}active{% endif %}"
-         href="{% url 'toolhub:tool_list' %}?q={{ search_query }}">
-        전체
-      </a>
-    </li>
+  <!-- 1) 카테고리 + 즐겨찾기 탭 (토글 버튼 포함) -->
+  <div class="mb-3">
+    <button class="btn btn-outline-secondary btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#categoryCollapse" aria-expanded="false" aria-controls="categoryCollapse">
+      📂 카테고리 보기/접기
+    </button>
+  </div>
 
-    <!-- ⭐ 즐겨찾기 (로그인 사용자만) -->
-    {% if user.is_authenticated %}
-    <li class="nav-item">
-      <a class="nav-link {% if current_category == 'favorites' %}active{% endif %}"
-         href="{% url 'toolhub:tool_list' %}?category=favorites&q={{ search_query }}">
-        ⭐ 즐겨찾기
-      </a>
-    </li>
-    {% endif %}
+  <div class="collapse" id="categoryCollapse">
+    <ul class="nav nav-pills mb-3">
+      <!-- 전체 -->
+      <li class="nav-item">
+        <a class="nav-link {% if not current_category %}active{% endif %}"
+           href="{% url 'toolhub:tool_list' %}?q={{ search_query }}">
+          전체
+        </a>
+      </li>
 
-    <!-- 나머지 카테고리 -->
-    {% for cat in categories %}
-    <li class="nav-item">
-      <a class="nav-link {% if cat.slug == current_category %}active{% endif %}"
-         href="{% url 'toolhub:tool_list' %}?category={{ cat.slug }}&q={{ search_query }}">
-        {{ cat.name }}
-      </a>
-    </li>
-    {% endfor %}
-  </ul>
+      <!-- 즐겨찾기 -->
+      {% if user.is_authenticated %}
+      <li class="nav-item">
+        <a class="nav-link {% if current_category == 'favorites' %}active{% endif %}"
+           href="{% url 'toolhub:tool_list' %}?category=favorites&q={{ search_query }}">
+          ⭐ 즐겨찾기
+        </a>
+      </li>
+      {% endif %}
 
-    <!-- 1.1) 선택된 카테고리 설명 -->
+      <!-- 나머지 카테고리 -->
+      {% for cat in categories %}
+      <li class="nav-item">
+        <a class="nav-link {% if cat.slug == current_category %}active{% endif %}"
+           href="{% url 'toolhub:tool_list' %}?category={{ cat.slug }}&q={{ search_query }}">
+          {{ cat.name }}
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <!-- 선택된 카테고리 설명 -->
   {% if current_category_obj %}
     <p class="text-muted small mb-3">
       {{ current_category_obj.description }}
