@@ -1,16 +1,29 @@
 {% extends "base.html" %}
 {% block content %}
-  <h2>{% if post %}Conspiracy 글 수정{% else %}Conspiracy 새 글 작성{% endif %}</h2>
-  <form method="post">{% csrf_token %}
-    <div>
-      <label>제목:<input type="text" name="title" value="{{ post.title|default_if_none:'' }}" required></label>
+<div class="container py-5" style="max-width: 600px;">
+  <div class="card">
+    <div class="card-header">
+      <h5 class="mb-0">{% if post %}글 수정{% else %}새 글 작성{% endif %}</h5>
     </div>
-    <div>
-      <label>내용:<br>
-        <textarea name="content" rows="8" required>{{ post.content|default_if_none:'' }}</textarea>
-      </label>
+    <div class="card-body">
+      <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+          <label for="id_title" class="form-label">제목</label>
+          <input type="text" id="id_title" name="title"
+                 class="form-control" value="{{ post.title|default_if_none:'' }}" required>
+        </div>
+        <div class="mb-3">
+          <label for="id_content" class="form-label">내용</label>
+          <textarea id="id_content" name="content" rows="8"
+                    class="form-control" required>{{ post.content|default_if_none:'' }}</textarea>
+        </div>
+        <div class="d-flex justify-content-between">
+          <a href="{% url 'conspiracy:list' %}" class="btn btn-secondary">취소</a>
+          <button type="submit" class="btn btn-primary">저장</button>
+        </div>
+      </form>
     </div>
-    <button type="submit">저장</button>
-  </form>
-  <a href="{% url 'conspiracy:list' %}">목록으로</a>
+  </div>
+</div>
 {% endblock %}

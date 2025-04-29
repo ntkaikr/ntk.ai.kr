@@ -1,9 +1,21 @@
 {% extends "base.html" %}
 {% block content %}
-  <h2>Conspiracy 글을 삭제하시겠습니까?</h2>
-  <p>“{{ post.title }}”</p>
-  <form method="post">{% csrf_token %}
-    <button type="submit">예, 삭제</button>
-    <a href="{% url 'conspiracy:detail' post.pk %}">취소</a>
-  </form>
+<div class="container py-5" style="max-width: 500px;">
+  <div class="card border-danger">
+    <div class="card-header bg-danger text-white">
+      <h5 class="mb-0">글 삭제 확인</h5>
+    </div>
+    <div class="card-body">
+      <p>정말 아래 글을 삭제하시겠습니까?</p>
+      <blockquote class="blockquote">
+        <p class="mb-0">{{ post.title }}</p>
+      </blockquote>
+      <form method="post" class="d-flex justify-content-between">
+        {% csrf_token %}
+        <a href="{% url 'conspiracy:detail' post.pk %}" class="btn btn-secondary">취소</a>
+        <button type="submit" class="btn btn-danger">예, 삭제</button>
+      </form>
+    </div>
+  </div>
+</div>
 {% endblock %}

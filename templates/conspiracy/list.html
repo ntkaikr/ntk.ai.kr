@@ -1,16 +1,23 @@
 {% extends "base.html" %}
 {% block content %}
-  <h2>ConspiracyBoard</h2>
-  <p><strong>흥미진진한 거부할 수 없는 이야기들</strong></p>
-  <a href="{% url 'conspiracy:create' %}">새 글 작성</a>
-  <ul>
+<div class="container py-5" style="max-width: 800px;">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h2>Conspiracy</h2>
+      <p class="text-muted">흥미진진한 거부할 수 없는 이야기들</p>
+    </div>
+    <a href="{% url 'conspiracy:create' %}" class="btn btn-primary">새 글 작성</a>
+  </div>
+
+  <ul class="list-group">
     {% for post in posts %}
-      <li>
-        <a href="{% url 'conspiracy:detail' post.pk %}">{{ post.title }}</a>
-        <small>({{ post.created_at|date:"Y-m-d" }})</small>
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        <a href="{% url 'conspiracy:detail' post.pk %}" class="flex-grow-1">{{ post.title }}</a>
+        <small class="text-muted">{{ post.created_at|date:"Y-m-d" }}</small>
       </li>
     {% empty %}
-      <li>아직 등록된 글이 없습니다.</li>
+      <li class="list-group-item text-center text-muted">아직 등록된 글이 없습니다.</li>
     {% endfor %}
   </ul>
+</div>
 {% endblock %}
