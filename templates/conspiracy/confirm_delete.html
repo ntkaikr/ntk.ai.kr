@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-  <h2>정말 삭제하시겠습니까?</h2>
+  <h2>Conspiracy 글을 삭제하시겠습니까?</h2>
   <p>“{{ post.title }}”</p>
   <form method="post">{% csrf_token %}
     <button type="submit">예, 삭제</button>

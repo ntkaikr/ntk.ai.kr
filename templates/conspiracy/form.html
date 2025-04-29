@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-  <h2>{% if post %}글 수정{% else %}새 글 작성{% endif %}</h2>
+  <h2>{% if post %}Conspiracy 글 수정{% else %}Conspiracy 새 글 작성{% endif %}</h2>
   <form method="post">{% csrf_token %}
     <div>
       <label>제목:<input type="text" name="title" value="{{ post.title|default_if_none:'' }}" required></label>

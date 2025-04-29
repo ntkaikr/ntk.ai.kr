@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
   <h2>ConspiracyBoard</h2>
-  <p><strong>흥미진진한 음모론, 여기서 펼쳐져!</strong></p>
+  <p><strong>흥미진진한 거부할 수 없는 이야기들</strong></p>
   <a href="{% url 'conspiracy:create' %}">새 글 작성</a>
   <ul>
     {% for post in posts %}
