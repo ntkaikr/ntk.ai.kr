@@ -1,9 +1,8 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="container py-5" style="max-width: 480px;">
-  <h1 class="mb-3">🔄 한국 ↔ 만 나이 변환</h1>
-
   {% include 'agecalc/partials/buttons.html' %}
+  <h1 class="mb-3">🔄 한국 ↔ 만 나이 변환</h1>
 
   {% if error %}
     <div class="alert alert-danger">{{ error }}</div>
