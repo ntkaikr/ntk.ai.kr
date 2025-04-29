@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+  <h2>AgeCalc</h2>
+  <p><strong>나이 계산은 모두 여기서!</strong></p>
+
+  <form method="post" action="{% url 'agecalc:calculate' %}">
+    {% csrf_token %}
+    <div>
+      <label>생년월일:
+        <input type="date" name="birth_date" required>
+      </label>
+    </div>
+    <div>
+      <label>기준일 (선택, 미입력 시 오늘):
+        <input type="date" name="target_date">
+      </label>
+    </div>
+    <div>
+      <label>
+        <input type="checkbox" name="use_lunar"> 음력 생일 계산
+      </label>
+    </div>
+    <button type="submit">계산하기</button>
+  </form>
+{% endblock %}

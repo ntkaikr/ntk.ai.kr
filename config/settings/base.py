@@ -70,7 +70,7 @@ INSTALLED_APPS = [
     'nsys',
     'nbase64', 'nunit','nhash',
     'nbooks',
-
+    'agecalc',
 ]
 
 MIDDLEWARE = [

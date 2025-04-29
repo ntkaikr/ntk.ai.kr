@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+  <h2>계산 결과</h2>
+  <ul>
+    <li>만 나이: {{ age }}세</li>
+    <li>한국식 나이: {{ korean_age }}세</li>
+    <li>생일 (양력 기준): {{ birth_date }}</li>
+    <li>기준일: {{ target_date }}</li>
+  </ul>
+  <a href="{% url 'agecalc:index' %}">다시 계산하기</a>
+{% endblock %}

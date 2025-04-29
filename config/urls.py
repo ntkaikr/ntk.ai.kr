@@ -72,6 +72,10 @@ urlpatterns = [
     path('nhash/', include('nhash.urls')),
     path('nbooks/', include('nbooks.urls')),
 
+    # 툴허브 전체 대신, 각각 루트에 바로 등록
+    path('agecalc/', include('agecalc.urls')),  # AgeCalc
+    path('centurycalc/', include('centurycalc.urls')),  # CenturyCalc
+    path('conspiracy/', include('conspiracy.urls')),  # ConspiracyBoard
 
 
     # 🔥 루트 슬러그 리다이렉트 지원
