@@ -1,14 +1,21 @@
 {% extends "base.html" %}
 {% block content %}
-  <h2>CenturyCalc</h2>
-  <p><strong>내가 사는 세기, 바로 확인!</strong></p>
+<div class="container py-5" style="max-width: 480px;">
+  <h1 class="mb-3">CenturyCalc</h1>
+  <p class="lead">내가 사는 세기, 바로 확인!</p>
+
+  {% if error %}
+    <div class="alert alert-danger">{{ error }}</div>
+  {% endif %}
 
   <form method="post" action="{% url 'centurycalc:calculate' %}">
     {% csrf_token %}
-    <label>
-      생년월일:
-      <input type="date" name="birth_date" required>
-    </label>
-    <button type="submit">세기 계산</button>
+    <div class="mb-3">
+      <label for="birth_date" class="form-label">생년월일</label>
+      <input type="date" class="form-control" id="birth_date" name="birth_date"
+             value="{{ today }}" required>
+    </div>
+    <button type="submit" class="btn btn-primary w-100">세기 계산</button>
   </form>
+</div>
 {% endblock %}

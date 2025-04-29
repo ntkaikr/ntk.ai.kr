@@ -3,9 +3,9 @@
 from django.urls import path
 from . import views
 
+app_name = 'centurycalc'   # <--- 추가
+
 urlpatterns = [
-    # GET  https://www.ntk.ai.kr/centurycalc/
-    path('', views.index, name='index'),
-    # POST https://www.ntk.ai.kr/centurycalc/calculate/
+    path('',           views.index,     name='index'),
     path('calculate/', views.calculate, name='calculate'),
 ]

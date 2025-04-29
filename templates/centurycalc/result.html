@@ -1,9 +1,11 @@
 {% extends "base.html" %}
 {% block content %}
-  <h2>세기 계산 결과</h2>
-  <ul>
-    <li>당신이 살고 있는 세기: <strong>{{ century }}세기</strong></li>
-    <li>해당 기간: {{ span }}</li>
+<div class="container py-5" style="max-width: 480px;">
+  <h1 class="mb-3">세기 계산 결과</h1>
+  <ul class="list-group mb-3">
+    <li class="list-group-item"> 내가 살고 있는 세기: <strong>{{ century }}세기</strong></li>
+    <li class="list-group-item"> 해당 기간: {{ span }}</li>
   </ul>
-  <a href="{% url 'centurycalc:index' %}">다시 계산하기</a>
+  <a href="{% url 'centurycalc:index' %}" class="btn btn-secondary">다시 계산하기</a>
+</div>
 {% endblock %}
