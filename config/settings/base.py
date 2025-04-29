@@ -71,6 +71,8 @@ INSTALLED_APPS = [
     'nbase64', 'nunit','nhash',
     'nbooks',
     'agecalc',
+    'centurycalc',
+    'conspiracy',
 ]
 
 MIDDLEWARE = [

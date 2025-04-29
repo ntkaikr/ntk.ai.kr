@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+  <h2>CenturyCalc</h2>
+  <p><strong>내가 사는 세기, 바로 확인!</strong></p>
+
+  <form method="post" action="{% url 'centurycalc:calculate' %}">
+    {% csrf_token %}
+    <label>
+      생년월일:
+      <input type="date" name="birth_date" required>
+    </label>
+    <button type="submit">세기 계산</button>
+  </form>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+  <h2>ConspiracyBoard</h2>
+  <p><strong>흥미진진한 음모론, 여기서 펼쳐져!</strong></p>
+  <a href="{% url 'conspiracy:create' %}">새 글 작성</a>
+  <ul>
+    {% for post in posts %}
+      <li>
+        <a href="{% url 'conspiracy:detail' post.pk %}">{{ post.title }}</a>
+        <small>({{ post.created_at|date:"Y-m-d" }})</small>
+      </li>
+    {% empty %}
+      <li>아직 등록된 글이 없습니다.</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

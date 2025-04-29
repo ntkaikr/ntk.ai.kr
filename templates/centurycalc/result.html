@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+  <h2>세기 계산 결과</h2>
+  <ul>
+    <li>당신이 살고 있는 세기: <strong>{{ century }}세기</strong></li>
+    <li>해당 기간: {{ span }}</li>
+  </ul>
+  <a href="{% url 'centurycalc:index' %}">다시 계산하기</a>
+{% endblock %}

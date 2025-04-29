@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+  <h2>{% if post %}글 수정{% else %}새 글 작성{% endif %}</h2>
+  <form method="post">{% csrf_token %}
+    <div>
+      <label>제목:<input type="text" name="title" value="{{ post.title|default_if_none:'' }}" required></label>
+    </div>
+    <div>
+      <label>내용:<br>
+        <textarea name="content" rows="8" required>{{ post.content|default_if_none:'' }}</textarea>
+      </label>
+    </div>
+    <button type="submit">저장</button>
+  </form>
+  <a href="{% url 'conspiracy:list' %}">목록으로</a>
+{% endblock %}
