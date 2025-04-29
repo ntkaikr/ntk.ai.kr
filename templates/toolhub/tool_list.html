@@ -1,6 +1,8 @@
+{% extends 'base.html' %}
 {% block content %}
 <div class="mt-4">
-  <!-- 제목 + 버튼을 같은 줄에 배치 -->
+
+  <!-- ✅ 제목 + 버튼 같은 줄 정렬 -->
   <div class="d-flex justify-content-between align-items-center mb-3">
     <h2 class="mb-0">
       <i class="bi bi-wrench-adjustable"></i> 등록된 도구들
@@ -15,7 +17,7 @@
     </button>
   </div>
 
-  <!-- 카테고리 영역 (기존 동일) -->
+  <!-- 카테고리 영역 (기본 접힘) -->
   <div class="collapse" id="categoryCollapse">
     <ul class="nav nav-pills mb-3">
       <!-- 전체 -->
@@ -55,7 +57,7 @@
     </p>
   {% endif %}
 
-  <!-- 2) 검색 폼 (카테고리 파라미터 유지) -->
+  <!-- 검색 폼 -->
   <form method="get" class="mb-4">
     <div class="input-group">
       <input type="hidden" name="category" value="{{ current_category }}">
@@ -65,7 +67,7 @@
     </div>
   </form>
 
-  <!-- 3) 툴 카드 -->
+  <!-- 툴 카드 목록 -->
   {% if tools %}
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
       {% for tool in tools %}
