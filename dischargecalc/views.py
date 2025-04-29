@@ -1,5 +1,3 @@
-# dischargecalc/views.py
-
 from django.shortcuts import render
 from datetime import date, timedelta
 
@@ -16,15 +14,34 @@ def result(request):
         rank_type = request.POST.get('rank_type', '').strip()
 
         try:
+            # ✅ 유효성 검사: 장교/부사관은 현역만 가능
+            if rank_type in ['장교', '부사관'] and service_type != '현역':
+                return render(request, 'dischargecalc/index.html', {
+                    'error': '장교/부사관은 반드시 "현역" 복무 형태로만 선택 가능합니다.',
+                    'today': date.today().isoformat()
+                })
+
+            # ✅ 유효성 검사: 비현역 복무는 병사만 가능
+            if service_type in ['상근예비역', '사회복무요원', '전문연구요원'] and rank_type != '병사':
+                return render(request, 'dischargecalc/index.html', {
+                    'error': f'"{service_type}"은(는) 병사 계급에서만 선택할 수 있습니다.',
+                    'today': date.today().isoformat()
+                })
+
+            # 날짜 파싱
             y, m, d = map(int, enlist_date_str.split('-'))
             enlist_date = date(y, m, d)
 
+            # 복무개월 계산
             service_months = get_service_months(military_branch, service_type, rank_type)
+
+            # 전역일 계산 (간단히 30일 × 개월)
             discharge_date = enlist_date + timedelta(days=service_months * 30)
 
             today = date.today()
             d_day = (discharge_date - today).days
 
+            # 예비군 및 민방위 계산
             reservist_start_year = discharge_date.year + 1
             reservist_end_year = reservist_start_year + 5
             civil_defense_start_year = reservist_end_year + 1
