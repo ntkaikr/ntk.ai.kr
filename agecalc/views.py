@@ -189,6 +189,10 @@ def difference(request):
             months = (delta % 365) // 30
             days = (delta % 365) % 30
 
+            # ✨ 추가 계산
+            rice_bowls = delta * 3    # 하루 3끼
+            rice_cakes = years        # 새해마다 떡국 한 그릇
+
             context.update({
                 'birth_date_1': date1,
                 'birth_date_2': date2,
@@ -196,6 +200,8 @@ def difference(request):
                 'months': months,
                 'days': days,
                 'total_days': delta,
+                'rice_bowls': rice_bowls,
+                'rice_cakes': rice_cakes,
             })
 
         except:
