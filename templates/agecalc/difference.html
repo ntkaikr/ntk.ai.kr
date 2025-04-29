@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container py-5" style="max-width: 480px;">
+  <h1 class="mb-3">👥 나이 차이 계산</h1>
+
+  {% include 'agecalc/partials/buttons.html' %}
+
+  {% if error %}
+    <div class="alert alert-danger">{{ error }}</div>
+  {% endif %}
+
+  {% if total_days %}
+    <div class="alert alert-success mb-4">
+      <strong>{{ birth_date_1 }}</strong> 와<br>
+      <strong>{{ birth_date_2 }}</strong> 의 나이 차이는<br>
+      <span class="text-primary fw-bold">
+        {{ years }}년 {{ months }}개월 {{ days }}일
+      </span> 입니다.<br>
+      (총 {{ total_days }}일 차이)
+    </div>
+  {% endif %}
+
+  <form method="post">
+    {% csrf_token %}
+    <div class="mb-3">
+      <label for="birth_date_1" class="form-label">첫 번째 생년월일</label>
+      <input type="date" class="form-control" id="birth_date_1" name="birth_date_1" required>
+    </div>
+    <div class="mb-3">
+      <label for="birth_date_2" class="form-label">두 번째 생년월일</label>
+      <input type="date" class="form-control" id="birth_date_2" name="birth_date_2" required>
+    </div>
+    <button type="submit" class="btn btn-primary w-100">차이 계산하기</button>
+  </form>
+</div>
+{% endblock %}

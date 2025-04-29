@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container py-5" style="max-width: 480px;">
+  <h1 class="mb-3">📅 특정 연도에 몇 살?</h1>
+
+  {% include 'agecalc/partials/buttons.html' %}
+
+  {% if error %}
+    <div class="alert alert-danger">{{ error }}</div>
+  {% endif %}
+
+  {% if age_in_target_year %}
+    <div class="alert alert-success mb-4">
+      <strong>{{ birth_date.year }}년 {{ birth_date.month }}월 {{ birth_date.day }}일</strong> 출생자는<br>
+      <strong>{{ target_year }}년</strong>에
+      <span class="text-primary fw-bold">{{ age_in_target_year }}세</span>가 됩니다!
+    </div>
+  {% endif %}
+
+  <form method="post">
+    {% csrf_token %}
+    <div class="mb-3">
+      <label for="birth_date" class="form-label">생년월일</label>
+      <input type="date" class="form-control" id="birth_date" name="birth_date" required>
+    </div>
+    <div class="mb-3">
+      <label for="target_year" class="form-label">알고 싶은 연도</label>
+      <input type="number" class="form-control" id="target_year" name="target_year" required>
+    </div>
+    <button type="submit" class="btn btn-primary w-100">계산하기</button>
+  </form>
+</div>
+{% endblock %}

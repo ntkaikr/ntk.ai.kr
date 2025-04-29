@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container py-5" style="max-width: 480px;">
+  <h1 class="mb-3">🔄 한국 ↔ 만 나이 변환</h1>
+
+  {% include 'agecalc/partials/buttons.html' %}
+
+  {% if error %}
+    <div class="alert alert-danger">{{ error }}</div>
+  {% endif %}
+
+  {% if result %}
+    <div class="alert alert-success mb-4">
+      출생 연도: <strong>{{ birth_year }}</strong><br>
+      기준 연도: <strong>{{ today_year }}</strong><br>
+      변환 결과: <span class="text-primary fw-bold">{{ result }}세</span> ({{ mode }})
+    </div>
+  {% endif %}
+
+  <form method="post">
+    {% csrf_token %}
+    <div class="mb-3">
+      <label for="birth_year" class="form-label">출생 연도</label>
+      <input type="number" class="form-control" id="birth_year" name="birth_year" required>
+    </div>
+    <div class="form-check mb-3">
+      <input class="form-check-input" type="checkbox" id="to_korean" name="to_korean">
+      <label class="form-check-label" for="to_korean">한국식 나이로 변환</label>
+    </div>
+    <button type="submit" class="btn btn-primary w-100">변환하기</button>
+  </form>
+</div>
+{% endblock %}

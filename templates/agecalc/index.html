@@ -4,6 +4,16 @@
   <h1 class="mb-3">AgeCalc</h1>
   <p class="lead">나이 계산은 모두 여기서!</p>
 
+  <!-- 🔥 기능 이동 버튼 -->
+  <div class="mb-4 d-flex flex-wrap gap-2">
+    <a href="{% url 'agecalc:future' %}" class="btn btn-outline-secondary btn-sm">📅 특정 연도에 몇 살</a>
+    <a href="{% url 'agecalc:goal' %}" class="btn btn-outline-secondary btn-sm">🎯 목표 나이 달성 연도</a>
+    <a href="{% url 'agecalc:birthday' %}" class="btn btn-outline-secondary btn-sm">🎂 생일 여부</a>
+    <a href="{% url 'agecalc:convert' %}" class="btn btn-outline-secondary btn-sm">🔄 한국 ↔ 만 나이</a>
+    <a href="{% url 'agecalc:difference' %}" class="btn btn-outline-secondary btn-sm">👥 나이 차이</a>
+    <a href="{% url 'agecalc:sincebirth' %}" class="btn btn-outline-secondary btn-sm">⏳ 경과일 계산</a>
+  </div>
+
   {% if error %}
     <div class="alert alert-danger">{{ error }}</div>
   {% endif %}

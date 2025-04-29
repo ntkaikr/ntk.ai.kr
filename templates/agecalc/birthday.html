@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container py-5" style="max-width: 480px;">
+  <h1 class="mb-3">🎂 올해 생일 지났나요?</h1>
+
+  {% include 'agecalc/partials/buttons.html' %}
+
+  {% if error %}
+    <div class="alert alert-danger">{{ error }}</div>
+  {% endif %}
+
+  {% if status %}
+    <div class="alert alert-info mb-4">
+      오늘은 <strong>{{ today }}</strong> 입니다.<br>
+      <strong>{{ birth_date.month }}월 {{ birth_date.day }}일</strong> 생일은<br>
+      <span class="text-primary fw-bold">{{ status }}</span>
+    </div>
+  {% endif %}
+
+  <form method="post">
+    {% csrf_token %}
+    <div class="mb-3">
+      <label for="birth_date" class="form-label">생년월일</label>
+      <input type="date" class="form-control" id="birth_date" name="birth_date" required>
+    </div>
+    <button type="submit" class="btn btn-primary w-100">확인하기</button>
+  </form>
+</div>
+{% endblock %}
