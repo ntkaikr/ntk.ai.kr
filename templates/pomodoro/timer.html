@@ -1,4 +1,5 @@
 {# templates/pomodoro/timer.html #}
+{% load static %}
 {% extends 'base.html' %}
 
 {% block title %}🍅 포모도로 타이머{% endblock %}
@@ -6,11 +7,18 @@
 {% block content %}
 <div class="container py-5">
 
-  <!-- ── 헤더: 로고 + 타이틀 ── -->
+  <!-- ── 헤더: 로고 + 타이틀/태그라인 ── -->
   <div class="d-flex align-items-center mb-5">
-
+    <img src="{% static 'pomodoro/logo.png' %}"
+         alt="Pomodoro 로고"
+         width="80"
+         class="me-4">
+    <div>
       <h1 class="display-4 mb-1">🍅 포모도로 타이머</h1>
-      <p class="lead text-secondary mb-0">25분 집중 • 휴식 • 기록</p>
+      <!-- 라인 분리된 태그라인 -->
+      <p class="lead text-secondary mb-0">
+        ⏱️ 25분 집중 &nbsp;•&nbsp; ⏲️ 휴식 &nbsp;•&nbsp; 📝 기록
+      </p>
     </div>
   </div>
 
@@ -44,11 +52,13 @@
     </div>
   </div>
 
-  <!-- ── 최근 세션 기록 (예시) ── -->
+  <!-- ── 최근 세션 기록 ── -->
   {% if sessions %}
   <div class="card shadow-sm">
-    <div class="card-header bg-light">
-      <i class="bi bi-clock-history"></i> 최근 세션 기록
+    <div class="card-header bg-light d-flex align-items-center">
+      <!-- 기록 아이콘 추가 -->
+      <i class="bi bi-journal-text fs-4 me-2"></i>
+      <span class="fw-bold">최근 세션 기록</span>
     </div>
     <ul class="list-group list-group-flush">
       {% for s in sessions %}
