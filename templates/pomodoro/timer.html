@@ -6,20 +6,17 @@
 {% block content %}
 <div class="container py-5">
 
-  <!-- ── 헤더: 로고 + 타이틀/태그라인 ── -->
-  <div class="d-flex align-items-center mb-5">
+  <!-- 1) 타이틀 -->
+  <h1 class="display-4 text-center mb-2">🍅 포모도로 타이머</h1>
 
-      <h1 class="display-4 mb-1">🍅 포모도로 타이머</h1>
-      <!-- 라인 분리된 태그라인 -->
-      <p class="lead text-secondary mb-0">
-        ⏱️ 25분 집중 &nbsp;•&nbsp; ⏲️ 휴식 &nbsp;•&nbsp; 📝 기록
-      </p>
-    </div>
-  </div>
+  <!-- 2) 태그라인 -->
+  <p class="lead text-center text-secondary mb-5">
+    ⏱️ 25분 집중 &nbsp;•&nbsp; ⏲️ 휴식 &nbsp;•&nbsp; 📝 기록
+  </p>
 
-  <!-- ── 타이머 카드 ── -->
-  <div class="card text-center mb-5 shadow-sm">
-    <div class="card-body">
+  <!-- 3) 타이머 카드 -->
+  <div class="card mx-auto mb-5" style="max-width: 600px;">
+    <div class="card-body text-center">
       <div id="timer" class="display-1 mb-4">25:00</div>
       <button id="startBtn" class="btn btn-success me-2">
         <i class="bi bi-play-fill"></i> 시작
@@ -30,11 +27,11 @@
     </div>
   </div>
 
-  <!-- ── 오늘 세션 수 ── -->
-  <div class="card mb-5 shadow-sm">
+  <!-- 4) 오늘 세션 수 -->
+  <div class="card mx-auto mb-5" style="max-width: 600px;">
     <div class="card-body d-flex justify-content-between align-items-center">
-      <div>
-        <i class="bi bi-list-check fs-2 text-primary me-3"></i>
+      <div class="d-flex align-items-center">
+        <i class="bi bi-list-check fs-2 text-primary me-2"></i>
         <span class="h5 mb-0">오늘 세션 수</span>
       </div>
       <span class="badge bg-primary fs-5">{{ count }} 회</span>
@@ -47,18 +44,17 @@
     </div>
   </div>
 
-  <!-- ── 최근 세션 기록 ── -->
+  <!-- 5) 최근 세션 기록 -->
   {% if sessions %}
-  <div class="card shadow-sm">
-    <div class="card-header bg-light d-flex align-items-center">
-      <!-- 기록 아이콘 추가 -->
+  <div class="card mx-auto" style="max-width: 600px;">
+    <div class="card-header d-flex align-items-center bg-light">
       <i class="bi bi-journal-text fs-4 me-2"></i>
       <span class="fw-bold">최근 세션 기록</span>
     </div>
     <ul class="list-group list-group-flush">
       {% for s in sessions %}
       <li class="list-group-item d-flex justify-content-between">
-        {{ s.date }}
+        {{ s.date|date:"Y년 n월 j일" }}
         <span class="badge bg-info text-dark">{{ s.count }} 회</span>
       </li>
       {% endfor %}
@@ -74,13 +70,19 @@
 let total = 25*60, timerId;
 const display = document.getElementById('timer');
 function format(t){
-  return `${String(Math.floor(t/60)).padStart(2,'0')}:${String(t%60).padStart(2,'0')}`;
+  const m = String(Math.floor(t/60)).padStart(2,'0');
+  const s = String(t%60).padStart(2,'0');
+  return `${m}:${s}`;
 }
 document.getElementById('startBtn').onclick = ()=>{
   clearInterval(timerId);
   timerId = setInterval(()=>{
-    if(total<=0) clearInterval(timerId);
-    display.textContent = format(--total);
+    if(total<=0) {
+      clearInterval(timerId);
+    } else {
+      total--;
+      display.textContent = format(total);
+    }
   },1000);
 };
 document.getElementById('resetBtn').onclick = ()=>{
