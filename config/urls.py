@@ -78,7 +78,7 @@ urlpatterns = [
     path('conspiracy/', include('conspiracy.urls')),  # ConspiracyBoard
     path('dischargecalc/', include('dischargecalc.urls')),
     path('worldtime/', include('worldtime.urls')),
-    path('tools/visitor-stats/', include('visitorstats.urls')),
+    path('visitor-stats/', include('visitorstats.urls')),
 
 
     # 🔥 루트 슬러그 리다이렉트 지원
