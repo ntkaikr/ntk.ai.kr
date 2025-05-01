@@ -1,32 +1,81 @@
 {# templates/pomodoro/timer.html #}
+{% load static %}
 {% extends 'base.html' %}
-{% block title %}포모도로 타이머 – pomodoro{% endblock %}
+
+{% block title %}🍅 포모도로 타이머{% endblock %}
+
 {% block content %}
-<div class="container py-5 text-center">
+<div class="container py-5">
 
-  <h1 class="h3 mb-3">포모도로 타이머</h1>
-  <p class="text-secondary mb-4">집중 시간 25분 타이머 & 일별 회차 자동 저장</p>
-
-  <!-- 타이머 UI (간단 예시) -->
-  <div id="timer" class="display-1 mb-4">25:00</div>
-  <button id="startBtn" class="btn btn-success me-2">시작</button>
-  <button id="resetBtn" class="btn btn-danger">리셋</button>
-
-  <!-- 오늘 완료된 세션 수 -->
-  <div class="mt-4">
-    오늘 세션 수: <strong>{{ count }}</strong> 회
-    <form method="post" action="{% url 'pomodoro:record' %}" class="d-inline ms-2">
-      {% csrf_token %}
-      <button class="btn btn-outline-primary btn-sm">완료!</button>
-    </form>
+  <!-- ── 헤더: 로고 + 타이틀 ── -->
+  <div class="d-flex align-items-center mb-5">
+    <img src="{% static 'pomodoro/logo.png' %}"
+         alt="Pomodoro 로고"
+         width="80"
+         class="me-4">
+    <div>
+      <h1 class="display-4 mb-1">🍅 포모도로 타이머</h1>
+      <p class="lead text-secondary mb-0">25분 집중 • 휴식 • 기록</p>
+    </div>
   </div>
+
+  <!-- ── 타이머 카드 ── -->
+  <div class="card text-center mb-5 shadow-sm">
+    <div class="card-body">
+      <div id="timer" class="display-1 mb-4">25:00</div>
+      <button id="startBtn" class="btn btn-success me-2">
+        <i class="bi bi-play-fill"></i> 시작
+      </button>
+      <button id="resetBtn" class="btn btn-danger">
+        <i class="bi bi-arrow-counterclockwise"></i> 리셋
+      </button>
+    </div>
+  </div>
+
+  <!-- ── 오늘 세션 수 ── -->
+  <div class="card mb-5 shadow-sm">
+    <div class="card-body d-flex justify-content-between align-items-center">
+      <div>
+        <i class="bi bi-list-check fs-2 text-primary me-3"></i>
+        <span class="h5 mb-0">오늘 세션 수</span>
+      </div>
+      <span class="badge bg-primary fs-5">{{ count }} 회</span>
+      <form method="post" action="{% url 'pomodoro:record' %}" class="d-inline">
+        {% csrf_token %}
+        <button class="btn btn-outline-primary btn-sm ms-3">
+          <i class="bi bi-plus-circle"></i> 완료!
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ── 최근 세션 기록 (예시) ── -->
+  {% if sessions %}
+  <div class="card shadow-sm">
+    <div class="card-header bg-light">
+      <i class="bi bi-clock-history"></i> 최근 세션 기록
+    </div>
+    <ul class="list-group list-group-flush">
+      {% for s in sessions %}
+      <li class="list-group-item d-flex justify-content-between">
+        {{ s.date }}
+        <span class="badge bg-info text-dark">{{ s.count }} 회</span>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endif %}
+
 </div>
+{% endblock %}
 
 {% block script %}
 <script>
 let total = 25*60, timerId;
 const display = document.getElementById('timer');
-function format(t){return `${String(Math.floor(t/60)).padStart(2,'0')}:${String(t%60).padStart(2,'0')}`;}
+function format(t){
+  return `${String(Math.floor(t/60)).padStart(2,'0')}:${String(t%60).padStart(2,'0')}`;
+}
 document.getElementById('startBtn').onclick = ()=>{
   clearInterval(timerId);
   timerId = setInterval(()=>{
@@ -40,5 +89,4 @@ document.getElementById('resetBtn').onclick = ()=>{
   display.textContent = format(total);
 };
 </script>
-{% endblock %}
 {% endblock %}
