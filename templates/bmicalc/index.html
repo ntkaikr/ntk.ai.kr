@@ -27,36 +27,40 @@
 
   {% endif %}
 
-      <!-- BMI 구간표 -->
-    <div class="mt-4">
-      <h5 class="mb-3">BMI 구간 안내</h5>
-      <table class="table table-bordered text-center">
-        <thead class="table-light">
-          <tr>
-            <th>구간 (BMI)</th>
-            <th>분류</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>~18.4</td>
-            <td>저체중</td>
-          </tr>
-          <tr>
-            <td>18.5 – 22.9</td>
-            <td>정상</td>
-          </tr>
-          <tr>
-            <td>23.0 – 24.9</td>
-            <td>과체중</td>
-          </tr>
-          <tr>
-            <td>25.0~</td>
-            <td>비만</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  
+  <!-- 색 입힌 BMI 구간표 -->
+  <div class="mt-4">
+    <h5 class="mb-3">BMI 구간 안내</h5>
+    <table class="table table-bordered text-center">
+      <thead class="table-light">
+        <tr>
+          <th>구간 (BMI)</th>
+          <th>분류</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- 저체중: 노란색 -->
+        <tr class="table-warning">
+          <td>~18.4</td>
+          <td>저체중</td>
+        </tr>
+        <!-- 정상: 초록색 -->
+        <tr class="table-success">
+          <td>18.5 – 22.9</td>
+          <td>정상</td>
+        </tr>
+        <!-- 과체중: 주황색 (인라인 스타일) -->
+        <tr style="background-color: orange; color: white;">
+          <td>23.0 – 24.9</td>
+          <td>과체중</td>
+        </tr>
+        <!-- 비만: 빨간색 -->
+        <tr class="table-danger">
+          <td>25.0~</td>
+          <td>비만</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
 </div>
 {% endblock %}
