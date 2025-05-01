@@ -80,6 +80,8 @@ urlpatterns = [
     path('worldtime/', include('worldtime.urls')),
     path('visitor-stats/', include('visitorstats.urls')),
     path('bmicalc/', include('bmicalc.urls')),
+    path('idgen/', include('idgen.urls')),
+
 
     # 🔥 루트 슬러그 리다이렉트 지원
     path('<slug:slug>/', redirect_short_link),

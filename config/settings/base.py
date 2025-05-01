@@ -77,6 +77,7 @@ INSTALLED_APPS = [
     'worldtime',
     'visitorstats',
     'bmicalc',
+    'idgen',
 ]
 
 MIDDLEWARE = [
