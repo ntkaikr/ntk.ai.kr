@@ -78,6 +78,7 @@ INSTALLED_APPS = [
     'visitorstats',
     'bmicalc',
     'idgen',
+    'pomodoro',
 ]
 
 MIDDLEWARE = [

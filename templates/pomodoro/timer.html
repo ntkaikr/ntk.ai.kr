@@ -1,0 +1,44 @@
+{# templates/pomodoro/timer.html #}
+{% extends 'base.html' %}
+{% block title %}포모도로 타이머 – pomodoro{% endblock %}
+{% block content %}
+<div class="container py-5 text-center">
+
+  <h1 class="h3 mb-3">포모도로 타이머</h1>
+  <p class="text-secondary mb-4">집중 시간 25분 타이머 & 일별 회차 자동 저장</p>
+
+  <!-- 타이머 UI (간단 예시) -->
+  <div id="timer" class="display-1 mb-4">25:00</div>
+  <button id="startBtn" class="btn btn-success me-2">시작</button>
+  <button id="resetBtn" class="btn btn-danger">리셋</button>
+
+  <!-- 오늘 완료된 세션 수 -->
+  <div class="mt-4">
+    오늘 세션 수: <strong>{{ count }}</strong> 회
+    <form method="post" action="{% url 'pomodoro:record' %}" class="d-inline ms-2">
+      {% csrf_token %}
+      <button class="btn btn-outline-primary btn-sm">완료!</button>
+    </form>
+  </div>
+</div>
+
+{% block script %}
+<script>
+let total = 25*60, timerId;
+const display = document.getElementById('timer');
+function format(t){return `${String(Math.floor(t/60)).padStart(2,'0')}:${String(t%60).padStart(2,'0')}`;}
+document.getElementById('startBtn').onclick = ()=>{
+  clearInterval(timerId);
+  timerId = setInterval(()=>{
+    if(total<=0) clearInterval(timerId);
+    display.textContent = format(--total);
+  },1000);
+};
+document.getElementById('resetBtn').onclick = ()=>{
+  clearInterval(timerId);
+  total = 25*60;
+  display.textContent = format(total);
+};
+</script>
+{% endblock %}
+{% endblock %}
