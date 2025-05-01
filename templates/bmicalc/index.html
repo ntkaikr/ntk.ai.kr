@@ -24,6 +24,39 @@
     <div class="alert alert-info text-center">
       당신의 BMI는 <strong>{{ bmi }}</strong> ({{ category }}) 입니다.
     </div>
+
   {% endif %}
+
+      <!-- BMI 구간표 -->
+    <div class="mt-4">
+      <h5 class="mb-3">BMI 구간 안내</h5>
+      <table class="table table-bordered text-center">
+        <thead class="table-light">
+          <tr>
+            <th>구간 (BMI)</th>
+            <th>분류</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>~18.4</td>
+            <td>저체중</td>
+          </tr>
+          <tr>
+            <td>18.5 – 22.9</td>
+            <td>정상</td>
+          </tr>
+          <tr>
+            <td>23.0 – 24.9</td>
+            <td>과체중</td>
+          </tr>
+          <tr>
+            <td>25.0~</td>
+            <td>비만</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  
 </div>
 {% endblock %}
