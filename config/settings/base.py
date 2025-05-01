@@ -75,6 +75,7 @@ INSTALLED_APPS = [
     'conspiracy',
     'dischargecalc',
     'worldtime',
+    'visitorstats',
 ]
 
 MIDDLEWARE = [
@@ -86,6 +87,7 @@ MIDDLEWARE = [
     'allauth.account.middleware.AccountMiddleware',  # ✅ 추가
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'visitorstats.middleware.VisitMiddleware',
 
 ]
 

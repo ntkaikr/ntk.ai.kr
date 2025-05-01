@@ -1,25 +1,22 @@
-from django.shortcuts import render, get_object_or_404
-from django.contrib.auth.decorators import user_passes_test
-from django.shortcuts import redirect
-from .forms import ToolForm
-from django.db.models import Avg
-from .forms import CommentForm, ReplyForm
-from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect
-from django.urls import reverse
-from .models import Comment
-from .models import ToolLike
-from django.http import HttpResponseForbidden
-from .models import Tool, ToolRunLog, Category
-from django.contrib.auth import get_user_model
-from myprofile.models import Profile
-from django.contrib import messages
-from django.db.models import Q
-from django.shortcuts import get_object_or_404, redirect
-from django.http import HttpResponseForbidden
 from django.conf import settings
+from django.contrib import messages
 from django.contrib.auth import REDIRECT_FIELD_NAME
+from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import user_passes_test
+from django.db.models import Avg
+from django.http import HttpResponseForbidden
+from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import render
+from django.urls import reverse
+from myprofile.models import Profile
+from .forms import CommentForm, ReplyForm
+from .forms import ToolForm
+from .models import Category
+from .models import Comment
 from .models import Tool, ToolRunLog
+from .models import ToolLike
 
 User = get_user_model()
 
