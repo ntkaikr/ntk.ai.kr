@@ -2,6 +2,23 @@ from django.shortcuts import render
 import datetime
 import pytz
 
+def get_period_icon(hour: int) -> str:
+    """
+    시간(hour)을 받아서 Bootstrap Icon 클래스를 반환합니다.
+    - 아침(6~11): bi-sun
+    - 점심(12~16): bi-sunrise
+    - 저녁(17~20): bi-sunset
+    - 밤(그 외): bi-moon
+    """
+    if 6 <= hour < 12:
+        return 'bi-sun'
+    elif 12 <= hour < 17:
+        return 'bi-sunrise'
+    elif 17 <= hour < 21:
+        return 'bi-sunset'
+    else:
+        return 'bi-moon'
+
 def index(request):
     zones = [
         ('서울Seoul', 'Asia/Seoul'),
@@ -24,8 +41,15 @@ def index(request):
     now_times = []
     for label, tz_name in zones:
         tz = pytz.timezone(tz_name)
-        now = datetime.datetime.now(tz).strftime('%Y-%m-%d %H:%M:%S')
-        now_times.append({'label': label, 'time': now})
+        now_dt = datetime.datetime.now(tz)
+        hour = now_dt.hour
+        now_str = now_dt.strftime('%Y-%m-%d %H:%M:%S')
+        icon = get_period_icon(hour)
+        now_times.append({
+            'label': label,
+            'time': now_str,
+            'icon': icon,
+        })
 
     return render(request, 'worldtime/index.html', {
         'now_times': now_times
