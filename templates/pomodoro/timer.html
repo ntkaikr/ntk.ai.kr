@@ -1,5 +1,4 @@
 {# templates/pomodoro/timer.html #}
-{% load static %}
 {% extends 'base.html' %}
 
 {% block title %}🍅 포모도로 타이머{% endblock %}
@@ -9,11 +8,7 @@
 
   <!-- ── 헤더: 로고 + 타이틀/태그라인 ── -->
   <div class="d-flex align-items-center mb-5">
-    <img src="{% static 'pomodoro/logo.png' %}"
-         alt="Pomodoro 로고"
-         width="80"
-         class="me-4">
-    <div>
+
       <h1 class="display-4 mb-1">🍅 포모도로 타이머</h1>
       <!-- 라인 분리된 태그라인 -->
       <p class="lead text-secondary mb-0">
