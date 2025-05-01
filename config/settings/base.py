@@ -76,6 +76,7 @@ INSTALLED_APPS = [
     'dischargecalc',
     'worldtime',
     'visitorstats',
+    'bmicalc',
 ]
 
 MIDDLEWARE = [
