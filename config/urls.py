@@ -77,7 +77,7 @@ urlpatterns = [
     path('centurycalc/', include('centurycalc.urls')),  # CenturyCalc
     path('conspiracy/', include('conspiracy.urls')),  # ConspiracyBoard
     path('dischargecalc/', include('dischargecalc.urls')),
-    path('tools/worldtime/', include('worldtime.urls')),
+    path('worldtime/', include('worldtime.urls')),
 
     # 🔥 루트 슬러그 리다이렉트 지원
     path('<slug:slug>/', redirect_short_link),
