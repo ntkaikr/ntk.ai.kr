@@ -15,7 +15,11 @@ from django.contrib.auth import get_user_model
 from myprofile.models import Profile
 from django.contrib import messages
 from django.db.models import Q
-
+from django.shortcuts import get_object_or_404, redirect
+from django.http import HttpResponseForbidden
+from django.conf import settings
+from django.contrib.auth import REDIRECT_FIELD_NAME
+from .models import Tool, ToolRunLog
 
 User = get_user_model()
 
@@ -39,6 +43,7 @@ def pin_tool_to_profile(request, tool_id):
 
     return redirect('toolhub:tool_detail', tool_id=tool_id)
 
+"""
 @login_required
 def run_tool(request, pk):
     tool = get_object_or_404(Tool, pk=pk)
@@ -69,6 +74,71 @@ def run_tool(request, pk):
 
     # 🔸 링크 없음 → 툴 상세로 fallback
     return redirect('toolhub:tool_detail', pk=tool.pk)
+"""
+
+def run_tool(request, pk):
+    tool = get_object_or_404(Tool, pk=pk)
+    user = request.user if request.user.is_authenticated else None
+
+    # 1) visibility 체크 ── 'public'은 모두, 'private'은 로그인 필요
+    if tool.visibility == 'private' and not user:
+        return redirect(f"{settings.LOGIN_URL}?{REDIRECT_FIELD_NAME}={request.path}")
+
+    # 2) access_level 체크
+    # 'all'  : 비회원 포함 전체 허용
+    # 'members': 로그인한 회원만
+    # 'level' : 특정 레벨 이상
+    # 'user'  : 지정된 사용자만
+    # 'staff' : 스태프만
+    # 'superuser': 슈퍼유저만
+    if tool.access_level == 'all':
+        pass
+
+    elif tool.access_level == 'members':
+        if not user:
+            return redirect(f"{settings.LOGIN_URL}?{REDIRECT_FIELD_NAME}={request.path}")
+
+    elif tool.access_level == 'level':
+        if not user:
+            return redirect(f"{settings.LOGIN_URL}?{REDIRECT_FIELD_NAME}={request.path}")
+        if not hasattr(user, 'profile') or tool.allowed_level is None:
+            return HttpResponseForbidden("접근 권한이 없습니다.")
+        if user.profile.level < tool.allowed_level:
+            return HttpResponseForbidden("레벨이 부족합니다.")
+
+    elif tool.access_level == 'user':
+        if not user:
+            return redirect(f"{settings.LOGIN_URL}?{REDIRECT_FIELD_NAME}={request.path}")
+        if user not in tool.allowed_users.all():
+            return HttpResponseForbidden("지정된 사용자만 접근 가능합니다.")
+
+    elif tool.access_level == 'staff':
+        if not user:
+            return redirect(f"{settings.LOGIN_URL}?{REDIRECT_FIELD_NAME}={request.path}")
+        if not user.is_staff:
+            return HttpResponseForbidden("스태프만 접근 가능합니다.")
+
+    elif tool.access_level == 'superuser':
+        if not user:
+            return redirect(f"{settings.LOGIN_URL}?{REDIRECT_FIELD_NAME}={request.path}")
+        if not user.is_superuser:
+            return HttpResponseForbidden("슈퍼유저만 접근 가능합니다.")
+
+    # 3) 실행 로그 저장 (인증된 사용자만)
+    if user:
+        ToolRunLog.objects.create(tool=tool, user=user)
+
+    # 4) 특수 처리: '카디드' 툴은 명함 페이지로 리다이렉트
+    if tool.name.lower() in ['카디드', 'carded'] and user:
+        return redirect('carded:public_card_by_username', username=user.username)
+
+    # 5) 툴에 link 필드가 있으면 그쪽으로
+    if tool.link:
+        return redirect(tool.link)
+
+    # 6) 나머지는 상세보기로
+    return redirect('toolhub:tool_detail', pk=tool.pk)
+
 
 @login_required
 def toggle_tool_like(request, pk):
