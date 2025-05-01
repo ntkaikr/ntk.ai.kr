@@ -74,6 +74,7 @@ INSTALLED_APPS = [
     'centurycalc',
     'conspiracy',
     'dischargecalc',
+    'worldtime',
 ]
 
 MIDDLEWARE = [
