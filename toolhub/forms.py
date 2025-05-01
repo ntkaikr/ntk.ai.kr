@@ -41,7 +41,7 @@ class ReplyForm(forms.ModelForm):
 class ToolForm(forms.ModelForm):
     class Meta:
         model = Tool
-        fields = ['name', 'description', 'visibility', 'access_level', 'allowed_level', 'allowed_users', 'link', 'thumbnail']
+        fields = ['name', 'description', 'visibility', 'access_level', 'allowed_level', 'allowed_users', 'category', 'link', 'thumbnail']
         widgets = {
             'description': forms.Textarea(attrs={'class': 'form-control'}),
             'name': forms.TextInput(attrs={'class': 'form-control'}),
@@ -49,6 +49,7 @@ class ToolForm(forms.ModelForm):
             'access_level': forms.Select(attrs={'class': 'form-select'}),
             'allowed_level': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': '숫자 입력'}),
             'allowed_users': forms.SelectMultiple(attrs={'class': 'form-select', 'size': 4}),
+            'category': forms.Select(attrs={'class': 'form-select'}),
             'thumbnail': forms.ClearableFileInput(attrs={'class': 'form-control'}),
             'link': forms.URLInput(attrs={'class': 'form-control', 'placeholder': '예: http://www.ntk.ai.kr/yourtool'}),
         }
