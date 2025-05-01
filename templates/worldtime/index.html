@@ -1,25 +1,29 @@
+{# templates/worldtime/index.html #}
 {% extends 'base.html' %}
+
 {% block title %}세계시간 – GlobeClock{% endblock %}
 
 {% block content %}
-  <!-- 로고 + 제목 -->
-  <div class="d-flex align-items-center mb-5">
-
-      <h1 class="display-5 mb-1">세계시간</h1>
-      <p class="mb-0 text-secondary">지구촌시대!</p>
-    </div>
+  <!-- 로고 + 제목 (가운데 정렬) -->
+  <div class="text-center mb-5">
+    <h1 class="display-4 fw-bold d-flex justify-content-center align-items-center">
+      <i class="bi bi-globe2 me-3"></i>
+      세계시간
+      <i class="bi bi-clock ms-3"></i>
+    </h1>
+    <p class="lead text-secondary">지금은 지구촌 시대!</p>
   </div>
 
   <!-- 시간 카드 그리드 -->
-  <div class="row">
+  <div class="row gx-3 gy-4">
     {% for item in now_times %}
-    <div class="col-6 col-md-4 col-lg-3 mb-4">
-      <div class="card shadow-sm h-100">
+    <div class="col-6 col-md-4 col-lg-3">
+      <div class="card h-100 shadow-sm">
         <div class="card-body text-center">
           <!-- 시간대 아이콘 -->
           <i class="bi {{ item.icon }} fs-1 text-warning mb-2"></i>
           <h5 class="card-title">{{ item.label }}</h5>
-          <p class="display-6">{{ item.time }}</p>
+          <p class="display-6 mb-0">{{ item.time }}</p>
         </div>
       </div>
     </div>
