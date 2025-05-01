@@ -72,6 +72,7 @@
 
     <ul class="list-group list-group-flush">
       <li class="list-group-item">📅 등록일: {{ tool.created_at|date:"Y-m-d" }}</li>
+      <li class="list-group-item">🏷️ 카테고리: {{ tool.category.name }}</li>
       <li class="list-group-item">👁️ 공개 여부: {{ tool.get_visibility_display }}</li>
       <li class="list-group-item">🔐 접근 권한: {{ tool.get_access_level_display }}</li>
       <li class="list-group-item">
