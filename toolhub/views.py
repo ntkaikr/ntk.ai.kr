@@ -230,7 +230,12 @@ def tool_list(request):
             current_category_obj = None
 
     # 1) 기본 쿼리셋
-    base_qs = Tool.objects.all()
+    #base_qs = Tool.objects.all()
+    # 기본: 비로그인 땐 공개 툴만, 로그인 땐 전부
+    if request.user.is_authenticated:
+        base_qs = Tool.objects.all()
+    else:
+        base_qs = Tool.objects.filter(visibility='public')
 
     # 2) 카테고리 필터
     if cat_slug == 'favorites':
