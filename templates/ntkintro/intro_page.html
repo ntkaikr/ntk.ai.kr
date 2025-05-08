@@ -27,13 +27,6 @@
         </ul>
       {% endif %}
 
-      <!-- 신규 툴 등록 폼 -->
-      <h5 class="mt-4">🆕 새 툴 등록</h5>
-      <form method="post" enctype="multipart/form-data" class="mb-4">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">툴 등록</button>
-      </form>
 
       <!-- 최근 툴 등록 히스토리 -->
       <h5 class="mt-4">🛠️ 툴 등록 히스토리</h5>
