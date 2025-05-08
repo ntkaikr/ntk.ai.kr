@@ -137,3 +137,13 @@ class ToolTag(models.Model):
 
     def __str__(self):
         return self.name
+
+class ToolHistory(models.Model):
+    tool = models.ForeignKey(Tool, on_delete=models.CASCADE, related_name='histories')
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    action = models.CharField(max_length=20, default='등록')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        local_time = timezone.localtime(self.created_at)
+        return f"{self.tool.name} - {self.action} @ {local_time.strftime('%Y-%m-%d %H:%M')}"
