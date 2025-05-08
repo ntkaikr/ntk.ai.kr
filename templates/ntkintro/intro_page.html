@@ -27,22 +27,20 @@
         </ul>
       {% endif %}
 
-
-      <!-- 최근 툴 등록 히스토리 -->
       <h5 class="mt-4">🛠️ 툴 등록 히스토리</h5>
-      <ul class="list-group">
-        {% for h in tool_histories %}
-          <li class="list-group-item d-flex justify-content-between align-items-center">
-            <div>
+      {% if tool_histories %}
+        <ul class="list-group">
+          {% for h in tool_histories %}
+            <li class="list-group-item">
               {{ h.created_at|date:"Y.m.d H:i" }} —
               <a href="{% url 'toolhub:tool_detail' h.tool.pk %}">{{ h.tool.name }}</a>
-              {% if h.user %}(by {{ h.user.username }}){% endif %}
-            </div>
-          </li>
-        {% empty %}
-          <li class="list-group-item text-muted">등록된 툴이 없습니다.</li>
-        {% endfor %}
-      </ul>
+              {% if h.tool.category %} / {{ h.tool.category.name }}{% endif %}
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p class="text-muted small mt-2">툴 등록 히스토리가 없습니다.</p>
+      {% endif %}
 
     </div>
   </div>
