@@ -54,8 +54,8 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',  # ✅ Google 제공자
 
-    #'toolhub',
-    'toolhub.apps.ToolhubConfig',
+    'toolhub',
+    #'toolhub.apps.ToolhubConfig',
     'accounts',
     'biblecheck',
     'common.apps.CommonConfig',
