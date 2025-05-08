@@ -13,7 +13,8 @@
 
       <p class="card-text">{{ intro.description|linebreaks }}</p>
       <p class="text-muted small">
-        버전: {{ intro.current_version }} | 등록일: {{ intro.created_at|date:"Y.m.d H:i" }}
+        버전: {{ intro.current_version }} |
+        등록일: {{ intro.created_at|date:"Y.m.d H:i" }}
       </p>
 
       {% if intro.version_history.all %}
@@ -21,7 +22,8 @@
         <ul class="list-group mb-4">
           {% for v in intro.version_history.all %}
             <li class="list-group-item">
-              <strong>{{ v.version }}</strong> - {{ v.updated_at|date:"Y.m.d H:i" }}<br>
+              <strong>{{ v.version }}</strong> –
+              {{ v.updated_at|date:"Y.m.d H:i" }}<br>
               <small class="text-muted">{{ v.changes|linebreaks }}</small>
             </li>
           {% endfor %}
@@ -41,8 +43,18 @@
           <tbody>
             {% for tool in tools %}
               <tr>
-                <td><a href="{% url 'toolhub:tool_detail' tool.pk %}">{{ tool.name }}</a></td>
-                <td>{{ tool.category.name }}</td>
+                <td>
+                  <a href="{% url 'toolhub:tool_detail' tool.pk %}">
+                    {{ tool.name }}
+                  </a>
+                </td>
+                <td>
+                  {% if tool.category %}
+                    {{ tool.category.name }}
+                  {% else %}
+                    <span class="text-muted">미분류</span>
+                  {% endif %}
+                </td>
                 <td>{{ tool.created_at|timesince }} 전</td>
               </tr>
             {% endfor %}

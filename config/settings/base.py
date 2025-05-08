@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',  # ✅ Google 제공자
 
     'toolhub',
+    'django.contrib.humanize',
     #'toolhub.apps.ToolhubConfig',
     'accounts',
     'biblecheck',
