@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import user_passes_test
 from .models import NTKIntro
 from toolhub.models import Tool
 
-@user_passes_test(lambda u: u.is_superuser)
+#@user_passes_test(lambda u: u.is_superuser)
 def intro_page(request):
     # 최신 NTKIntro
     intro = NTKIntro.objects.order_by('-created_at').first()
