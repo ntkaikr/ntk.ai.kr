@@ -27,19 +27,32 @@
         </ul>
       {% endif %}
 
-      <h5 class="mt-4">🛠️ 툴 등록 히스토리</h5>
-      {% if tool_histories %}
-        <ul class="list-group">
-          {% for h in tool_histories %}
-            <li class="list-group-item">
-              {{ h.created_at|date:"Y.m.d H:i" }} —
-              <a href="{% url 'toolhub:tool_detail' h.tool.pk %}">{{ h.tool.name }}</a>
-              {% if h.tool.category %} / {{ h.tool.category.name }}{% endif %}
-            </li>
-          {% endfor %}
-        </ul>
+      <h5 class="mt-4">🛠️ 툴 목록</h5>
+      {% if tools %}
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Category</th>
+              <th>Created at</th>
+              <th>Access level</th>
+              <th>Visibility</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for tool in tools %}
+              <tr>
+                <td><a href="{% url 'toolhub:tool_detail' tool.pk %}">{{ tool.name }}</a></td>
+                <td>{{ tool.category.name }}</td>
+                <td>{{ tool.created_at|date:"Y년 n월 j일 g:i A" }}</td>
+                <td>{{ tool.get_access_level_display }}</td>
+                <td>{{ tool.get_visibility_display }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
       {% else %}
-        <p class="text-muted small mt-2">툴 등록 히스토리가 없습니다.</p>
+        <p class="text-muted small mt-2">등록된 툴이 없습니다.</p>
       {% endif %}
 
     </div>
