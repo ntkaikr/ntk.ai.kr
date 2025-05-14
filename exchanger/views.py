@@ -25,11 +25,10 @@ def exchanger_view(request):
                         "amount": amount,
                         "from": from_curr,
                         "to": to_curr,
-                        "rate": data["rates"][to_curr] / amount,  # 1단위 환율 표시용
-                        "converted": data["rates"][to_curr],
+                        "rate": converted,
+                        "converted": converted,
                         "date": data["date"]
                     }
-
                 else:
                     error = "환율 데이터가 정확히 존재하지 않습니다."
         except Exception:
