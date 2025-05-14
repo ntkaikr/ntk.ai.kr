@@ -81,6 +81,8 @@ INSTALLED_APPS = [
     'bmicalc',
     'idgen',
     'pomodoro',
+
+    'exchanger',
 ]
 
 MIDDLEWARE = [
