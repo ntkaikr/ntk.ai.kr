@@ -85,6 +85,7 @@ urlpatterns = [
 
     path('exchanger/', include('exchanger.urls')),  # 환율 계산기 라우트 추가
 
+    path('scripter/', include('scripter.urls')),
 
     # 🔥 루트 슬러그 리다이렉트 지원
     path('<slug:slug>/', redirect_short_link),

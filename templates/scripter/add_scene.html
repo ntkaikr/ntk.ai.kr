@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5" style="max-width: 700px;">
+  <h3 class="mb-4 text-center">씬 구성 – "{{ script.title }}"</h3>
+
+  <form method="post" class="mb-4">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <div class="text-center">
+      <button type="submit" class="btn btn-primary">씬 추가</button>
+    </div>
+  </form>
+
+  <hr>
+  <h5>등록된 씬 목록</h5>
+  {% if scenes %}
+    <ol class="list-group list-group-numbered">
+      {% for s in scenes %}
+        {% if s.id %}
+        <li class="list-group-item">
+          <strong>{{ s.title }}</strong>
+          {% if s.location %} | 장소: {{ s.location }}{% endif %}
+          {% if s.time_of_day %} | 시간: {{ s.time_of_day }}{% endif %}
+          {% if s.mood %} | 분위기: {{ s.mood }}{% endif %}
+
+          <div class="mt-2">
+            <a href="{% url 'scripter:write_scene' script.id s.id %}" class="btn btn-outline-primary btn-sm">대사 입력</a>
+          </div>
+        </li>
+        {% endif %}
+      {% endfor %}
+    </ol>
+  {% else %}
+    <p class="text-muted">아직 씬이 없습니다.</p>
+  {% endif %}
+
+  <div class="text-center mt-4">
+    {% if scenes %}
+      {% with scenes.last as last_scene %}
+        <a href="{% url 'scripter:write_scene' script.id last_scene.id %}" class="btn btn-outline-primary btn-sm mt-2">마지막 씬 대사 입력</a>
+      {% endwith %}
+    {% endif %}
+    <a href="{% url 'scripter:setup_script' script.id %}" class="btn btn-secondary mt-2">등장인물로 돌아가기</a>
+  </div>
+</div>
+{% endblock %}

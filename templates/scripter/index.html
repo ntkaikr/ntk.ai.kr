@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="d-flex justify-content-center align-items-center" style="height: 80vh;">
+  <div class="text-center">
+    <h2 class="mb-3">🎬 Scripter - 대본 작성 도구</h2>
+    <p class="mb-4">처음 시작하는 대본, 장면부터 만들어볼까요?</p>
+
+      <a href="{% url 'scripter:create_script' %}" class="btn btn-primary">새 대본 만들기</a>
+
+  </div>
+</div>
+{% endblock %}

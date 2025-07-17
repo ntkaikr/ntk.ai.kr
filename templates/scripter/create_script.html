@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5" style="max-width: 600px;">
+  <h3 class="mb-4 text-center">새 대본 만들기</h3>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <div class="text-center">
+      <button type="submit" class="btn btn-success">대본 생성</button>
+      <a href="{% url 'scripter:index' %}" class="btn btn-secondary">취소</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

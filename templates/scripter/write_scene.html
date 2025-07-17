@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5" style="max-width: 700px;">
+  <h3 class="mb-3 text-center">🗣 대사 작성 - "{{ scene.title }}"</h3>
+  <p class="text-muted text-center">장소: {{ scene.location }} | 시간: {{ scene.time_of_day }} | 분위기: {{ scene.mood }}</p>
+
+  <form method="post" class="mb-4">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <div class="text-center">
+      <button type="submit" class="btn btn-primary">대사 추가</button>
+    </div>
+  </form>
+
+  <hr>
+  <h5>📝 작성된 대사</h5>
+  {% if dialogues %}
+    <ul class="list-group">
+      {% for d in dialogues %}
+      <li class="list-group-item">
+        <strong>{{ d.character.name }}:</strong> {{ d.line }}
+      </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p class="text-muted">아직 작성된 대사가 없습니다.</p>
+  {% endif %}
+</div>
+{% endblock %}
