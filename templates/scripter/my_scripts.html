@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5" style="max-width: 800px;">
+  <h3 class="mb-4 text-center">내가 만든 대본</h3>
+
+  {% if scripts %}
+    <ul class="list-group">
+      {% for script in scripts %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          <div>
+            <strong>{{ script.title }}</strong>
+            <div class="text-muted small">{{ script.created_at|date:"Y-m-d H:i" }}</div>
+          </div>
+          <a href="{% url 'scripter:setup_script' script.id %}" class="btn btn-sm btn-outline-primary">열기</a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p class="text-muted text-center">아직 작성한 대본이 없습니다.</p>
+  {% endif %}
+</div>
+{% endblock %}

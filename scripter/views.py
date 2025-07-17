@@ -1,12 +1,20 @@
-from django.shortcuts import render, redirect
-from .forms import ScriptForm
 from django.contrib.auth.decorators import login_required
-from .models import Script, Character
-from .forms import CharacterForm
 from django.shortcuts import get_object_or_404
-from .models import Scene
+from django.shortcuts import render, redirect
+from .forms import CharacterForm
 from .forms import SceneForm, DialogueForm
+from .forms import ScriptForm
+from .models import Character
 from .models import Dialogue
+from .models import Scene
+from .models import Script
+
+
+@login_required
+def my_scripts(request):
+    scripts = Script.objects.filter(created_by=request.user).order_by('-created_at')
+    return render(request, 'scripter/my_scripts.html', {'scripts': scripts})
+
 
 @login_required
 def write_scene(request, script_id, scene_id):
