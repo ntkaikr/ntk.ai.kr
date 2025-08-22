@@ -87,6 +87,7 @@ INSTALLED_APPS = [
     'scripter',
 
     "weekday",
+    "dailyq",
 ]
 
 MIDDLEWARE = [

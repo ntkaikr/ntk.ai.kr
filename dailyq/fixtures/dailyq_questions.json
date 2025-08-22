@@ -1,0 +1,12 @@
+[
+  {"model":"dailyq.question","pk":1,"fields":{"text":"오늘 아침에 뭐 먹었어?","category":"daily","difficulty":1,"min_age":3,"max_age":7,"is_active":true}},
+  {"model":"dailyq.question","pk":2,"fields":{"text":"오늘 기분이 어떤 이모지야? 😀 😊 😐 😢 😡","category":"emotion","difficulty":1,"min_age":3,"max_age":7,"is_active":true}},
+  {"model":"dailyq.question","pk":3,"fields":{"text":"엄마/아빠랑 같이 하고 싶은 건 뭐야?","category":"social","difficulty":1,"min_age":3,"max_age":7,"is_active":true}},
+  {"model":"dailyq.question","pk":4,"fields":{"text":"하늘에서 사탕비가 온다면 뭐 하고 싶어?","category":"imagine","difficulty":2,"min_age":4,"max_age":7,"is_active":true}},
+  {"model":"dailyq.question","pk":5,"fields":{"text":"사과랑 바나나 중에 뭐가 더 좋아? 왜?","category":"choice","difficulty":1,"min_age":3,"max_age":7,"is_active":true}},
+  {"model":"dailyq.question","pk":6,"fields":{"text":"집에서 제일 좋아하는 장소는 어디야?","category":"daily","difficulty":1,"min_age":3,"max_age":7,"is_active":true}},
+  {"model":"dailyq.question","pk":7,"fields":{"text":"즐거울 때 어떤 소리를 내?","category":"emotion","difficulty":1,"min_age":3,"max_age":7,"is_active":true}},
+  {"model":"dailyq.question","pk":8,"fields":{"text":"친구랑 놀 때 어떤 놀이가 제일 재미있어?","category":"social","difficulty":2,"min_age":4,"max_age":7,"is_active":true}},
+  {"model":"dailyq.question","pk":9,"fields":{"text":"동물이 말을 할 수 있다면 누구랑 이야기하고 싶어?","category":"imagine","difficulty":2,"min_age":4,"max_age":7,"is_active":true}},
+  {"model":"dailyq.question","pk":10,"fields":{"text":"비 오는 날이 좋아, 눈 오는 날이 좋아?","category":"choice","difficulty":1,"min_age":3,"max_age":7,"is_active":true}}
+]

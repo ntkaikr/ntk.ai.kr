@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container py-4">
+  <div class="d-flex align-items-center justify-content-between mb-3">
+    <h1 class="h4 mb-0">내 기록</h1>
+    <a href="{% url 'dailyq_index' %}" class="btn btn-outline-secondary btn-sm">오늘의 질문</a>
+  </div>
+
+  <div class="row g-3 align-items-end mb-3">
+    <div class="col-auto">
+      <form method="get" class="d-flex align-items-center gap-2">
+        <label class="form-label mb-0">카테고리</label>
+        <select class="form-select w-auto" name="category" onchange="this.form.submit()">
+          <option value="" {% if not category %}selected{% endif %}>전체</option>
+          <option value="daily" {% if category == 'daily' %}selected{% endif %}>일상</option>
+          <option value="emotion" {% if category == 'emotion' %}selected{% endif %}>감정</option>
+          <option value="social" {% if category == 'social' %}selected{% endif %}>관계/사회성</option>
+          <option value="imagine" {% if category == 'imagine' %}selected{% endif %}>상상</option>
+          <option value="choice" {% if category == 'choice' %}selected{% endif %}>선택</option>
+        </select>
+        {% if category %}
+          <a class="btn btn-outline-secondary btn-sm" href="{% url 'dailyq_history' %}">초기화</a>
+        {% endif %}
+      </form>
+    </div>
+    <div class="col-auto ms-auto">
+      <span class="badge text-bg-light">총 {{ total }}건</span>
+      <span class="badge text-bg-success">연속 기록 {{ streak }}일</span>
+    </div>
+  </div>
+
+  {% if page.object_list %}
+    <div class="list-group shadow-sm">
+      {% for a in page.object_list %}
+      <div class="list-group-item">
+        <div class="d-flex justify-content-between">
+          <div>
+            <div class="small text-secondary">{{ a.date|date:"Y-m-d" }} ·
+              <span class="text-muted">[{{ a.question.get_category_display }}]</span>
+              <strong>{{ a.question.text }}</strong>
+            </div>
+            {% if a.child_name %}
+            <div class="small text-secondary mt-1">아이: {{ a.child_name }}</div>
+            {% endif %}
+            {% if a.answer_text %}
+            <div class="mt-2">{{ a.answer_text|linebreaksbr }}</div>
+            {% else %}
+            <div class="mt-2 text-muted">기록된 답변이 없습니다.</div>
+            {% endif %}
+          </div>
+          <div class="text-end small text-secondary">
+            저장: {{ a.created_at|date:"Y-m-d H:i" }}
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <nav class="mt-3">
+      <ul class="pagination">
+        {% if page.has_previous %}
+          <li class="page-item"><a class="page-link" href="?page={{ page.previous_page_number }}{% if category %}&category={{ category }}{% endif %}">&laquo;</a></li>
+        {% else %}
+          <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+        {% endif %}
+        <li class="page-item disabled"><span class="page-link">{{ page.number }} / {{ page.paginator.num_pages }}</span></li>
+        {% if page.has_next %}
+          <li class="page-item"><a class="page-link" href="?page={{ page.next_page_number }}{% if category %}&category={{ category }}{% endif %}">&raquo;</a></li>
+        {% else %}
+          <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+        {% endif %}
+      </ul>
+    </nav>
+  {% else %}
+    <div class="alert alert-light border">아직 기록이 없습니다.</div>
+  {% endif %}
+</div>
+{% endblock %}

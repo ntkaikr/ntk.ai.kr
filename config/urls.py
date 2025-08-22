@@ -88,6 +88,7 @@ urlpatterns = [
     path('scripter/', include('scripter.urls')),
 
     path("weekday/", include("weekday.urls")),
+    path("dailyq/", include("dailyq.urls")),
 
     # 🔥 루트 슬러그 리다이렉트 지원
     path('<slug:slug>/', redirect_short_link),
