@@ -85,6 +85,8 @@ INSTALLED_APPS = [
     'exchanger',
 
     'scripter',
+
+    "weekday",
 ]
 
 MIDDLEWARE = [
