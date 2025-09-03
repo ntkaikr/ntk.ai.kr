@@ -5,9 +5,10 @@ from django.contrib import messages
 from .models import Post
 from .forms import PostForm, CommentForm
 import traceback
+from django.db.models import Count
 
 def post_list(request):
-    qs = Post.objects.all()
+    qs = Post.objects.all().annotate(num_comments=Count("comments"))
     paginator = Paginator(qs, 12)
     page = request.GET.get("page", 1)
     posts = paginator.get_page(page)
