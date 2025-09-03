@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container py-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h3 class="mb-0">웃픈코드 — 프로그래밍 짤 모음</h3>
+    {% if user.is_authenticated %}
+      <a href="{% url 'progfunny:post_create' %}" class="btn btn-primary">+ 새 짤 올리기</a>
+    {% endif %}
+  </div>
+
+  {% if posts %}
+    <div class="row g-3">
+      {% for p in posts %}
+      <div class="col-12 col-sm-6 col-lg-4">
+        <a href="{% url 'progfunny:post_detail' p.pk %}" class="text-decoration-none text-dark">
+          <div class="card h-100">
+            <img src="{{ p.image.url }}" class="card-img-top" alt="{{ p.title }}">
+            <div class="card-body">
+              <h5 class="card-title text-truncate">{{ p.title }}</h5>
+              <p class="card-text small text-muted mb-0">{{ p.created_at|date:"Y-m-d H:i" }}</p>
+            </div>
+          </div>
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+
+    <nav class="mt-4">
+      <ul class="pagination justify-content-center">
+        {% if posts.has_previous %}
+          <li class="page-item"><a class="page-link" href="?page={{ posts.previous_page_number }}">이전</a></li>
+        {% else %}
+          <li class="page-item disabled"><span class="page-link">이전</span></li>
+        {% endif %}
+        <li class="page-item disabled"><span class="page-link">{{ posts.number }} / {{ posts.paginator.num_pages }}</span></li>
+        {% if posts.has_next %}
+          <li class="page-item"><a class="page-link" href="?page={{ posts.next_page_number }}">다음</a></li>
+        {% else %}
+          <li class="page-item disabled"><span class="page-link">다음</span></li>
+        {% endif %}
+      </ul>
+    </nav>
+  {% else %}
+    <div class="text-center text-muted py-5">아직 등록된 짤이 없어요. 첫 번째로 올려보세요!</div>
+  {% endif %}
+</div>
+{% endblock %}

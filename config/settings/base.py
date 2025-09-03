@@ -88,6 +88,8 @@ INSTALLED_APPS = [
 
     "weekday",
     "dailyq",
+
+    'progfunny',
 ]
 
 MIDDLEWARE = [
