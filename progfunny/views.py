@@ -8,7 +8,7 @@ import traceback
 from django.db.models import Count
 
 def post_list(request):
-    qs = Post.objects.all().annotate(num_comments=Count("comments"))
+    qs = Post.objects.all().annotate(num_comments=Count("comments")).order_by("-created_at", "-id")
     paginator = Paginator(qs, 12)
     page = request.GET.get("page", 1)
     posts = paginator.get_page(page)
