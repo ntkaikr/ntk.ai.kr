@@ -17,14 +17,16 @@ def post_create(request):
     if request.method == "POST":
         form = PostForm(request.POST, request.FILES)
         if form.is_valid():
-            post = form.save(commit=False)
-            post.author = request.user
-            post.save()
-            messages.success(request, "짤이 등록됐어요! 😄")
+            try:
+                post = form.save(commit=False)
+                post.author = request.user
+                post.save()  # ← MEDIA 설정 문제면 여기서 터짐
+            except Exception as e:
+                form.add_error(None, f"파일 저장 오류: {e}")
+                return render(request, "progfunny/post_form.html", {"form": form})
             return redirect("progfunny:post_detail", pk=post.pk)
-    else:
-        form = PostForm()
-    return render(request, "progfunny/post_form.html", {"form": form})
+        return render(request, "progfunny/post_form.html", {"form": form})
+    return render(request, "progfunny/post_form.html", {"form": PostForm()})
 
 def post_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
