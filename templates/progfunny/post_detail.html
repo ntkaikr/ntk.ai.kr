@@ -30,7 +30,7 @@
       {% if user.is_authenticated %}
       <form method="post" action="{% url 'progfunny:add_comment' post.pk %}" class="mt-3">
         {% csrf_token %}
-        {{ cform.content|add_class:"form-control mb-2" }}
+        {{ cform.content }}
         <button class="btn btn-primary" type="submit">댓글 등록</button>
       </form>
       {% else %}
