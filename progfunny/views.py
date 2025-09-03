@@ -4,6 +4,7 @@ from django.core.paginator import Paginator
 from django.contrib import messages
 from .models import Post
 from .forms import PostForm, CommentForm
+import traceback
 
 def post_list(request):
     qs = Post.objects.all()
@@ -20,11 +21,15 @@ def post_create(request):
             try:
                 post = form.save(commit=False)
                 post.author = request.user
-                post.save()  # ← MEDIA 설정 문제면 여기서 터짐
+                post.save()
+                return redirect("progfunny:post_detail", pk=post.pk)
             except Exception as e:
+                # 콘솔에도 찍고
+                print("UPLOAD_ERROR:", e)
+                traceback.print_exc()
+                # 화면에도 표시
                 form.add_error(None, f"파일 저장 오류: {e}")
                 return render(request, "progfunny/post_form.html", {"form": form})
-            return redirect("progfunny:post_detail", pk=post.pk)
         return render(request, "progfunny/post_form.html", {"form": form})
     return render(request, "progfunny/post_form.html", {"form": PostForm()})
 
