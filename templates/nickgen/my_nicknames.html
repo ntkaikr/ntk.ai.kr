@@ -1,0 +1,61 @@
+<!-- templates/nickgen/my_nicknames.html -->
+{% extends 'base.html' %}
+{% block content %}
+<div class="container py-4">
+  <div class="d-flex align-items-center mb-3">
+    <h2 class="h5 mb-0">저장된 닉네임</h2>
+    <a href="{% url 'nickgen:generator' %}" class="btn btn-outline-secondary btn-sm ms-auto">← 생성기로</a>
+  </div>
+
+  {% if page.object_list %}
+    <ul class="list-group">
+      {% for n in page.object_list %}
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        <div>
+          <strong>{{ n.text }}</strong>
+          <small class="text-muted ms-2">
+            {{ n.created_at|date:"Y-m-d H:i" }}
+            {% if n.style or n.lang or n.seed %}
+              · {{ n.style }} {{ n.lang }}{% if n.seed %} · seed={{ n.seed }}{% endif %}
+            {% endif %}
+            {% if n.copied_count %} · copied {{ n.copied_count }}{% endif %}
+          </small>
+        </div>
+        <button class="btn btn-outline-secondary btn-sm" data-copy="{{ n.text }}">복사</button>
+      </li>
+      {% endfor %}
+    </ul>
+
+    <nav class="mt-3">
+      <ul class="pagination pagination-sm mb-0">
+        {% if page.has_previous %}
+          <li class="page-item"><a class="page-link" href="?page={{ page.previous_page_number }}">이전</a></li>
+        {% else %}
+          <li class="page-item disabled"><span class="page-link">이전</span></li>
+        {% endif %}
+        <li class="page-item disabled"><span class="page-link">{{ page.number }} / {{ page.paginator.num_pages }}</span></li>
+        {% if page.has_next %}
+          <li class="page-item"><a class="page-link" href="?page={{ page.next_page_number }}">다음</a></li>
+        {% else %}
+          <li class="page-item disabled"><span class="page-link">다음</span></li>
+        {% endif %}
+      </ul>
+    </nav>
+  {% else %}
+    <p class="text-muted">아직 저장한 닉네임이 없습니다.</p>
+  {% endif %}
+</div>
+
+{% block script %}
+<script>
+  document.querySelectorAll('[data-copy]').forEach(btn=>{
+    btn.addEventListener('click', async ()=>{
+      const text = btn.getAttribute('data-copy');
+      try { await navigator.clipboard.writeText(text); } catch(e) {}
+      btn.textContent = '복사됨!';
+      setTimeout(()=>btn.textContent='복사', 1000);
+    });
+  });
+</script>
+{% endblock %}
+{% endblock %}

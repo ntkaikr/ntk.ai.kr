@@ -109,3 +109,16 @@ def copy_ping(request):
         copied_count=models.F('copied_count') + 1
     )
     return JsonResponse({'ok': True})
+
+# apps/nickgen/views.py  (하단에 추가)
+from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
+
+@login_required
+def my_nicknames(request):
+    qs = SavedNickname.objects.filter(user=request.user).only(
+        "text", "created_at", "copied_count", "style", "lang", "seed"
+    )
+    pg = Paginator(qs, 20)
+    page = pg.get_page(request.GET.get("page"))
+    return render(request, "nickgen/my_nicknames.html", {"page": page})

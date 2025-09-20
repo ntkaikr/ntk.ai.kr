@@ -4,6 +4,12 @@
 {% block content %}
 <div class="container py-4">
   <h1 class="h3 mb-3">닉네임 생성기</h1>
+      {% if request.user.is_authenticated %}
+      <a href="{% url 'nickgen:my' %}" class="btn btn-outline-secondary btn-sm ms-auto">
+        저장된 닉네임 보기
+      </a>
+    {% endif %}
+
   <form method="get" class="row g-2 align-items-end">
     <div class="col-6 col-md-3">
       <label class="form-label">모드</label>

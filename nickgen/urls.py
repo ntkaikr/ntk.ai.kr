@@ -11,4 +11,5 @@ urlpatterns = [
     path('save/', views.save_nickname, name='save'),
     path('copy/', views.copy_ping, name='copy_ping'),
     path('api/', views.api_generate, name='api'),
+    path("my/", views.my_nicknames, name="my"),   # ← 저장 리스트
 ]
