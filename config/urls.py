@@ -93,6 +93,12 @@ urlpatterns = [
     path('progfunny/', include('progfunny.urls')),
     path("unitlog/", include("unitlog.urls")),
 
+    path('nickgen/', include('nickgen.urls')),
+
+
+
+
+
     # 🔥 루트 슬러그 리다이렉트 지원
     path('<slug:slug>/', redirect_short_link),
 

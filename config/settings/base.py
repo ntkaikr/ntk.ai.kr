@@ -91,6 +91,8 @@ INSTALLED_APPS = [
 
     'progfunny',
     'unitlog',
+
+    'nickgen',
 ]
 
 MIDDLEWARE = [
